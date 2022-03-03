@@ -1,7 +1,8 @@
+import { useApp } from "./AppHooks";
 import { IonApp, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
+import { AppRoutes } from "./components/Routes";
 // import { ellipse, square, triangle } from "ionicons/icons";
-import { VinfoRoutes } from "./components/Routes";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -24,12 +25,15 @@ import "./theme/variables.css";
 
 setupIonicReact();
 
-const App: React.FC = () => (
-	<IonApp>
-		<IonReactRouter>
-			<VinfoRoutes />
-		</IonReactRouter>
-	</IonApp>
-);
+const App: React.FC = () => {
+	const { routes } = useApp();
+	return (
+		<IonApp>
+			<IonReactRouter>
+				<AppRoutes routes={routes} />
+			</IonReactRouter>
+		</IonApp>
+	);
+};
 
 export default App;

@@ -1,27 +1,13 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import { IonRouterOutlet } from "@ionic/react";
-import Vinfo from "../pages/Vinfo/Vinfo";
+import { AppRoute } from "../AppHooks";
 
-// configure any new stuff about routes here
-interface VinfoRoutes {
-	id: string;
-	name: string;
-	view: any;
+interface AppRoutesProps {
+	routes: AppRoute[];
 }
 
-const useRoutes = (): VinfoRoutes[] => {
-	return [
-		{
-			name: "Vinfo",
-			id: "vinfo",
-			view: Vinfo
-		}
-	];
-};
-
-export const VinfoRoutes: React.FC = () => {
-	const routes = useRoutes();
+export const AppRoutes = ({ routes }: AppRoutesProps) => {
 	return (
 		<IonRouterOutlet>
 			{routes.map(route => {
