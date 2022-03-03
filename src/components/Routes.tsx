@@ -10,16 +10,24 @@ interface AppRoutesProps {
 export const AppRoutes = ({ routes }: AppRoutesProps) => {
 	return (
 		<IonRouterOutlet>
-			{routes.map(route => {
-				return (
-					<Route exact path={`/${route.id}`}>
-						{React.createElement(route.view, { ...route })}
-					</Route>
-				);
-			})}
+			{routes.map(route => (
+				<RenderRoute {...route} />
+			))}
 			<Route exact path="/">
-				<Redirect to={`/${routes[0].id}`} />
+				<Redirect to={routes[0].path} />
 			</Route>
 		</IonRouterOutlet>
+	);
+};
+
+const RenderRoute = (route: AppRoute) => {
+	const routeProps: AppRoute = {
+		...route,
+		setTitle: (title: string) => (document.title = title)
+	};
+	return (
+		<Route exact path={route.path}>
+			{React.createElement(route.view, routeProps)}
+		</Route>
 	);
 };

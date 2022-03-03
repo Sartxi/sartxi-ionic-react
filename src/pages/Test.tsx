@@ -1,6 +1,8 @@
+import { AppRoute, usePageTitle } from "../AppHooks";
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 
-export const TestView = () => {
+export const TestView = (page: AppRoute) => {
+	usePageTitle(page, "Testing");
 	return (
 		<IonPage>
 			<IonHeader>
