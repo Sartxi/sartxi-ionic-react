@@ -1,7 +1,7 @@
-import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import { IonRouterOutlet } from "@ionic/react";
 import { AppRoute } from "../AppHooks";
+import { AppPage } from "./Page";
 
 interface AppRoutesProps {
 	routes: AppRoute[];
@@ -27,7 +27,7 @@ const RenderRoute = (route: AppRoute) => {
 	};
 	return (
 		<Route exact path={route.path}>
-			{React.createElement(route.view, routeProps)}
+			<AppPage {...routeProps} />
 		</Route>
 	);
 };
