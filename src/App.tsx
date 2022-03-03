@@ -1,7 +1,7 @@
 import { useApp } from "./AppConfig";
 import { IonApp, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { AppRoutes } from "./components/Routes";
+import { AppRoutes } from "./utils/Routes";
 // import { ellipse, square, triangle } from "ionicons/icons";
 
 /* Core CSS required for Ionic components to work properly */
