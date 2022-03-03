@@ -1,10 +1,11 @@
-// import pages
 import { useCallback, useEffect, useState } from "react";
+
+// import pages
 import { TestView } from "./pages/Test";
 
 const useRoutes = () => {
 	// Build your routes here
-	return [{ id: "testing", name: "Sartxi Ionic React", path: "/test", view: TestView }];
+	return [{ id: "testing", name: "Sartxi Ionic", path: "/sean-ionic", view: TestView }];
 };
 
 interface AppConfig {

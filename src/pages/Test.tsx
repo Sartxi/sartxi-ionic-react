@@ -5,7 +5,7 @@ import { IonList, IonLoading } from "@ionic/react";
 
 export const TestView = (page: AppRoute) => {
 	const { loading, data } = useTestData();
-	const { viewType, setTitle } = usePage(page);
+	const { setTitle } = usePage(page);
 
 	useEffect(() => {
 		setTitle("Funky soul brutha");
