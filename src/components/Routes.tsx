@@ -1,6 +1,6 @@
 import { Redirect, Route } from "react-router-dom";
 import { IonRouterOutlet } from "@ionic/react";
-import { AppRoute } from "../AppHooks";
+import { AppRoute } from "../AppConfig";
 import { AppPage } from "./Page";
 
 interface AppRoutesProps {
@@ -21,13 +21,9 @@ export const AppRoutes = ({ routes }: AppRoutesProps) => {
 };
 
 const RenderRoute = (route: AppRoute) => {
-	const routeProps: AppRoute = {
-		...route,
-		setTitle: (title: string) => (document.title = title)
-	};
 	return (
 		<Route exact path={route.path}>
-			<AppPage {...routeProps} />
+			<AppPage {...route} />
 		</Route>
 	);
 };

@@ -1,15 +1,21 @@
-import { AppRoute, usePageTitle } from "../AppHooks";
+import { useEffect } from "react";
+import { AppRoute, usePage } from "../AppConfig";
 import { useTestData } from "./Hooks";
+import { IonList, IonLoading } from "@ionic/react";
 
 export const TestView = (page: AppRoute) => {
-	usePageTitle(page, "Testing");
 	const { loading, data } = useTestData();
-	console.log(loading, data);
+	const { viewType, setTitle } = usePage(page);
 
+	useEffect(() => {
+		setTitle("Funky soul brutha");
+	}, []);
+
+	if (loading) return <IonLoading isOpen={loading} />;
 	return (
 		<div id="test">
 			{data.map(i => (
-				<span key={i}>{i} </span>
+				<IonList key={i}>{i} </IonList>
 			))}
 		</div>
 	);
