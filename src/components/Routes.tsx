@@ -11,7 +11,7 @@ export const AppRoutes = ({ routes }: AppRoutesProps) => {
 	return (
 		<IonRouterOutlet>
 			{routes.map(route => (
-				<RenderRoute {...route} />
+				<RenderRoute key={route.id} {...route} />
 			))}
 			<Route exact path="/">
 				<Redirect to={routes[0].path} />
