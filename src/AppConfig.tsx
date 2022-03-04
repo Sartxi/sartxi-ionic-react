@@ -1,24 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { getViewType } from "./utils/Layout";
-import { AppViewType } from "./utils/Enums";
-
-// import pages
-import { Sample, SampleStatic } from "./pages/";
+import { AppViewType, VinfoType } from "./utils/Enums";
+import { Vinfo } from "./pages/";
 
 const useRoutes = () => {
-	// Build your routes here
 	return [
-		{ id: "sample", name: "Sartxi Ionic", path: "/sa-ionic/:id", view: Sample },
-		{ id: "samplestatic", name: "Sartxi Ionic", path: "/sa-ionic-static", view: SampleStatic }
+		{ id: VinfoType.vin, name: "Vinfo®", path: "/vin/:id", view: Vinfo },
+		{ id: VinfoType.lead, name: "Vinfo®", path: "/lead/:id", view: Vinfo }
 	];
 };
 
-interface AppConfig {
+export const useApp = (): {
 	routes: APP.Route[];
-}
-
-export const useApp = (): AppConfig => {
+} => {
 	const routes = useRoutes();
 	return { routes };
 };
@@ -52,6 +47,7 @@ export const useAppLocation = (page: any): APP.Location => {
 		return list;
 	};
 	return {
+		type: page.id,
 		token: page?.computedMatch?.params?.id ?? location.pathname,
 		params: listParams(location.search)
 	};

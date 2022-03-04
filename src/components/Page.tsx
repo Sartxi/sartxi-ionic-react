@@ -8,7 +8,6 @@ export const AppPage = (page: APP.Route) => {
 	const { viewType } = usePage(page);
 	return (
 		<IonPage>
-			<AppHeader title={page.name} viewType={viewType} />
 			<IonContent>{React.createElement(page.view, { ...page, viewType })}</IonContent>
 			<AppFooter viewType={viewType} />
 		</IonPage>

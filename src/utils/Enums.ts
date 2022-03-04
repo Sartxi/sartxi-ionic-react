@@ -3,3 +3,8 @@ export enum AppViewType {
 	tablet = "tablet",
 	desktop = "desktop"
 }
+
+export enum VinfoType {
+	vin = "vin",
+	lead = "lead"
+}
