@@ -3,10 +3,10 @@ import { TestData } from "./TestData";
 
 const useVinfoData = (data: any): VINFO.Detail => {
 	return {
-		share: data.vehicle_share,
-		inventory: data.vehicle_share.inventory_item,
-		documents: data.vehicle_documents,
-		settings: data.store_settings
+		share: data?.vehicle_share,
+		inventory: data?.vehicle_share?.inventory_item,
+		documents: data?.vehicle_documents,
+		settings: data?.store_settings
 	};
 };
 

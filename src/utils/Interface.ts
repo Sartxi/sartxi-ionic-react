@@ -7,6 +7,7 @@ declare global {
 			name: string;
 			path: string;
 			view: any;
+			viewType?: AppViewType;
 		}
 		interface Page {
 			viewType: AppViewType;

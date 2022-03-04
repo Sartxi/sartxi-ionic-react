@@ -1,6 +1,5 @@
 import React from "react";
 import { usePage } from "../AppConfig";
-import { AppHeader } from "./Header";
 import { AppFooter } from "./Footer";
 import { IonContent, IonPage } from "@ionic/react";
 
