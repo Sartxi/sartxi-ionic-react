@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useAppLocation, usePage } from "../../AppConfig";
 import { useVinfo } from "./Hooks";
-import { IonLoading } from "@ionic/react";
+import { IonCol, IonGrid, IonLoading, IonRow } from "@ionic/react";
 import { AppViewType } from "../../utils/Enums";
+import { Welcome, Menu, Inventory, Documents } from "./components";
 
 export const Vinfo = (page: APP.Route) => {
 	const location = useAppLocation(page);
@@ -15,6 +16,38 @@ export const Vinfo = (page: APP.Route) => {
 	}, [setTitle, data]);
 
 	const isDesktop = page.viewType === AppViewType.desktop;
+	const vinfo = { ...data };
+
 	if (loading) return <IonLoading isOpen={loading} />;
-	return <div id="Sample">Sample</div>;
+	return <div id="VehicleVinfo">{isDesktop ? <Desktop {...vinfo} /> : <Mobile {...vinfo} />}</div>;
+};
+
+const Desktop = (vinfo: VINFO.Detail) => {
+	return (
+		<div id="VinfoDesktop">
+			<IonGrid>
+				<IonRow>
+					<IonCol>
+						<Menu {...vinfo} />
+						<Welcome {...vinfo} />
+					</IonCol>
+					<IonCol>
+						<Inventory {...vinfo} />
+						<Documents {...vinfo} />
+					</IonCol>
+				</IonRow>
+			</IonGrid>
+		</div>
+	);
+};
+
+const Mobile = (vinfo: VINFO.Detail) => {
+	return (
+		<div id="VinfoMobile">
+			<Welcome {...vinfo} />
+			<Inventory {...vinfo} />
+			<Documents {...vinfo} />
+			<Menu {...vinfo} />
+		</div>
+	);
 };

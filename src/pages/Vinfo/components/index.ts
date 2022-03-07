@@ -1,4 +1,4 @@
-export { Detail } from "./Detail";
-export { Dealership } from "./Dealership";
+export { Inventory } from "./Inventory";
 export { Documents } from "./Documents";
 export { Welcome } from "./Welcome";
+export { Menu } from "./Menu";
