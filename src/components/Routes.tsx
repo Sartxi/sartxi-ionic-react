@@ -1,6 +1,6 @@
 import { Redirect, Route } from "react-router-dom";
 import { IonRouterOutlet } from "@ionic/react";
-import { App404, AppPage } from "../components";
+import { App404, AppPage } from ".";
 
 export const AppRoutes = ({ routes }: APP.Routes) => {
 	return (

@@ -1,3 +1,3 @@
-export const Inventory = (vinfo: VINFO.Detail) => {
+export const Inventory = (vinfo: VINFO.Page) => {
 	return <span>Inventory</span>;
 };

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import { Enums, getViewType, Helpers } from "./utils";
+import { Enums, Layout, Helpers } from "./utils";
 
 import { Vinfo } from "./pages/";
 
@@ -17,7 +17,7 @@ export const usePage = (page: APP.Route): APP.Page => {
 	const [viewType, setViewType] = useState(Enums.AppViewType.mobile);
 
 	const selectViewType = useCallback(() => {
-		setViewType(getViewType());
+		setViewType(Layout.getViewType());
 	}, []);
 
 	useEffect(() => {

@@ -1,7 +1,7 @@
 import { useApp } from "./AppConfig";
 import { IonApp, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { AppRoutes } from "./utils/Routes";
+import { AppRoutes } from "./components";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";

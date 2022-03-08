@@ -33,6 +33,10 @@ declare global {
 		}
 	}
 	namespace VINFO {
+		interface Page {
+			vinfo: Detail;
+			viewType?: Enums.AppViewType;
+		}
 		interface Detail {
 			settings: any;
 			inventory: InventoryItem;
