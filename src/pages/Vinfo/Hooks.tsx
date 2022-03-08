@@ -1,4 +1,4 @@
-import { VinfoType } from "../../utils/Enums";
+import { Enums } from "../../utils";
 import { TestData } from "./TestData";
 
 const useVinfoData = (data: any): VINFO.Detail => {
@@ -17,7 +17,7 @@ interface VinfoData {
 }
 
 export const useVinfo = ({ type, token, params }: APP.Location): VinfoData => {
-	const isLead = type === VinfoType.lead;
+	const isLead = type === Enums.VinfoType.lead;
 	if (isLead) console.log("use lead GQL", `uuid: ${token}`);
 	else console.log("use vin GQL", `vin: ${token}, store_code: ${params.store_code}`);
 

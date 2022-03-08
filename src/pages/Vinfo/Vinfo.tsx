@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useAppLocation, usePage } from "../../AppConfig";
 import { useVinfo } from "./Hooks";
 import { IonCol, IonGrid, IonLoading, IonRow } from "@ionic/react";
-import { AppViewType } from "../../utils/Enums";
+import { Enums } from "../../utils";
 import { Welcome, Menu, Inventory, Documents } from "./components";
 
 export const Vinfo = (page: APP.Route) => {
@@ -15,7 +15,7 @@ export const Vinfo = (page: APP.Route) => {
 		setTitle(`${item.year} ${item.make} ${item.model}`);
 	}, [setTitle, data]);
 
-	const isDesktop = page.viewType === AppViewType.desktop;
+	const isDesktop = page.viewType === Enums.AppViewType.desktop;
 	const vinfo = { ...data };
 
 	if (loading) return <IonLoading isOpen={loading} />;

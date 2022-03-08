@@ -1,35 +1,37 @@
-import { AppViewType, VinfoType } from "./Enums";
-export {};
+import { Enums } from "./Enums";
+export { };
 declare global {
 	namespace APP {
+		interface App {
+			routes: Route[];
+		}
 		interface Route {
 			id: string;
 			name: string;
 			path: string;
 			view: any;
-			viewType?: AppViewType;
+			viewType?: Enums.AppViewType;
 		}
 		interface Page {
-			viewType: AppViewType;
+			viewType: Enums.AppViewType;
 			setTitle: (title: string) => void;
 		}
 		interface Routes {
 			routes: Route[];
 		}
 		interface Location {
-			type: VinfoType;
+			type: Enums.VinfoType;
 			token: string;
 			params: any;
 		}
 		interface Header {
 			title: string;
-			viewType: AppViewType;
+			viewType: Enums.AppViewType;
 		}
 		interface Footer {
-			viewType: AppViewType;
+			viewType: Enums.AppViewType;
 		}
 	}
-
 	namespace VINFO {
 		interface Detail {
 			settings: any;
@@ -110,6 +112,6 @@ declare global {
 			vin: string;
 			year: number;
 		}
-		interface Document {}
+		interface Document { }
 	}
 }
