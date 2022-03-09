@@ -1,16 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { Enums, Layout, Helpers } from "./utils";
+import { useWindowResize } from "./utils/Hooks";
 
 import { Vinfo } from "./pages/";
 
 export const useApp = (): APP.App => {
-	return {
-		routes: [
-			{ id: Enums.VinfoType.vin, name: "Vinfo®", path: "/vin/:id", view: Vinfo },
-			{ id: Enums.VinfoType.lead, name: "Vinfo®", path: "/lead/:id", view: Vinfo }
-		]
-	};
+	const routes = (Object.keys(Enums.VinfoType) as Array<keyof typeof Enums.VinfoType>).map(id => ({ id, name: Helpers.vinfo, path: `/${id}/:id`, view: Vinfo }));
+	return { routes };
 };
 
 export const usePage = (page: APP.Route): APP.Page => {
@@ -20,17 +17,13 @@ export const usePage = (page: APP.Route): APP.Page => {
 		setViewType(Layout.getViewType());
 	}, []);
 
+	useWindowResize(selectViewType);
 	useEffect(() => {
 		selectViewType();
 	}, [page, selectViewType]);
 
-	useEffect(() => {
-		window.addEventListener("resize", selectViewType);
-		return () => window.removeEventListener("resize", selectViewType);
-	}, [selectViewType]);
 
 	const setTitle = (title: string) => (document.title = title);
-
 	return { viewType, setTitle };
 };
 

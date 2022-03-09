@@ -3,8 +3,8 @@ import { useAppLocation, usePage } from "../../AppConfig";
 import { useVinfo } from "./Hooks";
 import { Enums } from "../../utils";
 
-import { IonCol, IonGrid, IonLoading, IonRow } from "@ionic/react";
-import { Welcome, Menu, Inventory, Documents } from "./components";
+import { IonLoading } from "@ionic/react";
+import { Desktop, Mobile } from "./components";
 
 export const Vinfo = (page: APP.Route) => {
 	const location = useAppLocation(page);
@@ -21,34 +21,4 @@ export const Vinfo = (page: APP.Route) => {
 
 	if (loading) return <IonLoading isOpen={loading} />;
 	return <div id="VehicleVinfo">{isDesktop ? <Desktop {...vinfo} /> : <Mobile {...vinfo} />}</div>;
-};
-
-const Desktop = (vinfo: VINFO.Page) => {
-	return (
-		<div id="VinfoDesktop">
-			<IonGrid>
-				<IonRow>
-					<IonCol>
-						<Menu {...vinfo} />
-						<Welcome {...vinfo} />
-					</IonCol>
-					<IonCol>
-						<Inventory {...vinfo} />
-						<Documents {...vinfo} />
-					</IonCol>
-				</IonRow>
-			</IonGrid>
-		</div>
-	);
-};
-
-const Mobile = (vinfo: VINFO.Page) => {
-	return (
-		<div id="VinfoMobile">
-			<Welcome {...vinfo} />
-			<Inventory {...vinfo} />
-			<Documents {...vinfo} />
-			<Menu {...vinfo} />
-		</div>
-	);
 };
