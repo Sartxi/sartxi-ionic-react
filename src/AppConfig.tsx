@@ -12,19 +12,12 @@ export const useApp = (): APP.App => {
 
 export const usePage = (page: APP.Route): APP.Page => {
 	const [viewType, setViewType] = useState(Enums.AppViewType.mobile);
+	const selectViewType = useCallback(() => setViewType(Layout.getViewType()), []);
 
-	const selectViewType = useCallback(() => {
-		setViewType(Layout.getViewType());
-	}, []);
-
+	useEffect(() => selectViewType(), [page, selectViewType]);
 	useWindowResize(selectViewType);
-	useEffect(() => {
-		selectViewType();
-	}, [page, selectViewType]);
 
-
-	const setTitle = (title: string) => (document.title = title);
-	return { viewType, setTitle };
+	return { viewType, setTitle: (title: string) => (document.title = title) };
 };
 
 export const useAppLocation = (page: any): APP.Location => {
