@@ -1,6 +1,7 @@
-import { Redirect, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { IonRouterOutlet } from "@ionic/react";
 import { App404, AppPage } from ".";
+import { VinSearch } from "../pages";
 
 export const AppRoutes = ({ routes }: APP.Routes) => {
 	return (
@@ -9,9 +10,7 @@ export const AppRoutes = ({ routes }: APP.Routes) => {
 			{routes.map(route => (
 				<RenderRoute key={route.id} {...route} />
 			))}
-			<Route exact path="/">
-				<Redirect to="/" />
-			</Route>
+			<Route exact path="/" component={VinSearch} />
 		</IonRouterOutlet>
 	);
 };

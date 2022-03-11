@@ -1,4 +1,4 @@
-import { useApp } from "./AppConfig";
+import { useApp } from "./Config";
 import { IonApp, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { AppRoutes } from "./components";

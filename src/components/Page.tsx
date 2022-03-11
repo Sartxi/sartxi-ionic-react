@@ -1,5 +1,5 @@
 import React from "react";
-import { usePage } from "../AppConfig";
+import { usePage } from "../Config";
 import { IonContent, IonPage } from "@ionic/react";
 
 export const AppPage = (page: APP.Route) => {

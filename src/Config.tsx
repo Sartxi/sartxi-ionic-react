@@ -3,7 +3,7 @@ import { useLocation } from "react-router";
 import { Enums, Layout, Helpers } from "./utils";
 import { useWindowResize } from "./utils/Hooks";
 
-import { Vinfo } from "./pages/";
+import { Vinfo } from "./pages";
 
 export const useApp = (): APP.App => {
 	const routes = (Object.keys(Enums.VinfoType) as Array<keyof typeof Enums.VinfoType>).map(id => ({ id, name: Helpers.vinfo, path: `/${id}/:id`, view: Vinfo }));

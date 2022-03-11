@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAppLocation, usePage } from "../../AppConfig";
+import { useAppLocation, usePage } from "../../Config";
 import { useVinfo } from "./Hooks";
 import { Enums } from "../../utils";
 
@@ -20,5 +20,5 @@ export const Vinfo = (page: APP.Route) => {
 	const vinfo: VINFO.Page = { vinfo: { ...data }, viewType: page.viewType };
 
 	if (loading) return <IonLoading isOpen={loading} />;
-	return <div id="VehicleVinfo">{isDesktop ? <Desktop {...vinfo} /> : <Mobile {...vinfo} />}</div>;
+	return <div id="Vinfo">{isDesktop ? <Desktop {...vinfo} /> : <Mobile {...vinfo} />}</div>;
 };

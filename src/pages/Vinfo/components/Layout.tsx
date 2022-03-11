@@ -4,7 +4,7 @@ import { Welcome, Menu, Inventory, Documents } from ".";
 
 export const Desktop = (vinfo: VINFO.Page) => {
     return (
-        <div id="VinfoDesktop">
+        <div className="content desktop">
             <IonGrid>
                 <IonRow>
                     <IonCol>
@@ -23,7 +23,7 @@ export const Desktop = (vinfo: VINFO.Page) => {
 
 export const Mobile = (vinfo: VINFO.Page) => {
     return (
-        <div id="VinfoMobile">
+        <div className="content">
             <Welcome {...vinfo} />
             <Inventory {...vinfo} />
             <Documents {...vinfo} />

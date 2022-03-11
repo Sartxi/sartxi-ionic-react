@@ -9,7 +9,7 @@ declare global {
 			id: string;
 			name: string;
 			path: string;
-			view: any;
+			view?: any;
 			viewType?: Enums.AppViewType;
 		}
 		interface Page {
