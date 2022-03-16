@@ -1,24 +1,27 @@
 import { useEffect } from "react";
-import { useAppLocation, usePage } from "../../Config";
+import { useLoc, usePage } from "../../Config";
 import { useVinfo } from "./Hooks";
-import { Enums } from "../../utils";
+import { Helpers } from "../../utils";
 
 import { IonLoading } from "@ionic/react";
-import { Desktop, Mobile } from "./components";
+import { Layout } from "./Layout";
+
+import "../../theme/vinfo.scss";
 
 export const Vinfo = (page: APP.Route) => {
-	const location = useAppLocation(page);
+	const location = useLoc(page);
 	const { loading, data } = useVinfo(location);
-	const { setTitle } = usePage(page);
+	const { setTitle, viewType } = usePage(page);
 
 	useEffect(() => {
 		const item = data?.inventory;
 		setTitle(`${item.year} ${item.make} ${item.model}`);
 	}, [setTitle, data]);
 
-	const isDesktop = page.viewType === Enums.AppViewType.desktop;
-	const vinfo: VINFO.Page = { vinfo: { ...data }, viewType: page.viewType };
-
 	if (loading) return <IonLoading isOpen={loading} />;
-	return <div id="Vinfo">{isDesktop ? <Desktop {...vinfo} /> : <Mobile {...vinfo} />}</div>;
+	return (
+		<div id="Vinfo" className={Helpers.vinfoBlock(viewType)}>
+			<Layout {...{ vinfo: { ...data }, viewType }} />
+		</div>
+	);
 };

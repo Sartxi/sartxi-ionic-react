@@ -1,0 +1,25 @@
+#Inventory {
+    .item-photo {
+        background-color: var(--ion-color-light-contrast);
+        margin: 0 -20px;
+    }
+
+    #Detail {
+        padding: 23px 0;
+        font-weight: 100;
+        position: relative;
+        top: -50px;
+        margin-bottom: -52px;
+    }
+
+    &.desktop {
+        .item-photo {
+            border-radius: 10px;
+            margin: 0;
+        }
+        #Detail {
+            top: 0;
+            background: none;
+        }
+    }
+}

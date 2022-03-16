@@ -6,8 +6,8 @@ import { useWindowResize } from "./utils/Hooks";
 import { Vinfo } from "./pages";
 
 export const useApp = (): APP.App => {
-	const routes = (Object.keys(Enums.VinfoType) as Array<keyof typeof Enums.VinfoType>).map(id => ({ id, name: Helpers.vinfo, path: `/${id}/:id`, view: Vinfo }));
-	return { routes };
+	const vinfo = (Object.keys(Enums.VinfoType) as Array<keyof typeof Enums.VinfoType>).map(id => ({ id, name: Helpers.vinfo, path: `/${id}/:id`, view: Vinfo }));
+	return { routes: vinfo };
 };
 
 export const usePage = (page: APP.Route): APP.Page => {
@@ -20,7 +20,7 @@ export const usePage = (page: APP.Route): APP.Page => {
 	return { viewType, setTitle: (title: string) => (document.title = title) };
 };
 
-export const useAppLocation = (page: any): APP.Location => {
+export const useLoc = (page: any): APP.Location => {
 	const location = useLocation();
 	return {
 		type: page.id,

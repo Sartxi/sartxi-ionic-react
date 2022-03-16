@@ -1,5 +1,4 @@
-export { Inventory } from "./Inventory";
-export { Documents } from "./Documents";
-export { Welcome } from "./Welcome";
-export { Menu } from "./Menu";
-export { Desktop, Mobile } from "./Layout";
+export { Inventory } from "./Inventory/Inventory";
+export { Documents } from "./Documents/Documents";
+export { Welcome } from "./Welcome/Welcome";
+export { Menu } from "./Menu/Menu";

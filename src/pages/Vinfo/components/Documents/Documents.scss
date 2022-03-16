@@ -1,0 +1,16 @@
+#Documents {
+    .block {
+        text-align: center;
+        display: flex;
+        height: 62px;
+        cursor: pointer;
+        &:hover {
+            background: var(--ion-color-light-tint) !important;
+        }
+        .doc-name {
+            width: 100%;
+            text-align: center;
+            align-self: center;
+        }
+    }
+}

@@ -1,0 +1,84 @@
+#Vinfo {
+	&.mobile,
+	&.tablet {
+		height: 100%;
+	}
+
+	.content {
+		width: 100%;
+		&.gutters {
+			display: block;
+			padding: 20px;
+			width: 80%;
+			margin: 50px auto;
+		}
+		&.fill {
+			height: 100%;
+		}
+
+		.block {
+			&.simple {
+				padding: 10px;
+				position: relative;
+			}
+			&.space {
+				padding: 20px 20px 0;
+			}
+			&.rounded {
+				border-radius: 15px;
+			}
+			&.shaded {
+				background: var(--ion-color-light-shade);
+				&.darker {
+					background: var(--ion-color-medium-shade);
+				}
+				&.darkest {
+					background: var(--ion-color-dark-shade);
+				}
+				&.transparent {
+					background-color: rgba(var(--ion-color-light-rgb), 0.8);
+				}
+			}
+		}
+		.flexblock {
+			display: flex;
+			&.rows {
+				&.reverse {
+					flex-direction: row-reverse;
+				}
+			}
+			&.cols {
+				height: 100%;
+				flex-direction: column;
+				&.reverse {
+					flex-direction: column-reverse;
+				}
+			}
+			&.wrap {
+				flex-wrap: wrap;
+				&.reverse {
+					flex-wrap: wrap-reverse;
+				}
+			}
+			&.stretch {
+				justify-content: space-evenly;
+				.block {
+					flex: 1;
+				}
+				&.three-col {
+					.block {
+						flex: 1 0 33%;
+					}
+					&.gap-ten {
+						.block {
+							flex: 1 0 30%;
+						}
+					}
+				}
+			}
+			&.gap-ten {
+				gap: 10px;
+			}
+		}
+	}
+}

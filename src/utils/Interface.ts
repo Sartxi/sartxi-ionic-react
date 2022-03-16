@@ -10,7 +10,6 @@ declare global {
 			name: string;
 			path: string;
 			view?: any;
-			viewType?: Enums.AppViewType;
 		}
 		interface Page {
 			viewType: Enums.AppViewType;
@@ -35,7 +34,7 @@ declare global {
 	namespace VINFO {
 		interface Page {
 			vinfo: Detail;
-			viewType?: Enums.AppViewType;
+			viewType: Enums.AppViewType;
 		}
 		interface Detail {
 			settings: Settings;

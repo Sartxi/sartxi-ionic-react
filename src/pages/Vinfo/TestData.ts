@@ -6,7 +6,7 @@ export const TestData = {
 			"Here is the personalized presentation for the Wrangler you are looking at.  We hope this helps you in your buying process.\n\nShould you have any questions, please feel free to reach out!\n\n-\n",
 		id: null,
 		number_of_views: 0,
-		customer_name: null,
+		customer_name: "John",
 		customer_phone: null,
 		customer_email: null,
 		inventory_item: {
@@ -22,7 +22,7 @@ export const TestData = {
 			model: "Wrangler",
 			year: 2022,
 			condition: "New",
-			selling_price: 0,
+			selling_price: 32039,
 			internet_price: 0,
 			engine_description: "Intercooled Turbo Premium Unleaded I-4 2.0 L/122",
 			highway_miles_per_gallon: 24,
@@ -44,7 +44,7 @@ export const TestData = {
 			is_commercial: false,
 			inventory_item_photos: [
 				{
-					url: "https://loopmein.imgix.net/default_vehicle_image.png"
+					url: "https://loopmein-dev.imgix.net/inventory/1d7a2c8c-ad3c-4044-93e2-3022702f3120.jpg"
 				}
 			],
 			store: {
