@@ -1,0 +1,27 @@
+#Menu {
+    height: 25%;
+    &.mobile {
+        height: 100%;
+        .flexblock {
+            height: 100%;
+            flex-direction: row;
+            align-items: flex-end;
+            .section {
+                height: 90px;
+                padding: 0 5px;
+                &.active {
+                    height: 137px;
+                    .menu-icon {
+                        height: 70px;
+                        width: 70px;
+                    }
+                }
+                .menu-icon {
+                    margin: 6px auto;
+                    height: 50px;
+                    width: 50px;
+                }
+            }
+        }
+    }
+}

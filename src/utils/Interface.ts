@@ -36,6 +36,13 @@ declare global {
 			vinfo: Detail;
 			viewType: Enums.AppViewType;
 		}
+		interface Layout {
+			page: Page;
+			sections?: Enums.VinfoSection[];
+			section: Enums.VinfoSection;
+			setSection: (section: Enums.VinfoSection) => void;
+			prefersDark: boolean;
+		}
 		interface Detail {
 			settings: Settings;
 			inventory: Inventory;

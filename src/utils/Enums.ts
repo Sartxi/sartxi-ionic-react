@@ -8,5 +8,10 @@ export namespace Enums {
 		vin = "vin",
 		lead = "lead"
 	}
+	export enum VinfoSection {
+		salesperson = "salesperson",
+		inventory = "inventory",
+		dealership = "dealership"
+	}
 }
 

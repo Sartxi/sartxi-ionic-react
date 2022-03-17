@@ -1,3 +1,5 @@
+@import "../theme/mixins.scss";
+
 #Vinfo {
 	&.mobile,
 	&.tablet {
@@ -41,7 +43,7 @@
 			}
 		}
 		.flexblock {
-			display: flex;
+			@include flexbox();
 			&.rows {
 				&.reverse {
 					flex-direction: row-reverse;
@@ -61,23 +63,27 @@
 				}
 			}
 			&.stretch {
-				justify-content: space-evenly;
-				.block {
-					flex: 1;
+				justify-content: space-between;
+				&.even {
+					justify-content: space-evenly;
 				}
 				&.three-col {
 					.block {
-						flex: 1 0 33%;
+						@include flex(1 0 33%);
 					}
 					&.gap-ten {
 						.block {
-							flex: 1 0 30%;
+							@include flex(1 0 30%);
 						}
 					}
 				}
 			}
 			&.gap-ten {
 				gap: 10px;
+			}
+			.grow {
+				@include flex(2 0px);
+				flex-grow: 1;
 			}
 		}
 	}

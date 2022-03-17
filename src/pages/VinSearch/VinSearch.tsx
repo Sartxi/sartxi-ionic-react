@@ -1,5 +1,5 @@
 import { usePage } from "../../Config"
-import { Helpers } from "../../utils";
+import { Layout } from "../../utils";
 
 export const VinSearch = () => {
     const { viewType } = usePage({
@@ -10,8 +10,8 @@ export const VinSearch = () => {
 
     return (
         <div id="Vinfo">
-            <div className={Helpers.vinfoBlock(viewType)}>
-
+            <div className={Layout.VinfoBlock(viewType)}>
+                Search
             </div>
         </div>
     );

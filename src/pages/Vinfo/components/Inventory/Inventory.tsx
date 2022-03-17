@@ -1,11 +1,10 @@
 import { IonImg } from "@ionic/react";
-import { Helpers } from "../../../../utils";
-
+import { Helpers, Layout } from "../../../../utils";
 import "./Inventory.scss";
 
 export const Inventory = (page: VINFO.Page) => {
 	return (
-		<div id="Inventory" className={Helpers.vinfoBlock(page.viewType)}>
+		<div id="Inventory" className={Layout.VinfoBlock(page.viewType, "grow")}>
 			<InvPhoto {...page} />
 			<InvDetail {...page} />
 		</div>
@@ -25,7 +24,7 @@ const InvPhoto = (page: VINFO.Page) => {
 const InvDetail = (page: VINFO.Page) => {
 	const { inventory } = page.vinfo;
 	return (
-		<div id="Detail" className={Helpers.vinfoBlock(page.viewType, "shaded rounded transparent")}>
+		<div id="Detail" className={Layout.VinfoBlock(page.viewType, "shaded rounded transparent")}>
 			<div className="flexblock stretch">
 				<h5>{inventory.year} {inventory.make} {inventory.model}</h5>
 				<h4><strong>{Helpers.formatDollar(inventory.selling_price)}</strong></h4>

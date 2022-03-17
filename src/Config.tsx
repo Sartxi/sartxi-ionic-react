@@ -12,7 +12,7 @@ export const useApp = (): APP.App => {
 
 export const usePage = (page: APP.Route): APP.Page => {
 	const [viewType, setViewType] = useState(Enums.AppViewType.mobile);
-	const selectViewType = useCallback(() => setViewType(Layout.getViewType()), []);
+	const selectViewType = useCallback(() => setViewType(Layout.ViewType()), []);
 
 	useEffect(() => selectViewType(), [page, selectViewType]);
 	useWindowResize(selectViewType);
@@ -25,6 +25,6 @@ export const useLoc = (page: any): APP.Location => {
 	return {
 		type: page.id,
 		token: page?.computedMatch?.params?.id ?? location.pathname,
-		params: Helpers.fetchParams(location.search)
+		params: Helpers.parseParams(location.search)
 	};
 };
