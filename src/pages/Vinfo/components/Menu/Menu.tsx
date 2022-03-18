@@ -1,5 +1,5 @@
 import { IonImg } from "@ionic/react";
-import { Enums, Helpers, Layout } from "../../../../utils";
+import { Enums, Layout } from "../../../../utils";
 import "./Menu.scss";
 
 export const Menu = (layout: VINFO.Layout) => {
@@ -22,7 +22,7 @@ const MobileMenu = ({ section, setSection, prefersDark }: VINFO.Layout) => {
 				const active = index === 1;
 				return (
 					<div key={section} className={`section${active ? " active" : ""}`} onClick={() => setSection(selector)}>
-						<IonImg className="menu-icon" src={Layout.SectionIcon(selector, prefersDark)} />
+						<IonImg className="menu-icon" src={Layout.SectionIcon(selector, active ? true : prefersDark)} />
 						{active ? "" : section}
 					</div>
 				)
