@@ -1,0 +1,88 @@
+@import "./variables.scss";
+
+.slides {
+    position: relative;
+    height: 100%;
+}
+
+.slide {
+    z-index: 10;
+    width: 100%;
+    position: absolute;
+    overflow: hidden;
+    transition: transform 1s ease;
+}
+
+.slide.left {
+    opacity: 0;
+    animation: fadeOut 1s;
+    transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+    left: 0;
+}
+
+.slide.right {
+    opacity: 0;
+    animation: fadeOut 1s;
+    transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    right: 0;
+}
+
+.slide.center {
+    opacity: 1;
+    animation: fadeIn 1s;
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
+}
+
+@keyframes rightCenter {
+    from {
+        left: auto;
+        right: $rightPos;
+    }
+    to {
+        left: auto;
+        right: $centerPos;
+    }
+}
+@keyframes centerLeft {
+    from {
+        left: $centerPos;
+    }
+    to {
+        left: $leftPos;
+    }
+}
+@keyframes centerRight {
+    from {
+        right: $centerPos;
+    }
+    to {
+        right: $rightPos;
+    }
+}
+@keyframes leftCenter {
+    from {
+        left: $leftPos;
+    }
+    to {
+        left: $centerPos;
+    }
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}

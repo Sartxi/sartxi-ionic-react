@@ -13,5 +13,10 @@ export namespace Enums {
 		inventory = "inventory",
 		dealership = "dealership"
 	}
+	export enum VinfoMenuPosition {
+		left = "left",
+		center = "center",
+		right = "right"
+	}
 }
 

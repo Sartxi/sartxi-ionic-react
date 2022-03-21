@@ -32,6 +32,11 @@ declare global {
 		}
 	}
 	namespace VINFO {
+		interface Data {
+			loading: boolean;
+			error: any;
+			data: VINFO.Detail;
+		}
 		interface Page {
 			vinfo: Detail;
 			viewType: Enums.AppViewType;

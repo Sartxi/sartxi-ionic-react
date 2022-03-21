@@ -28,3 +28,5 @@ export const useLoc = (page: any): APP.Location => {
 		params: Helpers.parseParams(location.search)
 	};
 };
+
+export const menuEventActions = [Enums.VinfoMenuPosition.left, Enums.VinfoMenuPosition.right];

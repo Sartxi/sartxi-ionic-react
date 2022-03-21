@@ -1,5 +1,6 @@
 import { IonImg } from "@ionic/react";
 import { Enums, Layout } from "../../../../utils";
+import { useMenuItemPosition } from "./hooks";
 import "./Menu.scss";
 
 export const Menu = (layout: VINFO.Layout) => {
@@ -11,19 +12,27 @@ export const Menu = (layout: VINFO.Layout) => {
 };
 
 const MobileMenu = ({ section, setSection, prefersDark }: VINFO.Layout) => {
-	// build menu items and sort active to center position
-	const sections: Enums.VinfoSection[] = Object.values(Enums.VinfoSection).map(id => id).filter(i => i !== section);
-	sections.splice(1, 0, section);
+	const positions = useMenuItemPosition(section);
+	const sections: Enums.VinfoSection[] = Object.values(Enums.VinfoSection).map(id => id);
+	const isActive = (selector: Enums.VinfoSection) => section === selector;
+
+	const makeSelection = (selector: Enums.VinfoSection, position: Enums.VinfoMenuPosition) => {
+		setSection(selector);
+		Layout.HandleMenuAnimations(position);
+		Layout.HandlePgTransition(selector, position);
+	}
+
 	return (
-		<div className="flexblock stretch">
-			{sections.map((section, index) => {
-				const selector = Enums.VinfoSection[section];
-				// active position in the middle (3 menu items)
-				const active = index === 1;
+		<div id="Menu" className="positioned">
+			{sections.map((sect, index) => {
+				const id = `Sec${sect}`;
+				const position = positions[index];
+				const selector = Enums.VinfoSection[sect];
+				const active = isActive(selector);
 				return (
-					<div key={section} className={`section${active ? " active" : ""}`} onClick={() => setSection(selector)}>
+					<div key={sect} id={id} className={`section${active ? " active" : ""} ${position}`} onClick={() => makeSelection(selector, position)}>
 						<IonImg className="menu-icon" src={Layout.SectionIcon(selector, active ? true : prefersDark)} />
-						{active ? "" : section}
+						<span className="sect-text">{active ? "" : sect}</span>
 					</div>
 				)
 			})}
