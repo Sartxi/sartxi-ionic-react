@@ -4,4 +4,5 @@ export namespace Helpers {
     export const parseParams = (location: any) => JSON.parse('{"' + decodeURI(location.substring(1)).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
     export const formatDollar = (val: number) => (money.format(val));
     export const animateElemByClass = (element: Element, className: string, animation: string) => element.classList.contains(className) && element.setAttribute("style", `animation: ${animation}`);
+    export const arrayFromEnum = (object: any) => (Object.values(object) as Array<keyof typeof object>).map(id => id);
 };

@@ -6,7 +6,8 @@ import { useWindowResize } from "./utils/Hooks";
 import { Vinfo } from "./pages";
 
 export const useApp = (): APP.App => {
-	const vinfo = (Object.keys(Enums.VinfoType) as Array<keyof typeof Enums.VinfoType>).map(id => ({ id, name: Helpers.vinfo, path: `/${id}/:id`, view: Vinfo }));
+	const types: any[] = Helpers.arrayFromEnum(Enums.VinfoType);
+	const vinfo = types.map(id => ({ id, name: Helpers.vinfo, path: `/${id}/:id`, view: Vinfo }));
 	return { routes: vinfo };
 };
 

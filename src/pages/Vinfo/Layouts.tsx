@@ -1,6 +1,6 @@
 
-import { useEffect, useState } from "react";
-import { Enums, Layout } from "../../utils";
+import { useState } from "react";
+import { Enums } from "../../utils";
 import { useDarkModeSetting } from "../../utils/Hooks";
 
 import { Welcome, Menu } from "./components";
@@ -30,10 +30,6 @@ export const Desktop = (layout: VINFO.Layout) => {
 
 export const Mobile = (layout: VINFO.Layout) => {
     const sectionContent = useSections(layout);
-    useEffect(() => {
-        Layout.HandlePgTransition(Enums.VinfoSection.inventory, Enums.VinfoMenuPosition.center);
-    }, []);
-    
     return (
         <div className="content fill">
             <div className="flexblock cols stretch">

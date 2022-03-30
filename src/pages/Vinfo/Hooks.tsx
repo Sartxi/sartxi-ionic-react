@@ -1,7 +1,8 @@
-import { Enums } from "../../utils";
+import { Enums, Helpers, Layout } from "../../utils";
 import { TestData } from "./TestData";
 import { Inventory, Documents, Salesperson, Dealership } from "./components";
 import { Desktop, Mobile } from "./Layouts";
+import { useSectionPositions } from "./components/Menu/hooks";
 
 const useVinfoData = (data: any): VINFO.Detail => {
 	return {
@@ -27,14 +28,21 @@ export const useLayout = (layout: VINFO.Layout) => {
 }
 
 export const useSections = (layout: VINFO.Layout) => {
+	const positions = useSectionPositions(layout.section);
+	const sections = Helpers.arrayFromEnum(Enums.VinfoSection);
+	const getSlideAttrs = (section: Enums.VinfoSection) => ({ id: `section-${section}`, className: Layout.VinfoBlock(layout.page.viewType, `grow slide ${positions[sections.indexOf(section)]}`) })
 	return (
-		<div className="slides">
-			<Salesperson {...layout.page} />
-			<div id="InvContent" className="block">
+		<div id="SlideContainer" className={Layout.VinfoBlock(layout.page.viewType, "slideContainer")}>
+			<div {...getSlideAttrs(Enums.VinfoSection.salesperson)}>
+				<Salesperson {...layout.page} />
+			</div>
+			<div {...getSlideAttrs(Enums.VinfoSection.inventory)}>
 				<Inventory {...layout.page} />
 				<Documents {...layout.page} />
 			</div>
-			<Dealership {...layout.page} />
+			<div {...getSlideAttrs(Enums.VinfoSection.dealership)}>
+				<Dealership {...layout.page} />
+			</div>
 		</div>
 	)
 }

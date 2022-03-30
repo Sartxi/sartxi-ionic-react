@@ -1,6 +1,6 @@
 import { Enums } from "../../../../utils";
 
-export const useMenuItemPosition = (section: Enums.VinfoSection): Enums.VinfoMenuPosition[] => {
+export const useSectionPositions = (section: Enums.VinfoSection): Enums.VinfoMenuPosition[] => {
     const vsp: Enums.VinfoMenuPosition[] = Object.values(Enums.VinfoMenuPosition).map(section => section);
     let positions = vsp;
     switch (section) {

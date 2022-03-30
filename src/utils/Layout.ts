@@ -13,38 +13,12 @@ export namespace Layout {
 	};
 	export const VinfoBlock = (viewType: Enums.AppViewType, decorators?: string) => `block ${Enums.AppViewType[viewType]} ${decorators ? decorators : "simple"}`
 	export const SectionIcon = (section: Enums.VinfoSection, prefersDark: boolean) => `/assets/images/icon_${section}_${prefersDark ? "dark" : "light"}.png`;
-	export const HandlePgTransition = (selector: Enums.VinfoSection, position: Enums.VinfoMenuPosition) => {
-		const inventory = document.getElementById("InvContent");
-		const salesperson = document.getElementById("Salesperson");
-		const dealership = document.getElementById("Dealership");
-
-		const setElemAttrs: any = (elem: HTMLElement, index: number) => {
-			const slidePosition = ["left", "center", "right"];
-			elem.classList.remove("left", "center", "right");
-			elem.classList.add("slide", slidePosition[index]);
-		}
-
-		switch (selector) {
-			case Enums.VinfoSection.inventory:
-				[salesperson, inventory, dealership].forEach(setElemAttrs);
-				break;
-			case Enums.VinfoSection.salesperson:
-				[dealership, salesperson, inventory].forEach(setElemAttrs);
-				break;
-			case Enums.VinfoSection.dealership:
-				[inventory, dealership, salesperson].forEach(setElemAttrs);
-				break;
-			default:
-				break;
-		}
-
-	}
-	export const HandleMenuAnimations = (position: Enums.VinfoMenuPosition) => {
-		if (menuEventActions.includes(position)) document.querySelectorAll(".section")?.forEach(element => {
-			Helpers.animateElemByClass(element, "left", position === "right" ? "fadeIn 4s" : "leftCenter 1s");
-			Helpers.animateElemByClass(element, "center", position === "right" ? "centerLeft 1s" : "centerRight 1s");
-			Helpers.animateElemByClass(element, "right", position === "right" ? "rightCenter 1s" : "fadeIn 4s");
-		});
+	export const HandleMenuSelection = (menu: HTMLElement, position: Enums.VinfoMenuPosition) => {
+		const rotateLeft: string[] = ["fadeIn 4s", "centerLeft 1s", "rightCenter 1s"];
+		const rotateRight: string[] = ["leftCenter 1s", "centerRight 1s", "fadeIn 4s"];
+		const animation: string[] = position === Enums.VinfoMenuPosition.right ? rotateLeft : rotateRight;
+		const positions: any[] = Helpers.arrayFromEnum(Enums.VinfoMenuPosition);
+		if (menuEventActions.includes(position)) Array.from(menu.children).forEach(element => positions.forEach((position, index) => Helpers.animateElemByClass(element, position, animation[index])));
 	}
 }
 
