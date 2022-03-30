@@ -1,6 +1,6 @@
 @import "./variables.scss";
 
-.slideContainer {
+.animated {
     position: relative;
     height: 100%;
     .slide {
@@ -29,6 +29,27 @@
             animation: fadeIn 1s;
             transform: translateX(0);
             -webkit-transform: translateX(0);
+        }
+    }
+    .fade {
+        width: 100%;
+        transition: transform 1s ease;
+        &.left {
+            display: none;
+            opacity: 0;
+            animation: fadeOut 1s;
+        }
+
+        &.right {
+            display: none;
+            opacity: 0;
+            animation: fadeOut 1s;
+        }
+        
+        &.center {
+            display: block;
+            opacity: 1;
+            animation: fadeIn 1s;
         }
     }
 }

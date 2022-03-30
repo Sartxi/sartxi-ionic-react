@@ -6,6 +6,14 @@
 		height: 100%;
 	}
 
+	&.desktop {
+		.flex-col.sections {
+			min-width: 600px;
+			max-width: 1000px;
+			min-height: 700px;
+		}
+	}
+
 	.content {
 		width: 100%;
 		&.gutters {
@@ -62,6 +70,9 @@
 					flex-wrap: wrap-reverse;
 				}
 			}
+			&.center {
+				justify-content: center;
+			}
 			&.stretch {
 				justify-content: space-between;
 				&.even {
@@ -80,6 +91,9 @@
 			}
 			&.gap-ten {
 				gap: 10px;
+			}
+			&.gap-thirty {
+				gap: 30px;
 			}
 			.grow {
 				@include flex(2 0px);

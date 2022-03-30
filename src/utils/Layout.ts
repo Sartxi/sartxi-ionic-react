@@ -14,9 +14,9 @@ export namespace Layout {
 	export const VinfoBlock = (viewType: Enums.AppViewType, decorators?: string) => `block ${Enums.AppViewType[viewType]} ${decorators ? decorators : "simple"}`
 	export const SectionIcon = (section: Enums.VinfoSection, prefersDark: boolean) => `/assets/images/icon_${section}_${prefersDark ? "dark" : "light"}.png`;
 	export const HandleMenuSelection = (menu: HTMLElement, position: Enums.VinfoMenuPosition) => {
-		const rotateLeft: string[] = ["fadeIn 4s", "centerLeft 1s", "rightCenter 1s"];
-		const rotateRight: string[] = ["leftCenter 1s", "centerRight 1s", "fadeIn 4s"];
-		const animation: string[] = position === Enums.VinfoMenuPosition.right ? rotateLeft : rotateRight;
+		const animateLeft: string[] = ["fadeIn 4s", "centerLeft 1s", "rightCenter 1s"];
+		const animateRight: string[] = ["leftCenter 1s", "centerRight 1s", "fadeIn 4s"];
+		const animation: string[] = position === Enums.VinfoMenuPosition.right ? animateLeft : animateRight;
 		const positions: any[] = Helpers.arrayFromEnum(Enums.VinfoMenuPosition);
 		if (menuEventActions.includes(position)) Array.from(menu.children).forEach(element => positions.forEach((position, index) => Helpers.animateElemByClass(element, position, animation[index])));
 	}
