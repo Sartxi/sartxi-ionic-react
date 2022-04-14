@@ -45,6 +45,9 @@ export const TestData = {
 			inventory_item_photos: [
 				{
 					url: "https://loopmein-dev.imgix.net/inventory/1d7a2c8c-ad3c-4044-93e2-3022702f3120.jpg"
+				},
+				{
+					url: "https://loopmein-dev.imgix.net/inventory/1d7a2c8c-ad3c-4044-93e2-3022702f3120.jpg"
 				}
 			],
 			store: {
