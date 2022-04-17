@@ -39,6 +39,9 @@
 			}
 			&.shaded {
 				background: var(--ion-color-light-shade);
+				&.btn {
+					background-color: var(--ion-color-step-200);
+				}
 				&.darker {
 					background: var(--ion-color-medium-shade);
 				}
@@ -88,6 +91,9 @@
 						}
 					}
 				}
+				&.aln-btm {
+					align-items: flex-end;
+				}
 			}
 			&.gap-ten {
 				gap: 10px;
@@ -98,6 +104,30 @@
 			.grow {
 				@include flex(2 0px);
 				flex-grow: 1;
+			}
+		}
+		.fancy-contact-btn {
+			cursor: pointer;
+			text-align: center;
+			background-color: #333;
+			color: white;
+			border-radius: 10px;
+			margin: 0 auto;
+			width: 80%;
+			padding: 5px 20px;
+			span {
+				background-color: #111;
+				display: block;
+				padding: 15px;
+				border-radius: 15px;
+				color: #72bf55;
+				font-weight: 700;
+				font-size: 1.1em;
+				&:hover,
+				&:active {
+					background-color: #72bf55;
+					color: #111;
+				}
 			}
 		}
 	}

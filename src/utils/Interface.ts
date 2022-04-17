@@ -1,4 +1,5 @@
 import { Enums } from "./Enums";
+
 export { };
 declare global {
 	namespace APP {

@@ -1,3 +1,7 @@
+@mixin fontBold() {
+    font-family: "Signika", sans-serif;
+}
+
 @mixin flexbox() {
     display: -webkit-box;
     display: -moz-box;

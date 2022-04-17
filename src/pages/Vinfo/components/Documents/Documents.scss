@@ -1,5 +1,5 @@
 #Documents {
-    .block {
+    #DocButtons .block {
         text-align: center;
         display: flex;
         height: 62px;
@@ -8,9 +8,20 @@
             background: var(--ion-color-light-tint) !important;
         }
         .doc-name {
+            font-size: 0.8em;
             width: 100%;
             text-align: center;
             align-self: center;
+        }
+    }
+    .view-more {
+        text-align: center;
+        margin-top: 15px;
+        span {
+            font-size: 0.8em;
+            &:hover {
+                color: var(--ion-color-primary);
+            }
         }
     }
 }

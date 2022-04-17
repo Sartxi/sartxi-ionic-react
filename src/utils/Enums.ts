@@ -18,5 +18,10 @@ export namespace Enums {
 		center = "center",
 		right = "right"
 	}
+	export enum VinfoModal {
+		default = "default",
+		card = "card",
+		sheet = "sheet"
+	}
 }
 

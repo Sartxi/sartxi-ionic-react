@@ -1,6 +1,6 @@
 import { Enums, Helpers, Layout } from "../../utils";
 import { TestData } from "./TestData";
-import { Inventory, Documents, Salesperson, Dealership } from "./components";
+import { ContactUs, Inventory, Documents, Salesperson, Dealership } from "./components";
 import { Desktop, Mobile } from "./Layouts";
 
 const useVinfoData = (data: any): VINFO.Detail => {
@@ -55,6 +55,7 @@ export const useSections = (layout: VINFO.Layout) => {
 			<div {...slideAttr(Enums.VinfoSection.inventory)}>
 				<Inventory {...layout.page} />
 				<Documents {...layout.page} />
+				<ContactUs {...layout.page} />
 			</div>
 			<div {...slideAttr(Enums.VinfoSection.dealership)}>
 				<Dealership {...layout.page} />
