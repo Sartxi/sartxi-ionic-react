@@ -10,7 +10,7 @@ export namespace Enums {
 	}
 	export enum VinfoSection {
 		salesperson = "salesperson",
-		inventory = "inventory",
+		vehicle = "vehicle",
 		dealership = "dealership"
 	}
 	export enum VinfoMenuPosition {

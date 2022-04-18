@@ -6,7 +6,7 @@ import { Welcome, Menu } from "./components";
 import { useLayout, useSections } from "./Hooks";
 
 export const Layouts = (page: VINFO.Page) => {
-    const [section, setSection] = useState(Enums.VinfoSection.inventory);
+    const [section, setSection] = useState(Enums.VinfoSection.vehicle);
     const prefersDark = useDarkModeSetting();
     const layoutProps: VINFO.Layout = { page, section, setSection, prefersDark };
     return useLayout(layoutProps);

@@ -143,7 +143,7 @@ export const TestData = {
 						relative_url: "/store-photos/1000/d47dac23-9dbe-4b5d-af02-27184a528a1f.png"
 					}
 				],
-				name: "Nestled in the wood next to an ancient castle",
+				name: "Loopmein Buick GMC",
 				logo_url: "https://loopmein-dev.imgix.net/stores/f8c39fb2-e787-4f14-8a9e-e2ffeed08e5d.png",
 				primary_photo_url: "https://loopmein-dev.imgix.net/store-photos/1000/d47dac23-9dbe-4b5d-af02-27184a528a1f.png",
 				phone: null,

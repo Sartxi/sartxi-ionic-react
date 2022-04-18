@@ -91,9 +91,12 @@
 						}
 					}
 				}
-				&.aln-btm {
-					align-items: flex-end;
-				}
+			}
+			&.aln-cnt {
+				align-items: center;
+			}
+			&.aln-btm {
+				align-items: flex-end;
 			}
 			&.gap-ten {
 				gap: 10px;
@@ -129,6 +132,22 @@
 					color: #111;
 				}
 			}
+		}
+	}
+}
+
+.photo-carousel {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	.tools {
+		position: absolute;
+		top: 0;
+		width: 100%;
+		padding: 14px;
+		.icon-large {
+			float: right;
 		}
 	}
 }

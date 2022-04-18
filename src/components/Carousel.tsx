@@ -11,7 +11,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/zoom";
 
-export const InvPhotoSwiper = ({ photos, onClose }: { photos: VINFO.Photo[], onClose: () => void }) => {
+export const Carousel = ({ photos, onClose }: { photos: VINFO.Photo[], onClose: () => void }) => {
     return (
         <div className="photo-carousel">
             <div className="tools">
@@ -22,7 +22,7 @@ export const InvPhotoSwiper = ({ photos, onClose }: { photos: VINFO.Photo[], onC
                 keyboard={true}
                 pagination={true}
                 zoom={true}>
-                {photos.map((photo, key) => (<SwiperSlide key={`${key}-photo`}><IonImg src={photo.url} /></SwiperSlide>))}
+                {photos.map((photo, key) => (<SwiperSlide key={`${key}-photo`}><IonImg src={photo.url || photo.full_url} /></SwiperSlide>))}
             </Swiper>
         </div>
     )

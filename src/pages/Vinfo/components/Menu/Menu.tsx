@@ -5,9 +5,11 @@ import { useSectionPositions } from "../../Hooks";
 import "./Menu.scss";
 
 export const Menu = (layout: VINFO.Layout) => {
+	const itemText = (selector: Enums.VinfoSection, item: string) => (selector === Enums.VinfoSection.vehicle ? `${layout.page.vinfo.inventory.year} ${layout.page.vinfo.inventory.make}` : item);
+	const layoutProps = { ...layout, itemText };
 	return (
 		<div id="Menu" className={Layout.VinfoBlock(layout.page.viewType)}>
-			{layout.page.viewType === Enums.AppViewType.mobile ? <MobileMenu {...layout} /> : <DesktopMenu {...layout} />}
+			{layout.page.viewType === Enums.AppViewType.mobile ? <MobileMenu {...layoutProps} /> : <DesktopMenu {...layoutProps} />}
 		</div>
 	);
 };
@@ -19,7 +21,7 @@ const useVinfoMenu = (): { sections: Enums.VinfoSection[], isActive: (selector: 
 	}
 }
 
-const DesktopMenu = ({ section, setSection, page }: VINFO.Layout) => {
+const DesktopMenu = ({ section, setSection, page, itemText }: VINFO.Layout) => {
 	const { sections, isActive } = useVinfoMenu();
 	return (
 		<div id="DesktopMenu" className={Layout.VinfoBlock(page.viewType, "positioned space rounded shaded")}>
@@ -28,7 +30,7 @@ const DesktopMenu = ({ section, setSection, page }: VINFO.Layout) => {
 				const active = isActive(selector, section);
 				return (
 					<div key={item} className={`item${active ? " active" : ""}`} onClick={() => setSection(selector)}>
-						<span className="item-text">{item}</span>
+						<span className="item-text">{itemText(selector, item)}</span>
 					</div>
 				)
 			})}
@@ -36,7 +38,7 @@ const DesktopMenu = ({ section, setSection, page }: VINFO.Layout) => {
 	)
 }
 
-const MobileMenu = ({ section, setSection, prefersDark }: VINFO.Layout) => {
+const MobileMenu = ({ section, setSection, prefersDark, itemText }: VINFO.Layout) => {
 	const positions = useSectionPositions(section);
 	const { sections, isActive } = useVinfoMenu();
 
@@ -55,7 +57,7 @@ const MobileMenu = ({ section, setSection, prefersDark }: VINFO.Layout) => {
 				return (
 					<div key={item} className={`item${active ? " active" : ""} ${position}`} onClick={() => makeSelection(selector, position)}>
 						<IonImg className="menu-icon" src={Layout.SectionIcon(selector, active ? true : prefersDark)} />
-						<span className="item-text">{active ? "" : item}</span>
+						<span className="item-text">{active ? "" : itemText(selector, item)}</span>
 					</div>
 				)
 			})}

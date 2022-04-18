@@ -1,0 +1,87 @@
+@import "../../../../theme/theme.scss";
+
+#Dealership {
+    transition: all 0.7s ease-in;
+    .item-photo {
+        background-color: var(--ion-color-light-contrast);
+        margin: 0;
+        height: 160px;
+        width: 100%;
+        overflow: hidden;
+        img {
+            width: 100%;
+            height: 100%;
+            object-position: center;
+            object-fit: cover;
+        }
+    }
+
+    .store-name {
+        @include fontBold();
+        text-align: center;
+        display: block;
+        font-size: 20px;
+        margin: 5px 0;
+    }
+
+    #StoreInfo,
+    #StoreHours,
+    #Socials {
+        padding: 15px 18px;
+        font-weight: 300;
+        position: relative;
+        margin: 0 10px;
+    }
+
+    #StoreInfo {
+        .flexblock {
+            margin-bottom: 5px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    #StoreHours {
+        margin: 10px;
+        h3 {
+            font-size: 1.1em;
+            margin: 0;
+            .sub {
+                display: block;
+                font-size: 0.8em;
+            }
+        }
+        .day {
+            gap: 10px 20px;
+            margin-bottom: 2px;
+            font-size: 1em;
+            white-space: nowrap;
+            .time {
+                width: 105px;
+            }
+        }
+        .green {
+            color: var(--ion-color-success);
+        }
+        .red {
+            color: var(--ion-color-danger);
+        }
+    }
+
+    #Socials {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    &.desktop {
+        .item-photo {
+            border-radius: 10px;
+            margin: 0;
+        }
+        #Detail {
+            top: 0;
+            background: none;
+        }
+    }
+}

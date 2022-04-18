@@ -48,6 +48,7 @@ declare global {
 			section: Enums.VinfoSection;
 			setSection: (section: Enums.VinfoSection) => void;
 			prefersDark: boolean;
+			itemText?: any;
 		}
 		interface Detail {
 			settings: Settings;
@@ -89,16 +90,16 @@ declare global {
 			vehicle_document_type_id: number;
 			view_count: number;
 		}
-		interface Photo {
+		interface Photo extends StorePhoto {
 			position?: number;
-			url: string;
+			url?: string;
 		}
 		interface Store {
 			name: string;
 			store_type_id: number;
 			logo_url: string;
-			email: string;
-			phone: number;
+			sales_email: string;
+			sales_phone: number;
 			address1: string;
 			address2: string;
 			city: string;
@@ -108,12 +109,27 @@ declare global {
 			store_photos: StorePhoto[];
 			paywall_setting?: string;
 			country_code: string;
+			primary_photo_url: string;
+			hours: StoreHours;
 		}
 		interface StorePhoto {
-			id: number;
-			full_url: string;
-			relative_url: string;
-			sort_order: number;
+			id?: number;
+			full_url?: string;
+			relative_url?: string;
+			sort_order?: number;
+		}
+		interface StoreHours {
+			days: StoreHourDays[];
+			open_now: boolean;
+			open_now_calc: boolean;
+			timezone: string;
+		}
+		interface StoreHourDays {
+			day: number;
+			open_time: string;
+			close_time: string;
+			day_text: string;
+			open: boolean;
 		}
 		interface Inventory {
 			body_door_count: number;

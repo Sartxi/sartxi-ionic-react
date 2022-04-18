@@ -52,7 +52,7 @@ export const useSections = (layout: VINFO.Layout) => {
 			<div {...slideAttr(Enums.VinfoSection.salesperson)}>
 				<Salesperson {...layout.page} />
 			</div>
-			<div {...slideAttr(Enums.VinfoSection.inventory)}>
+			<div {...slideAttr(Enums.VinfoSection.vehicle)}>
 				<Inventory {...layout.page} />
 				<Documents {...layout.page} />
 				<ContactUs {...layout.page} />
