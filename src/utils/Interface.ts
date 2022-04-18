@@ -61,6 +61,26 @@ declare global {
 			customer_name: string;
 			customer_phone: string;
 			customer_message: string;
+			background_image: string;
+			id: number;
+			inventory_item: Inventory;
+			number_of_views: number;
+			salesperson: Salesperson;
+			show_salesperson: boolean;
+			theme: number;
+		}
+		interface Salesperson {
+			bio: string;
+			bio_text: string;
+			email: string;
+			has_sms: boolean;
+			job_title_name: string;
+			name: string;
+			phone: string;
+			photo_relative_url: string;
+			photo_url: string;
+			sales_type_id: number;
+			sms_phone: string;
 		}
 		interface Settings {
 			id: number;

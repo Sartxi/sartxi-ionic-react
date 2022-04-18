@@ -12,13 +12,10 @@ export const Dealership = (page: VINFO.Page) => {
 
     const store = page?.vinfo?.inventory?.store ?? null;
     const photos = store?.store_photos ?? [];
-
-    const modalProps = useVinfoModal(Enums.VinfoModal.default);
-
-    // todo: add a placeholder backup
     const photo = store?.primary_photo_url ?? photos?.[0].full_url;
     const today = Helpers.days[new Date().getDay()];
-    console.log(store);
+
+    const modalProps = useVinfoModal(Enums.VinfoModal.default);
 
     if (!store) return <span />;
     else return (

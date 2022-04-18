@@ -1,0 +1,50 @@
+#Salesperson {
+    transition: all 0.7s ease-in;
+    .item-photo {
+        background-color: var(--ion-color-light-contrast);
+        margin: 0;
+        height: 160px;
+        width: 100%;
+        overflow: hidden;
+        img {
+            width: 100%;
+            height: 100%;
+            object-position: center;
+            object-fit: cover;
+        }
+    }
+
+    #SalesInfo {
+        position: relative;
+        top: -75px;
+        text-align: center;
+        margin-bottom: -70px;
+        ion-avatar {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto;
+            border: 3px solid var(--ion-background-color);
+        }
+        h2 {
+            font-size: 1.2em;
+            margin: 10px 0 5px;
+        }
+        h3 {
+            font-size: 1em;
+            font-weight: 100;
+            margin-top: 0;
+        }
+    }
+
+    #SalesContact,
+    #SalesBio {
+        padding: 15px 18px;
+        font-weight: 300;
+        position: relative;
+        margin: 0 10px;
+    }
+
+    #SalesBio {
+        margin-top: 10px;
+    }
+}

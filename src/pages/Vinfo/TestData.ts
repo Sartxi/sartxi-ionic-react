@@ -162,14 +162,14 @@ export const TestData = {
 		},
 		salesperson: {
 			has_sms: true,
-			bio_text: "",
-			photo_url: "https://loopmein-dev.imgix.net/stores/f8c39fb2-e787-4f14-8a9e-e2ffeed08e5d.png",
+			bio_text: "A hip, a hip, a hibbie, to the hibbie, the hip hip hop and you don't stop, you rock. OH dang",
+			photo_url: "https://loopmein-dev.imgix.net/users/e705cf85-6cd4-4e78-acc0-bceaee870ae8.jpg?w=200&facepad=2&faceindex=1&fit=facearea",
 			sales_type_id: 2,
-			name: "Justin the new guy scent",
+			name: "Justin Boraccho",
 			phone: "8015551212",
 			sms_phone: "8015552121",
 			email: null,
-			job_title_name: "New Guy Title!",
+			job_title_name: "Car Salesman",
 			bio: "",
 			photo_relative_url: null
 		},
