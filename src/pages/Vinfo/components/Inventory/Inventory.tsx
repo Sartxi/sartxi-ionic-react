@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Enums, Helpers, Layout } from "../../../../utils";
 import { useVinfoModal } from "../../../../utils/Hooks";
-import { IonModal } from "@ionic/react";
-import { Carousel } from "../../../../components/Carousel";
+import { Carousel, Modal } from "../../../../components";
 
 import "./Inventory.scss";
 
@@ -19,9 +18,9 @@ export const Inventory = (page: VINFO.Page) => {
 	if (!inventory) return <span />;
 	else return (
 		<div id="Inventory" className={Layout.VinfoBlock(page.viewType, "grow")}>
-			<IonModal {...modalProps} isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
-				<Carousel photos={photos} onClose={() => setIsOpen(false)} />
-			</IonModal>
+			<Modal id="InvPhotos" isOpen={isOpen} modalProps={modalProps} onClose={() => setIsOpen(false)}>
+				<InvPhotos photos={photos} />
+			</Modal>
 			<div className="item-photo">
 				<img alt={Helpers.vehicleTitle(page?.vinfo?.inventory, true)} src={photo} onClick={() => setIsOpen(true)} />
 			</div>
@@ -47,3 +46,19 @@ export const Inventory = (page: VINFO.Page) => {
 		</div>
 	);
 };
+
+interface InvPhotoProps extends APP.ModalContentProps {
+	photos: VINFO.Photo[];
+}
+
+const InvPhotos = ({ photos, setTitle }: InvPhotoProps) => {
+	useEffect(() => {
+		setTitle?.("Inventory Photos");
+	}, [setTitle]);
+
+	return (
+		<div className="flexblock fill center">
+			<Carousel photos={photos} />
+		</div>
+	)
+}

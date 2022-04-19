@@ -19,7 +19,7 @@ export const useDarkModeSetting = () => {
     return prefersDark;
 }
 
-export const useVinfoModal = (type: Enums.VinfoModal) => {
+export const useVinfoModal = (type: Enums.VinfoModal, props = {}) => {
     let typeProps;
     switch (type) {
         case Enums.VinfoModal.card:
@@ -46,5 +46,5 @@ export const useVinfoModal = (type: Enums.VinfoModal) => {
             };
             break;
     }
-    return { ...typeProps };
+    return { ...typeProps, ...props };
 }

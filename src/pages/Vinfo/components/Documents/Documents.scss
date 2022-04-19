@@ -1,4 +1,10 @@
 #Documents {
+    &.tablet {
+        &.block.simple {
+            padding: 20px 60px 0 !important;
+        }
+    }
+
     #DocButtons .block {
         text-align: center;
         display: flex;
@@ -14,6 +20,7 @@
             align-self: center;
         }
     }
+
     .view-more {
         text-align: center;
         margin-top: 15px;

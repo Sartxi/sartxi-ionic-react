@@ -31,6 +31,17 @@ declare global {
 		interface Footer {
 			viewType: Enums.AppViewType;
 		}
+		interface Modal {
+			id: string;
+			isOpen: boolean;
+			children?: React.ReactElement,
+			canClose?: boolean;
+			modalProps: any;
+			onClose: () => void;
+		}
+		interface ModalContentProps {
+			setTitle?: (title: string) => void;
+		}
 	}
 	namespace VINFO {
 		interface Data {

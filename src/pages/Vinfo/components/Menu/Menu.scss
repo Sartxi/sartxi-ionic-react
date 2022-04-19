@@ -16,7 +16,8 @@
             animation: fadeIn 3s;
         }
     }
-    &.mobile {
+    &.mobile,
+    &.tablet {
         .item {
             height: 78px;
             position: absolute;

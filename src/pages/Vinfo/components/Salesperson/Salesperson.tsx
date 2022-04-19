@@ -1,8 +1,49 @@
-import { Helpers, Layout } from "../../../../utils";
+import { useState } from "react";
+import { useVinfoModal } from "../../../../utils/Hooks";
+import { Enums, Helpers, Layout } from "../../../../utils";
 import { IonAvatar, IonIcon } from "@ionic/react";
 import { mailOutline, phonePortraitOutline } from "ionicons/icons";
+import { Modal } from "../../../../components";
 
 import "./Salesperson.scss";
+
+export const SalespersonTile = (page: VINFO.Page) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const share = page?.vinfo?.share ?? null;
+    const modalProps = useVinfoModal(Enums.VinfoModal.default, { cssClass: "large" });
+    console.log(share);
+
+    return (
+        <>
+            <Modal id="SalesmanModal" isOpen={isOpen} modalProps={modalProps} onClose={() => setIsOpen(false)}>
+                <Salesperson {...page} />
+            </Modal>
+            <div id="SalespersonTile" className={Layout.VinfoBlock(page.viewType, "simple shaded rounded card")}>
+                <div className="flexblock stretch">
+                    <div className="flexblock gap-thirty cols">
+                        <IonAvatar>
+                            <img src={share.salesperson.photo_url} alt="Salesperson" />
+                        </IonAvatar>
+                        <div className="flexblock center aln-btm" onClick={() => setIsOpen(true)}>
+                            <IonIcon icon={mailOutline} size="large" />
+                            <IonIcon icon={phonePortraitOutline} size="large" />
+                        </div>
+                    </div>
+                    <div className="flexblock cols">
+                        <h2 className="creds">
+                            <span className="name">{share.salesperson.name}</span>
+                            <span className="job">{share.salesperson.job_title_name}</span>
+                        </h2>
+                        <div className="comment block">
+                            <span className="speak" />
+                            {share.customer_message}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
 
 export const Salesperson = (page: VINFO.Page) => {
     const share = page?.vinfo?.share ?? null;

@@ -1,6 +1,5 @@
 import { Enums, Helpers, Layout } from "../../utils";
 import { TestData } from "./TestData";
-import { ContactUs, Inventory, Documents, Salesperson, Dealership } from "./components";
 import { Desktop, Mobile } from "./Layouts";
 
 const useVinfoData = (data: any): VINFO.Detail => {
@@ -46,20 +45,6 @@ export const useSections = (layout: VINFO.Layout) => {
 	const positions = useSectionPositions(layout.section);
 	const sections = Helpers.arrayFromEnum(Enums.VinfoSection);
 	const animation = layout.page.viewType !== Enums.AppViewType.desktop ? "slide" : "fade";
-	const slideAttr = (section: Enums.VinfoSection) => ({ className: Layout.VinfoBlock(layout.page.viewType, `grow ${animation} ${positions[sections.indexOf(section)]}`) })
-	return (
-		<div className={Layout.VinfoBlock(layout.page.viewType, "animated")}>
-			<div {...slideAttr(Enums.VinfoSection.salesperson)}>
-				<Salesperson {...layout.page} />
-			</div>
-			<div {...slideAttr(Enums.VinfoSection.vehicle)}>
-				<Inventory {...layout.page} />
-				<Documents {...layout.page} />
-				<ContactUs {...layout.page} />
-			</div>
-			<div {...slideAttr(Enums.VinfoSection.dealership)}>
-				<Dealership {...layout.page} />
-			</div>
-		</div>
-	)
+	const slideAttr = (section: Enums.VinfoSection) => ({ className: Layout.VinfoBlock(layout.page.viewType, `grow ${animation} ${positions[sections.indexOf(section)]}`) });
+	return sections.map((section: any) => (slideAttr(section)));
 }

@@ -2,6 +2,7 @@ import { IonModal } from "@ionic/react";
 import { useState } from "react";
 import { Enums, Layout } from "../../../../utils";
 import { useVinfoModal } from "../../../../utils/Hooks";
+
 import "./Documents.scss";
 
 export const Documents = ({ viewType, vinfo }: VINFO.Page) => {
@@ -12,8 +13,9 @@ export const Documents = ({ viewType, vinfo }: VINFO.Page) => {
 		docs: vinfo.documents,
 		openDoc: doc => console.log(doc)
 	});
+
 	return (
-		<div id="Documents" className={Layout.VinfoBlock(viewType)}>
+		<div id="Documents" className={Layout.VinfoBlock(viewType, "space")}>
 			<IonModal {...modalProps} isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
 				<DocumentList {...listProps("DocOptions")} />
 			</IonModal>

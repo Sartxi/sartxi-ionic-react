@@ -1,5 +1,42 @@
 @import "../../../../theme/theme.scss";
 
+#DealerTile {
+    padding: 10px;
+    .store-photo {
+        width: 100px;
+        overflow: hidden;
+        border-radius: 10px;
+        position: relative;
+        top: -10px;
+        right: -10px;
+        border-radius: 0 10px;
+    }
+    .store-name {
+        margin: 5px 10px;
+        .name {
+            @include fontBold();
+            font-size: 0.9em;
+        }
+        .sub {
+            display: block;
+            font-size: 0.7em;
+
+            &.green {
+                color: var(--ion-color-success);
+            }
+            &.red {
+                color: var(--ion-color-danger);
+            }
+        }
+    }
+}
+
+#DealerModal {
+    #Dealership.desktop .item-photo {
+        border-radius: 10px 10px 0 0;
+    }
+}
+
 #Dealership {
     transition: all 0.7s ease-in;
     .item-photo {
