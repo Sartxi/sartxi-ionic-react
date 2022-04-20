@@ -44,9 +44,11 @@ export const TestData = {
 			is_commercial: false,
 			inventory_item_photos: [
 				{
+					id: 83,
 					url: "https://loopmein-dev.imgix.net/inventory/1d7a2c8c-ad3c-4044-93e2-3022702f3120.jpg"
 				},
 				{
+					id: 82,
 					url: "https://loopmein-dev.imgix.net/inventory/1d7a2c8c-ad3c-4044-93e2-3022702f3120.jpg"
 				}
 			],

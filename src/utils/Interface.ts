@@ -52,6 +52,7 @@ declare global {
 		interface Page {
 			vinfo: Detail;
 			viewType: Enums.AppViewType;
+			className?: string;
 		}
 		interface Layout {
 			page: Page;

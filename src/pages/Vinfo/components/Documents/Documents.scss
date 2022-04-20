@@ -1,3 +1,5 @@
+@import "../../../../theme/theme.scss";
+
 #Documents {
     &.tablet {
         &.block.simple {
@@ -9,6 +11,9 @@
         text-align: center;
         display: flex;
         height: 62px;
+        @include short() {
+            height: 45px;
+        }
         cursor: pointer;
         &:hover {
             background: var(--ion-color-light-tint) !important;

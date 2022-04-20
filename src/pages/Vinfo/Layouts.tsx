@@ -22,6 +22,7 @@ export const Desktop = (layout: VINFO.Layout) => {
                     <Documents {...layout.page} />
                 </div>
                 <div className="flex-col">
+                    <Welcome {...layout.page} className="shaded rounded space" />
                     <DealershipTile {...layout.page} />
                     <SalespersonTile {...layout.page} />
                 </div>

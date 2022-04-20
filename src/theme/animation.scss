@@ -45,7 +45,7 @@
             opacity: 0;
             animation: fadeOut 1s;
         }
-        
+
         &.center {
             display: block;
             opacity: 1;
@@ -56,11 +56,11 @@
 
 @keyframes rightCenter {
     from {
-        left: auto;
-        right: $rightPos;
+        left: 60vw;
+        right: -10px;
     }
     to {
-        left: auto;
+        left: $centerPos;
         right: $centerPos;
     }
 }

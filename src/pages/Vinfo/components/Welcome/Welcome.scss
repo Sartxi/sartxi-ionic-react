@@ -1,3 +1,5 @@
+@import "../../../../theme/theme.scss";
+
 #Welcome {
     font-weight: 400;
     .welcome {
@@ -7,5 +9,9 @@
         max-width: 125px;
         text-align: center;
         margin: 15px auto 10px;
+        @include short() {
+            margin: 0 auto 10px;
+            width: 100px;
+        }
     }
 }

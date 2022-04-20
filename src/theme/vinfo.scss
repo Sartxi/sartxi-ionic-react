@@ -160,6 +160,12 @@
 	}
 	ion-modal.large {
 		--width: 50vw;
+		--height: 60vh;
+		.swiper .swiper-slide {
+			align-items: stretch;
+			justify-content: stretch;
+			flex-direction: column;
+		}
 	}
 }
 
