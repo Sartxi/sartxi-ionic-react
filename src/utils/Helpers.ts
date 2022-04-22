@@ -16,7 +16,7 @@ export namespace Helpers {
         const hour = parseInt(h, 10);
         const getTime = (time: number, isPM = false) => {
             const hr = String(time);
-            const hour = hr.length == 4 ? isPM ? parseInt(hr.substring(0, 2), 10) - 12 : hr.substring(0, 2) : hr.charAt(0);
+            const hour = hr.length === 4 ? isPM ? parseInt(hr.substring(0, 2), 10) - 12 : hr.substring(0, 2) : hr.charAt(0);
             return `${hour}:${hr.slice(-2)}`
         }
         if (hour <= 1200) return `${getTime(hour)}a`;

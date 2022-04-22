@@ -39,7 +39,7 @@
         }
 
         h1.specs {
-            color: #e97c74;
+            color: var(--ion-color-primary);
             font-size: 1.2em;
             margin: 0 0 8px;
             .sub {
@@ -59,7 +59,7 @@
             font-size: 1.3em;
             margin: 0 0 2px;
             strong {
-                @include fontBold();
+                font-family: var(--theme-bold-font);
                 font-size: 24px;
             }
             .sub {

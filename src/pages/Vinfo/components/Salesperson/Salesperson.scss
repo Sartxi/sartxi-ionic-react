@@ -10,7 +10,7 @@
     .creds {
         margin: 5px 15px;
         .name {
-            @include fontBold();
+            font-family: var(--theme-bold-font);
             font-size: 0.9em;
         }
         .job {
@@ -64,7 +64,7 @@
     &.tablet .item-photo {
         height: 23vh;
     }
-    
+
     #SalesInfo {
         position: relative;
         top: -75px;
@@ -79,6 +79,7 @@
         h2 {
             font-size: 1.2em;
             margin: 10px 0 5px;
+            font-family: var(--theme-bold-font);
         }
         h3 {
             font-size: 1em;

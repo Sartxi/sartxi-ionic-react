@@ -397,3 +397,14 @@ export const TestData = {
 	user_ips: "127.0.0.1",
 	show_salesperson: true
 };
+
+
+export const theme = {
+	font: "Open Sans",
+	font_family: "sans-serif",
+	bold_font: "Yanone Kaffeesatz",
+	bold_font_family: "sans-serif",
+	primary_color: "#ff71ac",
+	secondary_color: "#1dafec",
+	dark_mode: true
+}

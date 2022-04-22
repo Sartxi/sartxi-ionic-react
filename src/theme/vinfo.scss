@@ -2,6 +2,7 @@
 
 #Vinfo {
 	height: 100%;
+	font-family: var(--theme-font);
 
 	&.desktop {
 		.flex-col.sections {
@@ -37,12 +38,12 @@
 				display: block;
 				padding: 15px;
 				border-radius: 15px;
-				color: #72bf55;
+				color: var(--ion-color-success);
 				font-weight: 700;
 				font-size: 1.1em;
 				&:hover,
 				&:active {
-					background-color: #72bf55;
+					background-color: var(--ion-color-success);
 					color: var(--ion-color-step-100);
 				}
 			}

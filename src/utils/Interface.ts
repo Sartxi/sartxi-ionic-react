@@ -67,6 +67,7 @@ declare global {
 			inventory: Inventory;
 			documents: Document[];
 			share: Lead;
+			theme: any;
 		}
 		interface Lead {
 			customer_email: string;

@@ -8,17 +8,6 @@ export const useWindowResize = (callback: () => void) => {
     }, [callback]);
 }
 
-export const useDarkModeSetting = () => {
-    const watch = window.matchMedia('(prefers-color-scheme: dark)');
-    const [prefersDark, setPrefersDark] = useState(watch.matches);
-    useEffect(() => {
-        const callback = (dark: any) => setPrefersDark(dark.matches);
-        watch.addEventListener("change", callback);
-        return () => watch.removeEventListener("change", callback);;
-    }, [watch]);
-    return prefersDark;
-}
-
 export const useVinfoModal = (type: Enums.VinfoModal, props = {}) => {
     let typeProps;
     switch (type) {

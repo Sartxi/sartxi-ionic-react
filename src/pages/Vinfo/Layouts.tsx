@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Enums, Layout } from "../../utils";
-import { useDarkModeSetting } from "../../utils/Hooks";
 
 import { Welcome, Menu } from "./components";
 import { useLayout, useSections } from "./Hooks";
@@ -8,7 +7,7 @@ import { ContactUs, Inventory, Dealership, DealershipTile, Documents, Salesperso
 
 export const Layouts = (page: VINFO.Page) => {
     const [section, setSection] = useState(Enums.VinfoSection.vehicle);
-    const prefersDark = useDarkModeSetting();
+    const prefersDark = document.querySelector("html")?.getAttribute("vinfo-theme") === "dark";
     const layoutProps: VINFO.Layout = { page, section, setSection, prefersDark };
     return useLayout(layoutProps);
 }

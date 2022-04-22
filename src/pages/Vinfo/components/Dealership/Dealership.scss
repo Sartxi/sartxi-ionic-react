@@ -14,7 +14,7 @@
     .store-name {
         margin: 5px 10px;
         .name {
-            @include fontBold();
+            font-family: var(--theme-bold-font);
             font-size: 0.9em;
         }
         .sub {
@@ -63,7 +63,7 @@
     }
 
     .store-name {
-        @include fontBold();
+        font-family: var(--theme-bold-font);
         text-align: center;
         display: block;
         font-size: 20px;
