@@ -260,7 +260,7 @@ export const TestData = {
 			name: "Another test document",
 			external_url: null,
 			is_active: true,
-			document_type_name: "Other",
+			document_type_name: "Manual",
 			document_type_description: "SGC",
 			default_image_filename: "document.png",
 			document_sort_order: 1000,
@@ -550,11 +550,12 @@ export const TestData = {
 
 
 export const theme = {
+	font_type: "google",
 	font: "Open Sans",
 	font_family: "sans-serif",
 	bold_font: "Akshar",
 	bold_font_family: "sans-serif",
-	primary_color: "#ff71ac",
+	primary_color: "#ae72af",
 	secondary_color: "#1dafec",
 	dark_mode: true,
 	display_docs: 3

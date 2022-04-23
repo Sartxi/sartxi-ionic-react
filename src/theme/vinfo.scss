@@ -1,5 +1,9 @@
 @import "./theme.scss";
 
+.ion-page {
+	overflow: hidden;
+}
+
 #Vinfo {
 	height: 100%;
 	font-family: var(--theme-font);

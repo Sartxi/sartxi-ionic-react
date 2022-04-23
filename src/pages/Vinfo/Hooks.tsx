@@ -46,16 +46,32 @@ export const useLayout = (layout: VINFO.Layout) => {
 const useTheme = (vinfo: VINFO.Detail) => {
 	const prefersDark = useDarkModeSetting();
 	useEffect(() => {
+
 		// dark/light
 		const theme = vinfo.theme.dark_mode !== null ? (vinfo.theme.dark_mode ? "dark" : "light") : (prefersDark ? "dark" : "light");
 		document.documentElement.setAttribute("vinfo-theme", theme);
+
 		// fonts
-		WebFont.load({ google: { families: [vinfo.theme.font, vinfo.theme.bold_font] } });
-		document.documentElement.style.setProperty("--theme-font", `${vinfo.theme.font}, ${vinfo.theme.font_family}`);
-		document.documentElement.style.setProperty("--theme-bold-font", `${vinfo.theme.bold_font}, ${vinfo.theme.bold_font_family}`);
+		if (vinfo.theme.font) {
+			WebFont.load({ [vinfo.theme.font_type]: { families: [vinfo.theme.font, vinfo.theme.bold_font] } });
+			document.documentElement.style.setProperty("--theme-font", `${vinfo.theme.font}, ${vinfo.theme.font_family}`);
+			document.documentElement.style.setProperty("--theme-bold-font", `${vinfo.theme.bold_font}, ${vinfo.theme.bold_font_family}`);
+		}
+
 		// colors
-		document.documentElement.style.setProperty("--ion-color-primary", vinfo.theme.primary_color);
-		document.documentElement.style.setProperty("--ion-color-secondary", vinfo.theme.secondary_color);
+		if (vinfo.theme.primary_color) {
+			document.documentElement.style.setProperty("--ion-color-primary", vinfo.theme.primary_color);
+			document.documentElement.style.setProperty("--ion-color-primary-rgb", `${Helpers.hexToRgb(vinfo.theme.primary_color)}`);
+			document.documentElement.style.setProperty("--ion-color-primary-tint", `${Helpers.shadeColor(vinfo.theme.primary_color, 5)}`);
+			document.documentElement.style.setProperty("--ion-color-primary-shade", `${Helpers.shadeColor(vinfo.theme.primary_color, 10)}`);
+		}
+		if (vinfo.theme.secondary_color) {
+			document.documentElement.style.setProperty("--ion-color-secondary", vinfo.theme.secondary_color);
+			document.documentElement.style.setProperty("--ion-color-secondary-rgb", `${Helpers.hexToRgb(vinfo.theme.secondary_color)}`);
+			document.documentElement.style.setProperty("--ion-color-secondary-tint", `${Helpers.shadeColor(vinfo.theme.secondary_color, 5)}`);
+			document.documentElement.style.setProperty("--ion-color-secondary-shade", `${Helpers.shadeColor(vinfo.theme.secondary_color, 10)}`);
+		}
+
 	}, [vinfo.theme, prefersDark])
 }
 

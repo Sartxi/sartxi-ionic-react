@@ -3,7 +3,7 @@ http://ionicframework.com/docs/theming/ */
 
 :root {
   --theme-font: Arial, Helvetica, sans-serif;
-  --theme-bold-font: "Signika", sans-serif;
+  --theme-bold-font: Arial, Helvetica, sans-serif;
 
   /** primary **/
   --ion-color-primary: #3880ff;

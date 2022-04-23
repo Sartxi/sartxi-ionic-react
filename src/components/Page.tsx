@@ -6,7 +6,7 @@ export const AppPage = (page: APP.Route) => {
 	const { viewType } = usePage(page);
 	return (
 		<IonPage>
-			<IonContent>{React.createElement(page.view, { ...page, viewType })}</IonContent>
+			<IonContent scrollY={false}>{React.createElement(page.view, { ...page, viewType })}</IonContent>
 		</IonPage>
 	);
 };
