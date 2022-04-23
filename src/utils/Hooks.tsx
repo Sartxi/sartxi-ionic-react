@@ -24,7 +24,7 @@ export const useVinfoModal = (type: Enums.VinfoModal, props = {}) => {
                 canDismiss: true,
                 swipeToClose: true,
                 initialBreakpoint: 0.9,
-                breakpoints: [0, 0.9, 1],
+                breakpoints: [0, 0.9, 1]
             };
             break;
         default:
@@ -35,5 +35,5 @@ export const useVinfoModal = (type: Enums.VinfoModal, props = {}) => {
             };
             break;
     }
-    return { ...typeProps, ...props };
+    return { id: `${new Date()}-${type}`, ...typeProps, ...props };
 }

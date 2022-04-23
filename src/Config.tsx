@@ -18,7 +18,7 @@ export const usePage = (page: APP.Route): APP.Page => {
 	useEffect(() => selectViewType(), [page, selectViewType]);
 	useWindowResize(selectViewType);
 
-	return { viewType, setTitle: (title: string) => (document.title = title) };
+	return { viewType, settitle: (title: string) => (document.title = title) };
 };
 
 export const useLoc = (page: any): APP.Location => {

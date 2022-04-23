@@ -7,7 +7,10 @@ import "./Documents.scss";
 
 export const Documents = ({ viewType, vinfo }: VINFO.Page) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const modalProps = useVinfoModal(Enums.VinfoModal.sheet);
+
+	const modalType = viewType === Enums.AppViewType.desktop ? Enums.VinfoModal.default : Enums.VinfoModal.sheet;
+	const modalProps = useVinfoModal(modalType, viewType === Enums.AppViewType.desktop ? { cssClass: "large" } : undefined);
+
 	const listProps: (ln: string) => DocList = listName => ({
 		listName,
 		docs: vinfo.documents,
@@ -19,25 +22,28 @@ export const Documents = ({ viewType, vinfo }: VINFO.Page) => {
 			<IonModal {...modalProps} isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
 				<DocumentList {...listProps("DocOptions")} />
 			</IonModal>
-			<DocumentList {...listProps("DocButtons")} />
+			<DocumentList {...listProps("DocButtons")} limit={vinfo.theme.display_docs} />
 			<div className="view-more">
-				<span onClick={() => setIsOpen(true)}>View More Documents &amp; Research</span>
+				<span onClick={() => setIsOpen(true)}>View All Documents &amp; Research</span>
 			</div>
 		</div>
 	);
 };
 
-interface DocList { docs: VINFO.Document[], listName: string, openDoc: (document: VINFO.Document) => void };
-const DocumentList = ({ docs, listName, openDoc }: DocList) => {
+interface DocList { docs: VINFO.Document[], listName: string, openDoc: (document: VINFO.Document) => void, limit?: number | null };
+const DocumentList = ({ docs, listName, openDoc, limit = null }: DocList) => {
+	const docList = limit ? docs.slice(0, limit) : docs;
 	return (
-		<div id={listName} className="flexblock wrap stretch three-col gap-ten">
-			{docs.map(doc => {
-				return (
-					<div key={doc.id} className="block rounded shaded simple btn">
-						<span className="doc-name" onClick={() => openDoc(doc)}>{doc.document_type_name}</span>
-					</div>
-				)
-			})}
+		<div id={listName}>
+			<div className="flexblock wrap stretch three-col gap-ten">
+				{docList.map(doc => {
+					return (
+						<div key={doc.id} className="block rounded shaded simple btn">
+							<span className="doc-name" onClick={() => openDoc(doc)}>{doc.document_type_name}</span>
+						</div>
+					)
+				})}
+			</div>
 		</div>
 	)
 }

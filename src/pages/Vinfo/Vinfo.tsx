@@ -11,12 +11,12 @@ import "../../theme/vinfo.scss";
 export const Vinfo = (page: APP.Route) => {
 	const location = useLoc(page);
 	const { loading, data } = useVinfo(location);
-	const { setTitle, viewType } = usePage(page);
+	const { settitle, viewType } = usePage(page);
 
 	useEffect(() => {
 		const item = data?.inventory;
-		setTitle(`${item.year} ${item.make} ${item.model}`);
-	}, [setTitle, data]);
+		settitle(`${item.year} ${item.make} ${item.model}`);
+	}, [settitle, data]);
 
 	if (loading) return <IonLoading isOpen={loading} />;
 	return (

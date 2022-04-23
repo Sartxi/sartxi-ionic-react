@@ -55,10 +55,10 @@ interface InvPhotoProps extends APP.ModalContentProps {
 	photos: VINFO.Photo[];
 }
 
-const InvPhotos = ({ photos, setTitle }: InvPhotoProps) => {
+const InvPhotos = ({ photos, settitle }: InvPhotoProps) => {
 	useEffect(() => {
-		setTitle?.("Inventory Photos");
-	}, [setTitle]);
+		settitle?.("Inventory Photos");
+	}, [settitle]);
 
 	return (
 		<div className="flexblock fill center">

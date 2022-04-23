@@ -1,0 +1,35 @@
+@import "../../../../theme/theme.scss";
+
+#ContactOpts {
+    padding: 23px 15px 15px;
+    height: 68vh;
+    .contacter {
+        background-color: var(--ion-color-light-tint);
+    }
+    ion-avatar {
+        height: 75px;
+        width: 75px;
+        text-align: center;
+        margin: 0 auto 20px;
+        img {
+            float: right;
+        }
+    }
+    .creds {
+        margin: 5px 15px;
+        height: 47px;
+        .name {
+            font-family: var(--theme-bold-font);
+            font-size: 1.22em;
+        }
+        .job {
+            display: block;
+            font-size: 0.9em;
+            font-family: var(--theme-font);
+        }
+    }
+    .methods {
+        padding: 17px 0 0;
+        font-size: 1.1em;
+    }
+}

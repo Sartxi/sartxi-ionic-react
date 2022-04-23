@@ -14,7 +14,7 @@ declare global {
 		}
 		interface Page {
 			viewType: Enums.AppViewType;
-			setTitle: (title: string) => void;
+			settitle: (title: string) => void;
 		}
 		interface Routes {
 			routes: Route[];
@@ -35,12 +35,12 @@ declare global {
 			id: string;
 			isOpen: boolean;
 			children?: React.ReactElement,
-			canClose?: boolean;
+			useCloseBtn?: boolean;
 			modalProps: any;
 			onClose: () => void;
 		}
 		interface ModalContentProps {
-			setTitle?: (title: string) => void;
+			settitle?: (title: string) => void;
 		}
 	}
 	namespace VINFO {

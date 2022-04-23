@@ -20,13 +20,6 @@
         .sub {
             display: block;
             font-size: 0.7em;
-
-            &.green {
-                color: var(--ion-color-success);
-            }
-            &.red {
-                color: var(--ion-color-danger);
-            }
         }
     }
 }
