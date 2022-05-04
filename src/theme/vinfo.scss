@@ -10,7 +10,7 @@
 
 	&.desktop {
 		.vinfo-desktop {
-			background-color: var(--ion-color-step-200);
+			background-color: var(--ion-color-step-100);
 			.overlay,
 			.overlay-img {
 				top: 0;
@@ -21,8 +21,8 @@
 			}
 			.overlay {
 				background-color: var(--ion-background-color);
-				-webkit-clip-path: polygon(0% 41%, 0% 127%, 536% -7%);
-				clip-path: polygon(0% 41%, 0% 127%, 536% -7%);
+				-webkit-clip-path: polygon(0% 38%, 0% 127%, 536% -11%);
+				clip-path: polygon(0% 38%, 0% 127%, 536% -11%);
 			}
 			.overlay-img {
 				background-color: var(--ion-background-color);
@@ -37,6 +37,10 @@
 				padding: 0 0 14px;
 				font-size: 1.6em;
 			}
+			.vehicle-photos {
+				width: 630px;
+				min-height: 471px;
+			}
 			.content {
 				z-index: 1;
 				.flex-col {
@@ -48,6 +52,9 @@
 				.flex-col.sections {
 					min-width: 550px;
 					max-width: 1000px;
+					.vinfo-divider {
+						margin-bottom: 12px;
+					}
 					.contact-btns {
 						padding: 32px 26px;
 					}
@@ -96,6 +103,25 @@
 			color: var(--ion-color-step-100);
 		}
 	}
+}
+
+.grad-btn {
+	--x: 50%;
+	--y: 50%;
+
+	&:hover {
+		background: radial-gradient(
+			farthest-corner at var(--x) var(--y),
+			var(--ion-color-primary),
+			var(--ion-color-secondary)
+		) !important;
+	}
+}
+
+.cta-block {
+	width: 80%;
+	margin: 0 auto;
+	padding: 10px;
 }
 
 .vinfo-divider {
@@ -221,6 +247,11 @@
 					@include flex(1 0 30%);
 				}
 			}
+			&.gap-thirty {
+				.block {
+					@include flex(1 0 29%);
+				}
+			}
 		}
 	}
 	&.aln-cnt {
@@ -237,6 +268,9 @@
 	}
 	&.gap-thirty {
 		gap: 30px;
+	}
+	&.gap-hundo {
+		gap: 100px;
 	}
 	&.fill {
 		height: 100%;
@@ -301,5 +335,44 @@
 		display: block;
 		width: 100%;
 		height: 100%;
+	}
+}
+
+.carousel {
+	position: relative;
+	height: 100%;
+	width: 100%;
+	min-height: 470px;
+	.slide {
+		display: none;
+		border-radius: 15px;
+		overflow: hidden;
+		&.center {
+			display: block;
+		}
+	}
+	.prev,
+	.next {
+		position: absolute;
+		top: 48%;
+		background-color: var(--ion-color-primary);
+		z-index: 11;
+		font-size: 1.5em;
+		border-radius: 20px;
+		padding: 2px 4px;
+		height: 33px;
+		width: 33px;
+		cursor: pointer;
+		&:hover {
+			background-color: var(--ion-color-secondary);
+		}
+	}
+	.prev {
+		left: -21px;
+		padding-left: 2px;
+	}
+	.next {
+		right: -21px;
+		padding-left: 6.6px;
 	}
 }

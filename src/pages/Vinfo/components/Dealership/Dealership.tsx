@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { IonIcon, IonImg } from "@ionic/react";
 import { Enums, Helpers, Layout } from "../../../../utils";
-import { useVinfoModal } from "../../../../utils/Hooks";
+import { useFancyGrad, useVinfoModal } from "../../../../utils/Hooks";
 import { Carousel, Map, Modal } from "../../../../components";
 import { locationOutline, mailOutline, phonePortraitOutline, logoFacebook, logoInstagram, logoLinkedin, logoTwitter } from "ionicons/icons";
 
@@ -9,17 +9,15 @@ import "./Dealership.scss";
 
 export const DealershipTile = (layout: VINFO.Layout) => {
     const [isOpen, setIsOpen] = useState(false);
-    const store = layout.page?.vinfo?.inventory?.store ?? null;
-    const photos = store?.store_photos ?? [];
-    const photo = store?.primary_photo_url ?? photos?.[0].full_url;
     const modalProps = useVinfoModal(Enums.VinfoModal.default, { cssClass: "large" });
+    useFancyGrad("DealerBtn");
 
     return (
         <div id="DealerTile" className={Layout.VinfoBlock(layout.page.viewType)}>
             <Modal id="DealerModal" isOpen={isOpen} modalProps={modalProps} onClose={() => setIsOpen(false)}>
                 <Dealership {...layout.page} />
             </Modal>
-            <div className="block shaded rounded btn" onClick={() => setIsOpen(true)}>
+            <div id="DealerBtn" className="block shaded rounded btn grad-btn" onClick={() => setIsOpen(true)}>
                 <IonImg className="icon" src={Layout.SectionIcon(Enums.VinfoSection.dealership, layout.prefersDark)} />
                 <span>Dealership Info</span>
             </div>

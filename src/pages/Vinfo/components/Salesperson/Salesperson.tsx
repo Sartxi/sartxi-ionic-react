@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useVinfoModal } from "../../../../utils/Hooks";
+import { useFancyGrad, useVinfoModal } from "../../../../utils/Hooks";
 import { Enums, Helpers, Layout } from "../../../../utils";
 import { IonAvatar, IonIcon, IonImg } from "@ionic/react";
 import { mailOutline, phonePortraitOutline } from "ionicons/icons";
@@ -9,14 +9,15 @@ import "./Salesperson.scss";
 
 export const SalespersonTile = (layout: VINFO.Layout) => {
     const [isOpen, setIsOpen] = useState(false);
-    const share = layout?.page?.vinfo?.share ?? null;
     const modalProps = useVinfoModal(Enums.VinfoModal.default, { cssClass: "large" });
+    useFancyGrad("SalesBtn");
+
     return (
         <div id="SalespersonTile" className={Layout.VinfoBlock(layout.page.viewType)}>
             <Modal id="SalesmanModal" isOpen={isOpen} modalProps={modalProps} onClose={() => setIsOpen(false)}>
                 <Salesperson {...layout.page} />
             </Modal>
-            <div className="block shaded rounded btn" onClick={() => setIsOpen(true)}>
+            <div id="SalesBtn" className="block shaded rounded btn grad-btn" onClick={() => setIsOpen(true)}>
                 <IonImg className="icon" src={Layout.SectionIcon(Enums.VinfoSection.salesperson, layout.prefersDark)} />
                 <span>Salesperson Info</span>
             </div>
@@ -27,21 +28,14 @@ export const SalespersonTile = (layout: VINFO.Layout) => {
 export const SalespersonMessage = (page: VINFO.Page) => {
     const share = page?.vinfo?.share ?? null;
     return (
-        <div className="flexblock stretch">
+        <div id="SalespersonMessage" className="flexblock stretch">
             <div className="flexblock gap-thirty cols">
                 <IonAvatar>
                     <img src={share.salesperson.photo_url} alt="Salesperson" />
                 </IonAvatar>
-                <div className="flexblock center aln-btm">
-                    <IonIcon icon={mailOutline} size="large" />
-                    <IonIcon icon={phonePortraitOutline} size="large" />
-                </div>
             </div>
             <div className="flexblock cols">
-                <h2 className="creds">
-                    <span className="name">{share.salesperson.name}</span>
-                    <span className="job">{share.salesperson.job_title_name}</span>
-                </h2>
+                {share.salesperson.name} says
                 <div className="comment block">
                     <span className="speak" />
                     {share.customer_message}

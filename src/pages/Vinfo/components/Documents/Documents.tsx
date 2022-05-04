@@ -14,6 +14,7 @@ export const Documents = ({ viewType, vinfo }: VINFO.Page) => {
 	const listProps: (ln: string) => DocList = listName => ({
 		listName,
 		docs: vinfo.documents,
+		viewType,
 		openDoc: doc => console.log(doc)
 	});
 
@@ -30,12 +31,12 @@ export const Documents = ({ viewType, vinfo }: VINFO.Page) => {
 	);
 };
 
-interface DocList { docs: VINFO.Document[], listName: string, openDoc: (document: VINFO.Document) => void, limit?: number | null };
-const DocumentList = ({ docs, listName, openDoc, limit = null }: DocList) => {
+interface DocList { docs: VINFO.Document[], listName: string, viewType: any, openDoc: (document: VINFO.Document) => void, limit?: number | null };
+const DocumentList = ({ docs, listName, openDoc, viewType, limit = null }: DocList) => {
 	const docList = limit ? docs.slice(0, limit) : docs;
 	return (
 		<div id={listName}>
-			<div className="flexblock wrap stretch three-col gap-ten">
+			<div className={`flexblock wrap stretch three-col ${viewType === Enums.AppViewType.desktop ? "gap-thirty" : "gap-ten"}`}>
 				{docList.map(doc => {
 					return (
 						<div key={doc.id} className="block rounded shaded simple btn">

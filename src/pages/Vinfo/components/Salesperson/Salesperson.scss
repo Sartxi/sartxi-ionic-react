@@ -2,7 +2,7 @@
 
 #SalespersonTile {
     padding: 10px;
-    width: 50%;
+    width: 44%;
     height: 72px;
     align-self: center;
     .btn {
@@ -19,6 +19,7 @@
 }
 
 #SalespersonMessage {
+    max-width: 500px;
     ion-avatar {
         width: 90px;
         height: 90px;

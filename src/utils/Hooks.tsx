@@ -37,3 +37,19 @@ export const useVinfoModal = (type: Enums.VinfoModal, props = {}) => {
     }
     return { id: `${new Date()}-${type}`, ...typeProps, ...props };
 }
+
+export const useFancyGrad = (elem: string) => {
+    return useEffect(() => {
+        const btn: HTMLElement | null = document.getElementById(elem);
+        const onMouseMove = (e: any) => {
+            const x = e.pageX - e.target.offsetLeft
+            const y = e.pageY - e.target.offsetTop
+            e.target.style.setProperty("--x", `${x}px`)
+            e.target.style.setProperty("--y", `${y}px`)
+        };
+        if (btn) btn.addEventListener("mousemove", onMouseMove);
+        return () => {
+            if (btn) btn.removeEventListener("mousemove", onMouseMove)
+        }
+    }, [elem]);
+}
