@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Enums } from "./Enums";
 
 export const useWindowResize = (callback: () => void) => {

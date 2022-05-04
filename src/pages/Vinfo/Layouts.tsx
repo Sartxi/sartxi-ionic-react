@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { Enums, Layout } from "../../utils";
 
-import { Welcome, Menu } from "./components";
+import { Logo, Menu } from "./components";
 import { useLayout, useSections } from "./Hooks";
-import { ContactUs, Inventory, Dealership, DealershipTile, Documents, Salesperson, SalespersonTile } from "./components";
+
+import { ContactUs, VehDetail, VehPhotos, Dealership, DealershipTile, Documents, Salesperson, SalespersonTile } from "./components";
+import { Divider } from "../../components/Divider";
+import { IonIcon } from "@ionic/react";
+import { logoFacebook, logoInstagram, logoLinkedin, logoTwitter } from "ionicons/icons";
 
 export const Layouts = (page: VINFO.Page) => {
     const [section, setSection] = useState(Enums.VinfoSection.vehicle);
@@ -14,16 +18,35 @@ export const Layouts = (page: VINFO.Page) => {
 
 export const Desktop = (layout: VINFO.Layout) => {
     return (
-        <div className="content gutters">
-            <div className="flexblock rows center gap-thirty">
-                <div className="flex-col sections">
-                    <Inventory {...layout.page} />
-                    <Documents {...layout.page} />
-                </div>
-                <div className="flex-col">
-                    <Welcome {...layout.page} className="shaded rounded space" />
-                    <DealershipTile {...layout.page} />
-                    <SalespersonTile {...layout.page} />
+        <div className="vinfo-desktop">
+            <div className="overlay-img" />
+            <div className="overlay" />
+            <div className="content gutters">
+                <div className="flexblock rows center gap-thirty">
+                    <div className="flex-col sections">
+                        <Logo {...layout.page} />
+                        <div className="contact-btns flexblock rows center gap-thirty">
+                            <DealershipTile {...layout} />
+                            <SalespersonTile {...layout} />
+                        </div>
+                        <Divider size="large" text="Documents" />
+                        <Documents {...layout.page} />
+                    </div>
+                    <div className="flex-col">
+                        <div className="pad flexblock gap-ten aln-end socials">
+                            <IonIcon icon={logoLinkedin} />
+                            <IonIcon icon={logoFacebook} />
+                            <IonIcon icon={logoTwitter} />
+                            <IonIcon icon={logoInstagram} />
+                        </div>
+                        <div className={Layout.VinfoBlock(layout.page.viewType, "grow vehicle")}>
+                            <VehPhotos {...layout.page} />
+                        </div>
+                        <br />
+                        <div className={Layout.VinfoBlock(layout.page.viewType, "shaded rounded vehicle card")}>
+                            <VehDetail {...layout.page} />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -35,13 +58,16 @@ export const Mobile = (layout: VINFO.Layout) => {
     return (
         <div className="content fill">
             <div className="flexblock cols stretch">
-                <Welcome {...layout.page} />
+                <Logo {...layout.page} />
                 <div className={Layout.VinfoBlock(layout.page.viewType, "animated")}>
                     <div {...salesAttr}>
                         <Salesperson {...layout.page} />
                     </div>
                     <div {...vehicleAttr}>
-                        <Inventory {...layout.page} />
+                        <div className={Layout.VinfoBlock(layout.page.viewType, "grow vehicle")}>
+                            <VehPhotos {...layout.page} />
+                            <VehDetail {...layout.page} />
+                        </div>
                         <Documents {...layout.page} />
                         <ContactUs {...layout.page} />
                     </div>

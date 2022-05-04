@@ -2,24 +2,18 @@
 
 #DealerTile {
     padding: 10px;
-    .store-photo {
-        width: 100px;
-        overflow: hidden;
-        border-radius: 10px;
-        position: relative;
-        top: -10px;
-        right: -10px;
-        border-radius: 0 10px;
-    }
-    .store-name {
-        margin: 5px 10px;
-        .name {
-            font-family: var(--theme-bold-font);
-            font-size: 0.9em;
-        }
-        .sub {
-            display: block;
-            font-size: 0.7em;
+    width: 50%;
+    height: 72px;
+    align-self: center;
+    .btn {
+        height: 100%;
+        width: 100%;
+        text-align: left;
+        font-size: 1em;
+        span {
+            position: relative;
+            top: 14px;
+            right: -8px;
         }
     }
 }

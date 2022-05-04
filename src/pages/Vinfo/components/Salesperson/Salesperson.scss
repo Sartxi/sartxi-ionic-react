@@ -2,6 +2,23 @@
 
 #SalespersonTile {
     padding: 10px;
+    width: 50%;
+    height: 72px;
+    align-self: center;
+    .btn {
+        height: 100%;
+        width: 100%;
+        text-align: left;
+        font-size: 1em;
+        span {
+            position: relative;
+            top: 14px;
+            right: -8px;
+        }
+    }
+}
+
+#SalespersonMessage {
     ion-avatar {
         width: 90px;
         height: 90px;

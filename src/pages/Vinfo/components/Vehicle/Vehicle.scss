@@ -1,6 +1,6 @@
 @import "../../../../theme/theme.scss";
 
-#Inventory {
+.vehicle {
     transition: all 0.7s ease-in;
     .item-photo {
         margin: 0;
@@ -24,10 +24,10 @@
     }
 
     &.desktop .item-photo {
-        height: 40vh;
+        height: 34vh;
     }
 
-    #Detail {
+    .vehicle-detail {
         padding: 15px 18px;
         font-weight: 100;
         position: relative;
@@ -36,6 +36,21 @@
 
         &.tablet {
             margin: 0 60px -32px;
+        }
+
+        &.desktop {
+            h1.specs {
+                font-size: 1.6em;
+            }
+            span.spec {
+                font-size: 0.9em;
+            }
+            h4.price {
+                font-size: 1.7em;
+                strong {
+                    font-size: 30px;
+                }
+            }
         }
 
         h1.specs {
@@ -85,7 +100,7 @@
                 width: 200px;
             }
         }
-        #Detail {
+        .vehicle-detail {
             top: 0;
             background: none;
             margin: 0;

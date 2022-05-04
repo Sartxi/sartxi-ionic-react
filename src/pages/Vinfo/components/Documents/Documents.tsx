@@ -22,7 +22,7 @@ export const Documents = ({ viewType, vinfo }: VINFO.Page) => {
 			<IonModal {...modalProps} isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
 				<DocumentList {...listProps("DocOptions")} />
 			</IonModal>
-			<DocumentList {...listProps("DocButtons")} limit={vinfo.theme.display_docs} />
+			<DocumentList {...listProps("DocButtons")} limit={viewType === Enums.AppViewType.desktop ? 6 : vinfo.theme.display_docs} />
 			<div className="view-more">
 				<span onClick={() => setIsOpen(true)}>View All Documents &amp; Research</span>
 			</div>

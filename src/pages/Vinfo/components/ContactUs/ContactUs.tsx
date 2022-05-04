@@ -12,13 +12,14 @@ export const ContactUs = ({ viewType, vinfo }: VINFO.Page) => {
     const { share, inventory } = vinfo;
 
     const [isOpen, setIsOpen] = useState(false);
-    const modalProps = useVinfoModal(Enums.VinfoModal.sheet, { initialBreakpoint: 0.69, breakpoints: [0, 0.69, 1] });
+    const modalType = viewType === Enums.AppViewType.desktop ? Enums.VinfoModal.default : Enums.VinfoModal.sheet;
+    const modalProps = useVinfoModal(modalType, viewType === Enums.AppViewType.desktop ? {} : { initialBreakpoint: 0.69, breakpoints: [0, 0.69, 1] });
 
     const store = inventory?.store ?? null;
     const storePhoto = store?.primary_photo_url ?? store?.store_photos?.[0].full_url;
 
     return (
-        <>
+        <div className={Layout.VinfoBlock(viewType, "contactus")}>
             <Modal id="ContactUsModal" useCloseBtn={false} modalProps={modalProps} isOpen={isOpen} onClose={() => setIsOpen(false)}>
                 <div id="ContactOpts" className="flexblock cols stretch">
                     <Divider size="large" text="Contact Us" />
@@ -86,12 +87,10 @@ export const ContactUs = ({ viewType, vinfo }: VINFO.Page) => {
                     <IonButton color="primary" expand="block" onClick={() => setIsOpen(false)}>Close</IonButton>
                 </div>
             </Modal>
-            <div className={Layout.VinfoBlock(viewType)}>
-                <br />
-                <div className="fancy-btn" onClick={() => setIsOpen(true)}>
-                    <span>Contact Us!</span>
-                </div>
+            <br />
+            <div className="fancy-btn" onClick={() => setIsOpen(true)}>
+                <span>Contact Us!</span>
             </div>
-        </>
+        </div>
     )
 }

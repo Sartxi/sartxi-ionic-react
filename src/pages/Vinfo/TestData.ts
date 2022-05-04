@@ -167,7 +167,7 @@ export const TestData = {
 			bio_text: "A hip, a hip, a hibbie, to the hibbie, the hip hip hop and you don't stop, you rock. OH dang",
 			photo_url: "https://loopmein-dev.imgix.net/users/e705cf85-6cd4-4e78-acc0-bceaee870ae8.jpg?w=200&facepad=2&faceindex=1&fit=facearea",
 			sales_type_id: 2,
-			name: "Justin Boraccho",
+			name: "Juan Ocho Boraccho",
 			phone: "8015551212",
 			sms_phone: "8015552121",
 			email: "borrachoninja@gmail.com",

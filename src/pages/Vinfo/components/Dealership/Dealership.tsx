@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IonIcon } from "@ionic/react";
+import { IonIcon, IonImg } from "@ionic/react";
 import { Enums, Helpers, Layout } from "../../../../utils";
 import { useVinfoModal } from "../../../../utils/Hooks";
 import { Carousel, Map, Modal } from "../../../../components";
@@ -7,41 +7,23 @@ import { locationOutline, mailOutline, phonePortraitOutline, logoFacebook, logoI
 
 import "./Dealership.scss";
 
-export const DealershipTile = (page: VINFO.Page) => {
+export const DealershipTile = (layout: VINFO.Layout) => {
     const [isOpen, setIsOpen] = useState(false);
-    const store = page?.vinfo?.inventory?.store ?? null;
+    const store = layout.page?.vinfo?.inventory?.store ?? null;
     const photos = store?.store_photos ?? [];
     const photo = store?.primary_photo_url ?? photos?.[0].full_url;
     const modalProps = useVinfoModal(Enums.VinfoModal.default, { cssClass: "large" });
 
     return (
-        <>
+        <div id="DealerTile" className={Layout.VinfoBlock(layout.page.viewType)}>
             <Modal id="DealerModal" isOpen={isOpen} modalProps={modalProps} onClose={() => setIsOpen(false)}>
-                <Dealership {...page} />
+                <Dealership {...layout.page} />
             </Modal>
-            <div id="DealerTile" className={Layout.VinfoBlock(page.viewType, "simple shaded rounded card")}>
-                <div className="flexblock stretch">
-                    <h2 className="store-name">
-                        <span className="name">{store?.name}</span>
-                        <span className={`sub ${store.hours.open_now ? "green" : "red"}`}>{store.hours.open_now ? "open now" : "closed"}</span>
-                    </h2>
-                    <img src={photo} alt={store.name} className="store-photo" />
-                </div>
-                <div className="flexblock stretch aln-btm">
-                    <div className="flexblock stretch gap-ten" onClick={() => setIsOpen(true)}>
-                        <IonIcon icon={locationOutline} size="large" />
-                        <IonIcon icon={mailOutline} size="large" />
-                        <IonIcon icon={phonePortraitOutline} size="large" />
-                    </div>
-                    <div className="flexblock stretch gap-ten">
-                        <IonIcon icon={logoLinkedin} />
-                        <IonIcon icon={logoFacebook} />
-                        <IonIcon icon={logoTwitter} />
-                        <IonIcon icon={logoInstagram} />
-                    </div>
-                </div>
+            <div className="block shaded rounded btn" onClick={() => setIsOpen(true)}>
+                <IonImg className="icon" src={Layout.SectionIcon(Enums.VinfoSection.dealership, layout.prefersDark)} />
+                <span>Dealership Info</span>
             </div>
-        </>
+        </div>
     )
 }
 
