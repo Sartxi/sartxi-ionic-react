@@ -13,6 +13,8 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/zoom";
 
+import "./Components.scss";
+
 const CarouselItem = ({ item, itemClass }: { item: APP.CarouselItem, itemClass: string }) => {
     const { photo, document } = item;
     if (photo) return <IonImg key={photo.url} src={photo.url} className={itemClass} />;
@@ -20,26 +22,29 @@ const CarouselItem = ({ item, itemClass }: { item: APP.CarouselItem, itemClass: 
     else return <span />;
 }
 
-const StandardCarousel = ({ items }: APP.Carousel) => {
-    const [active, setActive] = useState(0);
+const StandardCarousel = ({ items, active, setActive, max, setMax }: APP.CarouselCtrl) => {
     const canSlide = items?.length > 1 ?? false;
-
     return (
-        <div className="carousel">
+        <div className={`carousel${max ? " max" : ""}`}>
             {canSlide && <div className="prev">
                 <IonIcon icon={caretBack} onClick={() => setActive(Helpers.setIndex.prev(active, items.length - 1))} />
             </div>}
-            <div className="animated">
+            <div className="animated" onClick={() => setMax(true)}>
                 {items.map((photo, index) => (<CarouselItem key={photo.id} item={{ photo }} itemClass={`slide${index === active ? " center" : ""}`} />))}
             </div>
             {canSlide && <div className="next">
                 <IonIcon icon={caretForward} onClick={() => setActive(Helpers.setIndex.next(active, items.length - 1))} />
             </div>}
+            {canSlide && <div className="bullets">
+                <div className="bullet-wrap">
+                    {items.map((photo, index) => (<span key={photo.id} onClick={() => setActive(index)} className={`bullet${index === active ? " active" : ""}`}></span>))}
+                </div>
+            </div>}
         </div>
     )
 }
 
-const SwipeCarousel = ({ items }: APP.Carousel) => {
+const SwipeCarousel = ({ items }: APP.CarouselCtrl) => {
     return (
         <Swiper
             modules={[Keyboard, Pagination, Zoom]}
@@ -51,32 +56,11 @@ const SwipeCarousel = ({ items }: APP.Carousel) => {
     )
 }
 
-const MaxCarousel = ({ items }: APP.Carousel) => {
-    const [active, setActive] = useState(0);
-    const canSlide = items?.length > 1 ?? false;
-    return (
-        <div className="carousel">
-            {canSlide && <div className="prev">
-                <IonIcon icon={caretBack} onClick={() => setActive(Helpers.setIndex.prev(active, items.length - 1))} />
-            </div>}
-            <div className="animated">
-                {items.map((photo, index) => (<CarouselItem item={{ photo }} itemClass={`slide${index === active ? " center" : ""}`} />))}
-            </div>
-            {canSlide && <div className="next">
-                <IonIcon icon={caretForward} onClick={() => setActive(Helpers.setIndex.next(active, items.length - 1))} />
-            </div>}
-        </div>
-    )
-}
-
 export const Carousel = (carousel: APP.Carousel) => {
+    const [active, setActive] = useState(carousel.defaultIndex || 0);
+    const [max, setMax] = useState(carousel.type === ENUMS.VinfoCarousel.max);
+    const props: APP.CarouselCtrl = { ...carousel, active, setActive, max, setMax };
     const type = carousel.type ?? ENUMS.VinfoCarousel.standard;
-    switch (type) {
-        case ENUMS.VinfoCarousel.swipe:
-            return <SwipeCarousel {...carousel} />;
-        case ENUMS.VinfoCarousel.max:
-            return <MaxCarousel {...carousel} />;
-        default:
-            return <StandardCarousel {...carousel} />;
-    }
+    if (type === ENUMS.VinfoCarousel.swipe) return <SwipeCarousel {...props} />;
+    return <StandardCarousel {...props} />;
 }

@@ -44,12 +44,24 @@ declare global {
 			settitle?: (title: string) => void;
 		}
 		interface Carousel {
+			defaultIndex?: number;
+			defaultMax?: boolean;
 			items: VINFO.Photo[] | VINFO.Document[],
 			type?: ENUMS.VinfoCarousel
+		}
+		interface CarouselCtrl extends Carousel {
+			active: number;
+			setActive: (index: number) => void;
+			max: boolean;
+			setMax: (active: boolean) => void;
 		}
 		interface CarouselItem {
 			photo?: VINFO.Photo,
 			document?: VINFO.Document
+		}
+		interface Divider {
+			text?: string;
+			size?: string;
 		}
 	}
 	namespace VINFO {

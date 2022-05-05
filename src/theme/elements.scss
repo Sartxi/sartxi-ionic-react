@@ -1,0 +1,165 @@
+@import "./theme.scss";
+
+.fancy-btn {
+	cursor: pointer;
+	text-align: center;
+	background-color: var(--ion-color-step-200);
+	color: white;
+	border-radius: 10px;
+	margin: 0 auto;
+	width: 80%;
+	padding: 5px 20px;
+	span {
+		background-color: var(--ion-color-step-100);
+		display: block;
+		padding: 15px;
+		border-radius: 15px;
+		color: var(--ion-color-success);
+		font-weight: 700;
+		font-size: 1.1em;
+		&:hover,
+		&:active {
+			background-color: var(--ion-color-success);
+			color: var(--ion-color-step-100);
+		}
+	}
+}
+
+.grad-btn {
+	--x: 50%;
+	--y: 50%;
+
+	&:hover {
+		background: radial-gradient(
+			farthest-corner at var(--x) var(--y),
+			var(--ion-color-primary),
+			var(--ion-color-secondary)
+		) !important;
+	}
+}
+
+.block {
+	&.space {
+		padding: 10px 10px 0;
+		&.more {
+			padding: 20px 20px 0;
+		}
+	}
+	&.rounded {
+		border-radius: 15px;
+	}
+	&.shaded {
+		background: var(--ion-color-light);
+		&.btn {
+			cursor: pointer;
+			background-color: var(--ion-color-step-200);
+			&:hover {
+				background-color: var(--ion-color-step-100);
+			}
+			.icon {
+				width: 50px;
+				float: left;
+			}
+		}
+		&.action:hover {
+			cursor: pointer;
+			background-color: var(--ion-color-step-100);
+		}
+		&.darker {
+			background: var(--ion-color-medium);
+		}
+		&.darkest {
+			background: var(--ion-color-dark);
+		}
+		&.transparent {
+			background-color: rgba(var(--ion-color-light-rgb), 0.8);
+		}
+	}
+	&.card {
+		margin-bottom: 10px;
+	}
+	&.tablet.container {
+		padding: 20px 60px;
+	}
+}
+
+.flexblock {
+	@include flexbox();
+	&.rows {
+		&.reverse {
+			flex-direction: row-reverse;
+		}
+	}
+	&.cols {
+		height: 100%;
+		flex-direction: column;
+		&.reverse {
+			flex-direction: column-reverse;
+		}
+	}
+	&.wrap {
+		flex-wrap: wrap;
+		&.reverse {
+			flex-wrap: wrap-reverse;
+		}
+	}
+	&.center {
+		justify-content: center;
+	}
+	&.stretch {
+		justify-content: space-between;
+		&.even {
+			justify-content: space-evenly;
+		}
+		&.three-col {
+			.block {
+				@include flex(1 0 33%);
+			}
+			&.gap-ten {
+				.block {
+					@include flex(1 0 30%);
+				}
+			}
+			&.gap-thirty {
+				.block {
+					@include flex(1 0 29%);
+				}
+			}
+		}
+	}
+	&.aln-cnt {
+		align-items: center;
+	}
+	&.aln-btm {
+		align-items: flex-end;
+	}
+	&.aln-end {
+		justify-content: flex-end;
+	}
+	&.gap-ten {
+		gap: 10px;
+	}
+	&.gap-thirty {
+		gap: 30px;
+	}
+	&.gap-hundo {
+		gap: 100px;
+	}
+	&.fill {
+		height: 100%;
+	}
+	&.pad {
+		padding: 5px;
+	}
+	.grow {
+		@include flex(2 0px);
+		flex-grow: 1;
+	}
+}
+
+.green {
+	color: var(--ion-color-success);
+}
+.red {
+	color: var(--ion-color-danger);
+}

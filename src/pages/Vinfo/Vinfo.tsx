@@ -6,8 +6,6 @@ import { Layout } from "../../utils";
 import { IonLoading } from "@ionic/react";
 import { Layouts } from "./Layouts";
 
-import "../../theme/vinfo.scss";
-
 export const Vinfo = (page: APP.Route) => {
 	const location = useLoc(page);
 	const { loading, data } = useVinfo(location);

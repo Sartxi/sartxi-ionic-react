@@ -3,6 +3,8 @@ import { IonRouterOutlet } from "@ionic/react";
 import { App404, AppPage } from ".";
 import { VinSearch } from "../pages";
 
+import "./Components.scss";
+
 export const AppRoutes = ({ routes }: APP.Routes) => {
 	return (
 		<IonRouterOutlet>

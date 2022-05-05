@@ -1,9 +1,6 @@
-interface Divider {
-    text?: string;
-    size?: string;
-}
+import "./Components.scss";
 
-export const Divider = ({ text = "", size = "small" }: Divider) => {
+export const Divider = ({ text = "", size = "small" }: APP.Divider) => {
     return (
         <div className="vinfo-divider"><strong className={size}>{text}</strong></div>
     )

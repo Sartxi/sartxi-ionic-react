@@ -10,6 +10,8 @@ import { useFancyGrad } from "../../utils/Hooks";
 import { SalespersonMessage } from "./components/Salesperson/Salesperson";
 import { Carousel } from "../../components";
 
+import "./Layout.scss";
+
 export const Layouts = (page: VINFO.Page) => {
     const [section, setSection] = useState(ENUMS.VinfoSection.vehicle);
     const prefersDark = document.querySelector("html")?.getAttribute("vinfo-theme") === "dark";
@@ -26,8 +28,8 @@ export const Desktop = (layout: VINFO.Layout) => {
         <div className="vinfo-desktop">
             <div className="overlay-img" />
             <div className="overlay" />
-            <div className="content gutters flexblock cols gap-hundo">
-                <div className="flexblock rows center gap-thirty">
+            <div className="content gutters vh flexblock cols gap-hundo">
+                <div className="flexblock rows center gap-hundo">
                     <div className="flex-col sections">
                         <Logo {...layout.page} />
                         <div className="contact-btns flexblock rows center gap-thirty">
@@ -53,7 +55,9 @@ export const Desktop = (layout: VINFO.Layout) => {
                         </div>
                     </div>
                 </div>
-                <div className="cta-block block rounded shaded">
+            </div>
+            <div className="cta-block block shaded">
+                <div className="content gutters">
                     <div className="flexblock rows stretch gap-ten">
                         <SalespersonMessage {...layout.page} />
                         <div className="pad flexblock gap-ten aln-end">
