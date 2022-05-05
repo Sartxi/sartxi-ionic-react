@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Enums, Helpers, Layout } from "../../utils";
+import { ENUMS, Helpers, Layout } from "../../utils";
 import { TestData, theme } from "./TestData";
 import { Desktop, Mobile } from "./Layouts";
 const WebFont = require('webfontloader');
@@ -26,7 +26,7 @@ export const useDarkModeSetting = () => {
 }
 
 export const useVinfo = ({ type, token, params }: APP.Location): VINFO.Data => {
-	const isLead = type === Enums.VinfoType.lead;
+	const isLead = type === ENUMS.VinfoType.lead;
 
 	if (isLead) console.log("use lead GQL", `uuid: ${token}`);
 	else console.log("use vin GQL", `vin: ${token}, store_code: ${params.store_code}`);
@@ -39,7 +39,7 @@ export const useVinfo = ({ type, token, params }: APP.Location): VINFO.Data => {
 };
 
 export const useLayout = (layout: VINFO.Layout) => {
-	const isDesktop = layout.page.viewType === Enums.AppViewType.desktop;
+	const isDesktop = layout.page.viewType === ENUMS.AppViewType.desktop;
 	return <>{isDesktop ? <Desktop {...layout} /> : <Mobile {...layout} />}</>
 }
 
@@ -75,14 +75,14 @@ const useTheme = (vinfo: VINFO.Detail) => {
 	}, [vinfo.theme, prefersDark])
 }
 
-export const useSectionPositions = (section: Enums.VinfoSection): Enums.VinfoMenuPosition[] => {
-	const pos = Helpers.arrayFromEnum(Enums.VinfoMenuPosition);
+export const useSectionPositions = (section: ENUMS.VinfoSection): ENUMS.VinfoMenuPosition[] => {
+	const pos = Helpers.arrayFromEnum(ENUMS.VinfoMenuPosition);
 	let positions: any[] = pos;
 	switch (section) {
-		case Enums.VinfoSection.salesperson:
+		case ENUMS.VinfoSection.salesperson:
 			positions = [pos[1], pos[2], pos[0]];
 			break;
-		case Enums.VinfoSection.dealership:
+		case ENUMS.VinfoSection.dealership:
 			positions = [pos[2], pos[0], pos[1]];
 			break;
 		default:
@@ -93,8 +93,8 @@ export const useSectionPositions = (section: Enums.VinfoSection): Enums.VinfoMen
 
 export const useSections = (layout: VINFO.Layout) => {
 	const positions = useSectionPositions(layout.section);
-	const sections = Helpers.arrayFromEnum(Enums.VinfoSection);
-	const animation = layout.page.viewType !== Enums.AppViewType.desktop ? "slide" : "fade";
-	const slideAttr = (section: Enums.VinfoSection) => ({ className: Layout.VinfoBlock(layout.page.viewType, `grow ${animation} ${positions[sections.indexOf(section)]}`) });
+	const sections = Helpers.arrayFromEnum(ENUMS.VinfoSection);
+	const animation = layout.page.viewType !== ENUMS.AppViewType.desktop ? "slide" : "fade";
+	const slideAttr = (section: ENUMS.VinfoSection) => ({ className: Layout.VinfoBlock(layout.page.viewType, `grow ${animation} ${positions[sections.indexOf(section)]}`) });
 	return sections.map((section: any) => (slideAttr(section)));
 }

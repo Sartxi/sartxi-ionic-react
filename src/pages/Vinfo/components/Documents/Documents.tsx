@@ -1,6 +1,6 @@
 import { IonModal } from "@ionic/react";
 import { useState } from "react";
-import { Enums, Layout } from "../../../../utils";
+import { ENUMS, Layout } from "../../../../utils";
 import { useVinfoModal } from "../../../../utils/Hooks";
 
 import "./Documents.scss";
@@ -8,8 +8,8 @@ import "./Documents.scss";
 export const Documents = ({ viewType, vinfo }: VINFO.Page) => {
 	const [isOpen, setIsOpen] = useState(false);
 
-	const modalType = viewType === Enums.AppViewType.desktop ? Enums.VinfoModal.default : Enums.VinfoModal.sheet;
-	const modalProps = useVinfoModal(modalType, viewType === Enums.AppViewType.desktop ? { cssClass: "large" } : undefined);
+	const modalType = viewType === ENUMS.AppViewType.desktop ? ENUMS.VinfoModal.default : ENUMS.VinfoModal.sheet;
+	const modalProps = useVinfoModal(modalType, viewType === ENUMS.AppViewType.desktop ? { cssClass: "large" } : undefined);
 
 	const listProps: (ln: string) => DocList = listName => ({
 		listName,
@@ -23,7 +23,7 @@ export const Documents = ({ viewType, vinfo }: VINFO.Page) => {
 			<IonModal {...modalProps} isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
 				<DocumentList {...listProps("DocOptions")} />
 			</IonModal>
-			<DocumentList {...listProps("DocButtons")} limit={viewType === Enums.AppViewType.desktop ? 6 : vinfo.theme.display_docs} />
+			<DocumentList {...listProps("DocButtons")} limit={viewType === ENUMS.AppViewType.desktop ? 6 : vinfo.theme.display_docs} />
 			<div className="view-more">
 				<span onClick={() => setIsOpen(true)}>View All Documents &amp; Research</span>
 			</div>
@@ -36,7 +36,7 @@ const DocumentList = ({ docs, listName, openDoc, viewType, limit = null }: DocLi
 	const docList = limit ? docs.slice(0, limit) : docs;
 	return (
 		<div id={listName}>
-			<div className={`flexblock wrap stretch three-col ${viewType === Enums.AppViewType.desktop ? "gap-thirty" : "gap-ten"}`}>
+			<div className={`flexblock wrap stretch three-col ${viewType === ENUMS.AppViewType.desktop ? "gap-thirty" : "gap-ten"}`}>
 				{docList.map(doc => {
 					return (
 						<div key={doc.id} className="block rounded shaded simple btn">

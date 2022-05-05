@@ -1,18 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import { Enums, Layout, Helpers } from "./utils";
+import { Layout, Helpers, ENUMS } from "./utils";
 import { useWindowResize } from "./utils/Hooks";
-
 import { Vinfo } from "./pages";
 
 export const useApp = (): APP.App => {
-	const types: any[] = Helpers.arrayFromEnum(Enums.VinfoType);
+	const types: any[] = Helpers.arrayFromEnum(ENUMS.VinfoType);
 	const vinfo = types.map(id => ({ id, name: Helpers.vinfo, path: `/${id}/:id`, view: Vinfo }));
 	return { routes: vinfo };
 };
 
 export const usePage = (page: APP.Route): APP.Page => {
-	const [viewType, setViewType] = useState(Enums.AppViewType.mobile);
+	const [viewType, setViewType] = useState(ENUMS.AppViewType.mobile);
 	const selectViewType = useCallback(() => setViewType(Layout.ViewType()), []);
 
 	useEffect(() => selectViewType(), [page, selectViewType]);
@@ -30,4 +29,4 @@ export const useLoc = (page: any): APP.Location => {
 	};
 };
 
-export const menuEventActions = [Enums.VinfoMenuPosition.left, Enums.VinfoMenuPosition.right];
+export const menuEventActions = [ENUMS.VinfoMenuPosition.left, ENUMS.VinfoMenuPosition.right];

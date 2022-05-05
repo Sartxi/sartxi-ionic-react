@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useFancyGrad, useVinfoModal } from "../../../../utils/Hooks";
-import { Enums, Helpers, Layout } from "../../../../utils";
+import { ENUMS, Helpers, Layout } from "../../../../utils";
 import { IonAvatar, IonIcon, IonImg } from "@ionic/react";
 import { mailOutline, phonePortraitOutline } from "ionicons/icons";
 import { Modal } from "../../../../components";
@@ -9,7 +9,7 @@ import "./Salesperson.scss";
 
 export const SalespersonTile = (layout: VINFO.Layout) => {
     const [isOpen, setIsOpen] = useState(false);
-    const modalProps = useVinfoModal(Enums.VinfoModal.default, { cssClass: "large" });
+    const modalProps = useVinfoModal(ENUMS.VinfoModal.default, { cssClass: "large" });
     useFancyGrad("SalesBtn");
 
     return (
@@ -18,7 +18,7 @@ export const SalespersonTile = (layout: VINFO.Layout) => {
                 <Salesperson {...layout.page} />
             </Modal>
             <div id="SalesBtn" className="block shaded rounded btn grad-btn" onClick={() => setIsOpen(true)}>
-                <IonImg className="icon" src={Layout.SectionIcon(Enums.VinfoSection.salesperson, layout.prefersDark)} />
+                <IonImg className="icon" src={Layout.SectionIcon(ENUMS.VinfoSection.salesperson, layout.prefersDark)} />
                 <span>Salesperson Info</span>
             </div>
         </div>

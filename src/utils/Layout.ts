@@ -1,24 +1,28 @@
 import { menuEventActions } from "../Config";
-import { Enums } from "./Enums";
-import { Helpers } from "./Helpers";
+import { ENUMS, Helpers } from "./";
 
-export namespace Layout {
-	export const ViewType = () => {
-		const res = window.innerWidth;
-		let type = Enums.AppViewType.mobile;
-		if (res < 768) type = Enums.AppViewType.mobile;
-		else if (res >= 768 && res < 990) type = Enums.AppViewType.tablet;
-		else if (res >= 990) type = Enums.AppViewType.desktop;
-		return type;
-	};
-	export const VinfoBlock = (viewType: Enums.AppViewType, decorators?: string) => `block ${Enums.AppViewType[viewType]} ${decorators ? decorators : "simple"}`
-	export const SectionIcon = (section: Enums.VinfoSection, prefersDark: boolean) => `/assets/images/icon_${section}_${prefersDark ? "dark" : "light"}.png`;
-	export const HandleMenuSelection = (menu: HTMLElement, position: Enums.VinfoMenuPosition) => {
-		const animateLeft: string[] = ["fadeIn 4s", "centerLeft 1s", "rightCenter 1s"];
-		const animateRight: string[] = ["leftCenter 1s", "centerRight 1s", "fadeIn 4s"];
-		const animation: string[] = position === Enums.VinfoMenuPosition.right ? animateLeft : animateRight;
-		const positions: any[] = Helpers.arrayFromEnum(Enums.VinfoMenuPosition);
-		if (menuEventActions.includes(position)) Array.from(menu.children).forEach(element => positions.forEach((position, index) => Helpers.animateElemByClass(element, position, animation[index])));
-	}
+const ViewType = () => {
+	const res = window.innerWidth;
+	let type = ENUMS.AppViewType.mobile;
+	if (res < 768) type = ENUMS.AppViewType.mobile;
+	else if (res >= 768 && res < 990) type = ENUMS.AppViewType.tablet;
+	else if (res >= 990) type = ENUMS.AppViewType.desktop;
+	return type;
+};
+const VinfoBlock = (viewType: ENUMS.AppViewType, decorators?: string) => `block ${ENUMS.AppViewType[viewType]} ${decorators ? decorators : "simple"}`
+const SectionIcon = (section: ENUMS.VinfoSection, prefersDark: boolean) => `/assets/images/icon_${section}_${prefersDark ? "dark" : "light"}.png`;
+const HandleMenuSelection = (menu: HTMLElement, position: ENUMS.VinfoMenuPosition) => {
+	const animateLeft: string[] = ["fadeIn 4s", "centerLeft 1s", "rightCenter 1s"];
+	const animateRight: string[] = ["leftCenter 1s", "centerRight 1s", "fadeIn 4s"];
+	const animation: string[] = position === ENUMS.VinfoMenuPosition.right ? animateLeft : animateRight;
+	const positions: any[] = Helpers.arrayFromEnum(ENUMS.VinfoMenuPosition);
+	if (menuEventActions.includes(position)) Array.from(menu.children).forEach(element => positions.forEach((position, index) => Helpers.animateElemByClass(element, position, animation[index])));
+}
+
+export const Layout = {
+	ViewType,
+	VinfoBlock,
+	SectionIcon,
+	HandleMenuSelection
 }
 

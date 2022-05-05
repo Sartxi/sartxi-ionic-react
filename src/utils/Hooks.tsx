@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Enums } from "./Enums";
+import { ENUMS } from "./Enums";
 
 export const useWindowResize = (callback: () => void) => {
     return useEffect(() => {
@@ -8,17 +8,17 @@ export const useWindowResize = (callback: () => void) => {
     }, [callback]);
 }
 
-export const useVinfoModal = (type: Enums.VinfoModal, props = {}) => {
+export const useVinfoModal = (type: ENUMS.VinfoModal, props = {}) => {
     let typeProps;
     switch (type) {
-        case Enums.VinfoModal.card:
+        case ENUMS.VinfoModal.card:
             typeProps = {
                 handle: true,
                 canDismiss: true,
                 swipeToClose: true,
             };
             break;
-        case Enums.VinfoModal.sheet:
+        case ENUMS.VinfoModal.sheet:
             typeProps = {
                 handle: true,
                 canDismiss: true,
@@ -41,15 +41,11 @@ export const useVinfoModal = (type: Enums.VinfoModal, props = {}) => {
 export const useFancyGrad = (elem: string) => {
     return useEffect(() => {
         const btn: HTMLElement | null = document.getElementById(elem);
-        const onMouseMove = (e: any) => {
-            const x = e.pageX - e.target.offsetLeft
-            const y = e.pageY - e.target.offsetTop
-            e.target.style.setProperty("--x", `${x}px`)
-            e.target.style.setProperty("--y", `${y}px`)
+        const onMouseMove = (ev: any) => {
+            ev.target.style.setProperty("--x", `${ev.pageX - ev.target.offsetLeft}px`)
+            ev.target.style.setProperty("--y", `${ev.pageY - ev.target.offsetTop}px`)
         };
-        if (btn) btn.addEventListener("mousemove", onMouseMove);
-        return () => {
-            if (btn) btn.removeEventListener("mousemove", onMouseMove)
-        }
+        btn?.addEventListener("mousemove", onMouseMove);
+        return () => btn?.removeEventListener("mousemove", onMouseMove);
     }, [elem]);
 }

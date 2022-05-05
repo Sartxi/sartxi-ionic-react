@@ -1,6 +1,7 @@
-import { Enums } from "./Enums";
+import { ENUMS } from "./";
 
 export { };
+
 declare global {
 	namespace APP {
 		interface App {
@@ -13,23 +14,23 @@ declare global {
 			view?: any;
 		}
 		interface Page {
-			viewType: Enums.AppViewType;
+			viewType: ENUMS.AppViewType;
 			settitle: (title: string) => void;
 		}
 		interface Routes {
 			routes: Route[];
 		}
 		interface Location {
-			type: Enums.VinfoType;
+			type: ENUMS.VinfoType;
 			token: string;
 			params: any;
 		}
 		interface Header {
 			title: string;
-			viewType: Enums.AppViewType;
+			viewType: ENUMS.AppViewType;
 		}
 		interface Footer {
-			viewType: Enums.AppViewType;
+			viewType: ENUMS.AppViewType;
 		}
 		interface Modal {
 			id: string;
@@ -42,6 +43,14 @@ declare global {
 		interface ModalContentProps {
 			settitle?: (title: string) => void;
 		}
+		interface Carousel {
+			items: VINFO.Photo[] | VINFO.Document[],
+			type?: ENUMS.VinfoCarousel
+		}
+		interface CarouselItem {
+			photo?: VINFO.Photo,
+			document?: VINFO.Document
+		}
 	}
 	namespace VINFO {
 		interface Data {
@@ -51,14 +60,14 @@ declare global {
 		}
 		interface Page {
 			vinfo: Detail;
-			viewType: Enums.AppViewType;
+			viewType: ENUMS.AppViewType;
 			className?: string;
 		}
 		interface Layout {
 			page: Page;
-			sections?: Enums.VinfoSection[];
-			section: Enums.VinfoSection;
-			setSection: (section: Enums.VinfoSection) => void;
+			sections?: ENUMS.VinfoSection[];
+			section: ENUMS.VinfoSection;
+			setSection: (section: ENUMS.VinfoSection) => void;
 			prefersDark: boolean;
 			itemText?: any;
 		}
@@ -114,7 +123,7 @@ declare global {
 			document_sort_order: number;
 			document_type_description: string;
 			document_type_name: string;
-			full_url: string;
+			full_url?: string;
 			is_active: boolean;
 			is_approved: boolean;
 			is_external: boolean;

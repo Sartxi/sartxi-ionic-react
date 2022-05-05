@@ -3,7 +3,7 @@ import { locationOutline, mailOutline, phonePortraitOutline, logoFacebook, logoI
 import { useState } from "react";
 import { Modal } from "../../../../components";
 import { Divider } from "../../../../components/Divider";
-import { Enums, Helpers, Layout } from "../../../../utils";
+import { ENUMS, Helpers, Layout } from "../../../../utils";
 import { useVinfoModal } from "../../../../utils/Hooks";
 
 import "./ContactUs.scss";
@@ -12,8 +12,8 @@ export const ContactUs = ({ viewType, vinfo }: VINFO.Page) => {
     const { share, inventory } = vinfo;
 
     const [isOpen, setIsOpen] = useState(false);
-    const modalType = viewType === Enums.AppViewType.desktop ? Enums.VinfoModal.default : Enums.VinfoModal.sheet;
-    const modalProps = useVinfoModal(modalType, viewType === Enums.AppViewType.desktop ? {} : { initialBreakpoint: 0.69, breakpoints: [0, 0.69, 1] });
+    const modalType = viewType === ENUMS.AppViewType.desktop ? ENUMS.VinfoModal.default : ENUMS.VinfoModal.sheet;
+    const modalProps = useVinfoModal(modalType, viewType === ENUMS.AppViewType.desktop ? {} : { initialBreakpoint: 0.69, breakpoints: [0, 0.69, 1] });
 
     const store = inventory?.store ?? null;
     const storePhoto = store?.primary_photo_url ?? store?.store_photos?.[0].full_url;

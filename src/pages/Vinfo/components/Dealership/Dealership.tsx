@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { IonIcon, IonImg } from "@ionic/react";
-import { Enums, Helpers, Layout } from "../../../../utils";
+import { ENUMS, Helpers, Layout } from "../../../../utils";
 import { useFancyGrad, useVinfoModal } from "../../../../utils/Hooks";
 import { Carousel, Map, Modal } from "../../../../components";
 import { locationOutline, mailOutline, phonePortraitOutline, logoFacebook, logoInstagram, logoLinkedin, logoTwitter } from "ionicons/icons";
@@ -9,7 +9,7 @@ import "./Dealership.scss";
 
 export const DealershipTile = (layout: VINFO.Layout) => {
     const [isOpen, setIsOpen] = useState(false);
-    const modalProps = useVinfoModal(Enums.VinfoModal.default, { cssClass: "large" });
+    const modalProps = useVinfoModal(ENUMS.VinfoModal.default, { cssClass: "large" });
     useFancyGrad("DealerBtn");
 
     return (
@@ -18,7 +18,7 @@ export const DealershipTile = (layout: VINFO.Layout) => {
                 <Dealership {...layout.page} />
             </Modal>
             <div id="DealerBtn" className="block shaded rounded btn grad-btn" onClick={() => setIsOpen(true)}>
-                <IonImg className="icon" src={Layout.SectionIcon(Enums.VinfoSection.dealership, layout.prefersDark)} />
+                <IonImg className="icon" src={Layout.SectionIcon(ENUMS.VinfoSection.dealership, layout.prefersDark)} />
                 <span>Dealership Info</span>
             </div>
         </div>
@@ -34,15 +34,15 @@ export const Dealership = (page: VINFO.Page) => {
     const photo = store?.primary_photo_url ?? photos?.[0].full_url;
     const today = Helpers.days[new Date().getDay()];
 
-    const photosProps = useVinfoModal(Enums.VinfoModal.default);
-    const mapsProps = useVinfoModal(Enums.VinfoModal.sheet);
+    const photosProps = useVinfoModal(ENUMS.VinfoModal.default);
+    const mapsProps = useVinfoModal(ENUMS.VinfoModal.sheet);
 
     if (!store) return <span />;
     else return (
         <div id="Dealership" className={Layout.VinfoBlock(page.viewType, "grow")}>
             <Modal id="DealerPhotos" isOpen={openPhotos} modalProps={photosProps} onClose={() => setIsOpenPhotos(false)}>
                 <div className="flexblock fill center">
-                    <Carousel photos={photos} />
+                    <Carousel items={photos} />
                 </div>
             </Modal>
             <Modal id="MapModal" isOpen={openMaps} modalProps={mapsProps} onClose={() => setIsOpenMaps(false)}>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Enums, Helpers } from "../../../../utils";
+import { ENUMS, Helpers } from "../../../../utils";
 import { useVinfoModal } from "../../../../utils/Hooks";
-import { SwipeCarousel, Modal } from "../../../../components";
+import { Carousel, Modal } from "../../../../components";
 
 interface InvPhotoProps extends APP.ModalContentProps {
     photos: VINFO.Photo[];
@@ -11,9 +11,7 @@ export const VehPhotos = (page: VINFO.Page) => {
     const [isOpen, setIsOpen] = useState(false);
     const photos = page?.vinfo?.inventory?.inventory_item_photos ?? [];
     const photo = photos?.[0]?.url ?? undefined;
-
-    const modalProps = useVinfoModal(Enums.VinfoModal.default, page.viewType === Enums.AppViewType.desktop ? { cssClass: "large" } : undefined);
-    const showPhotos = page.viewType === Enums.AppViewType.desktop && photos.length >= 2 ? true : false;
+    const modalProps = useVinfoModal(ENUMS.VinfoModal.default, page.viewType === ENUMS.AppViewType.desktop ? { cssClass: "large" } : undefined);
 
     return (
         <>
@@ -34,7 +32,7 @@ const InvPhotos = ({ photos, settitle }: InvPhotoProps) => {
 
     return (
         <div className="flexblock fill center">
-            <SwipeCarousel photos={photos} />
+            <Carousel type={ENUMS.VinfoCarousel.swipe} items={photos} />
         </div>
     )
 }

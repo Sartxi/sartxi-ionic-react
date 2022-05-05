@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { Enums, Layout } from "../../utils";
-
+import { ENUMS, Layout } from "../../utils";
 import { Logo, Menu } from "./components";
 import { useLayout, useSections } from "./Hooks";
-
 import { ContactUs, VehDetail, VehPhotos, Dealership, DealershipTile, Documents, Salesperson, SalespersonTile } from "./components";
 import { Divider } from "../../components/Divider";
 import { IonIcon } from "@ionic/react";
@@ -13,7 +11,7 @@ import { SalespersonMessage } from "./components/Salesperson/Salesperson";
 import { Carousel } from "../../components";
 
 export const Layouts = (page: VINFO.Page) => {
-    const [section, setSection] = useState(Enums.VinfoSection.vehicle);
+    const [section, setSection] = useState(ENUMS.VinfoSection.vehicle);
     const prefersDark = document.querySelector("html")?.getAttribute("vinfo-theme") === "dark";
     const layoutProps: VINFO.Layout = { page, section, setSection, prefersDark };
     return useLayout(layoutProps);
@@ -47,7 +45,7 @@ export const Desktop = (layout: VINFO.Layout) => {
                             <IonIcon icon={logoInstagram} />
                         </div>
                         <div className={Layout.VinfoBlock(layout.page.viewType, "grow vehicle-photos")}>
-                            <Carousel photos={photos} />
+                            <Carousel type={ENUMS.VinfoCarousel.standard} items={photos} />
                         </div>
                         <br />
                         <div className={Layout.VinfoBlock(layout.page.viewType, "shaded rounded vehicle card")}>
