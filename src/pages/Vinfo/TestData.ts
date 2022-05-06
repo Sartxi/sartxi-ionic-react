@@ -48,10 +48,6 @@ export const TestData = {
 					url: "https://loopmein-dev.imgix.net/inventory/1d7a2c8c-ad3c-4044-93e2-3022702f3120.jpg"
 				},
 				{
-					id: 82,
-					url: "https://loopmein-dev.imgix.net/inventory/1d7a2c8c-ad3c-4044-93e2-3022702f3120.jpg"
-				},
-				{
 					id: 825,
 					url: "https://loopmein-dev.imgix.net/inventory/c32ea9aa-d92c-4d0c-8f12-43f5152ba836.jpg"
 				},
@@ -61,6 +57,18 @@ export const TestData = {
 				},
 				{
 					id: 852,
+					url: "https://loopmein-dev.imgix.net/inventory/271a53c9-785b-4e7a-a1e6-2f2c27673ad7.jpg"
+				},
+				{
+					id: 8255,
+					url: "https://loopmein-dev.imgix.net/inventory/c32ea9aa-d92c-4d0c-8f12-43f5152ba836.jpg"
+				},
+				{
+					id: 8422,
+					url: "https://loopmein-dev.imgix.net/inventory/5a9edc42-79c4-47fb-b01b-1597352fb77e.jpg"
+				},
+				{
+					id: 152,
 					url: "https://loopmein-dev.imgix.net/inventory/271a53c9-785b-4e7a-a1e6-2f2c27673ad7.jpg"
 				}
 			],
@@ -559,16 +567,3 @@ export const TestData = {
 	user_ips: "127.0.0.1",
 	show_salesperson: true
 };
-
-
-export const theme = {
-	font_type: "google",
-	font: "Open Sans",
-	font_family: "sans-serif",
-	bold_font: "Akshar",
-	bold_font_family: "sans-serif",
-	primary_color: "#ae72af",
-	secondary_color: "#1dafec",
-	dark_mode: true,
-	display_docs: 3
-}

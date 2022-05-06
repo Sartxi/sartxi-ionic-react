@@ -45,16 +45,92 @@
     }
 }
 
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--backdrop-color);
+    opacity: 0.32;
+}
+
 .carousel {
     position: relative;
     min-height: 470px;
     &.max {
-        position: fixed;
-        top: 10px;
-        left: 10px;
+        position: absolute;
+        top: 32px;
+        left: 0;
+        right: 0;
+        bottom: 0;
         z-index: 11;
-        min-height: 100%;
+        height: 88vh;
         width: 100%;
+        max-width: 1330px;
+        padding: 20px;
+        animation: fadeIn 1s;
+        .item {
+            cursor: default;
+            width: 100%;
+            height: 88%;
+            background-color: var(--ion-background-color);
+            border-radius: 20px;
+            ion-img {
+                width: 100%;
+                margin: 0 auto;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+        .item-slides {
+            width: 100%;
+            max-height: 95px;
+            .item-slide-wrap {
+                padding: 5px;
+                display: flex;
+                justify-content: center;
+                position: relative;
+                ion-img {
+                    display: inline-block;
+                    height: 79px;
+                    border-radius: 15px;
+                    margin-right: 10px;
+                    cursor: pointer;
+                }
+                .slide {
+                    &.center {
+                        border: 4px solid var(--ion-color-primary);
+                    }
+                }
+                .close-icon {
+                    position: absolute;
+                    bottom: -11px;
+                    right: -35px;
+                    ion-icon {
+                        font-size: 44px !important;
+                        cursor: pointer;
+                    }
+                    &:hover {
+                        ion-icon {
+                            color: var(--ion-color-primary);
+                        }
+                    }
+                }
+            }
+        }
+        .prev {
+            left: -33px;
+        }
+        .next,
+        .prev {
+            font-size: 4em;
+            top: 48%;
+            background-color: transparent;
+        }
+    }
+    .item {
+        cursor: pointer;
     }
     .slide {
         display: none;
@@ -100,7 +176,7 @@
 
     .bullets {
         position: absolute;
-        bottom: -2px;
+        bottom: -7px;
         z-index: 11;
         text-align: center;
         margin: 0 auto;
@@ -108,7 +184,7 @@
         display: flex;
 
         .bullet-wrap {
-            height: 17px;
+            height: 25px;
             background-color: var(--ion-background-color);
             margin: 0 auto;
             border-radius: 12px 12px 0 0;

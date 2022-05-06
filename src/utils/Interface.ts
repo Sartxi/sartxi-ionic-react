@@ -75,6 +75,18 @@ declare global {
 			viewType: ENUMS.AppViewType;
 			className?: string;
 		}
+		interface Theme {
+			font_type: string;
+			font: string;
+			font_family: string;
+			bold_font: string;
+			bold_font_family: string;
+			primary_color: string;
+			secondary_color: string;
+			tertiary_color: string;
+			dark_mode?: boolean | null;
+			display_docs?: number;
+		}
 		interface Layout {
 			page: Page;
 			sections?: ENUMS.VinfoSection[];
@@ -88,7 +100,7 @@ declare global {
 			inventory: Inventory;
 			documents: Document[];
 			share: Lead;
-			theme: any;
+			theme: Theme;
 		}
 		interface Lead {
 			customer_email: string;
@@ -149,6 +161,7 @@ declare global {
 			url?: string;
 		}
 		interface Store {
+			id: number;
 			name: string;
 			store_type_id: number;
 			logo_url: string;

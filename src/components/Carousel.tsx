@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IonIcon, IonImg } from "@ionic/react";
 import { ENUMS, Helpers } from "../utils";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Keyboard, Pagination, Zoom } from "swiper";
-import { caretBack, caretForward } from "ionicons/icons";
+import { caretBack, caretForward, closeCircleOutline } from "ionicons/icons";
 
 import "@ionic/react/css/ionic-swiper.css";
 import "swiper/css";
@@ -25,22 +25,31 @@ const CarouselItem = ({ item, itemClass }: { item: APP.CarouselItem, itemClass: 
 const StandardCarousel = ({ items, active, setActive, max, setMax }: APP.CarouselCtrl) => {
     const canSlide = items?.length > 1 ?? false;
     return (
-        <div className={`carousel${max ? " max" : ""}`}>
-            {canSlide && <div className="prev">
-                <IonIcon icon={caretBack} onClick={() => setActive(Helpers.setIndex.prev(active, items.length - 1))} />
-            </div>}
-            <div className="animated" onClick={() => setMax(true)}>
-                {items.map((photo, index) => (<CarouselItem key={photo.id} item={{ photo }} itemClass={`slide${index === active ? " center" : ""}`} />))}
-            </div>
-            {canSlide && <div className="next">
-                <IonIcon icon={caretForward} onClick={() => setActive(Helpers.setIndex.next(active, items.length - 1))} />
-            </div>}
-            {canSlide && <div className="bullets">
-                <div className="bullet-wrap">
-                    {items.map((photo, index) => (<span key={photo.id} onClick={() => setActive(index)} className={`bullet${index === active ? " active" : ""}`}></span>))}
+        <>
+            {max ? <div className="backdrop" onClick={() => setMax(false)} /> : ""}
+            <div className={`carousel${max ? " max" : ""}`}>
+                {canSlide && max && <div className="item-slides">
+                    <div className="item-slide-wrap">
+                        {items.map((photo, index) => (<span key={photo.id} onClick={() => setActive(index)}><CarouselItem item={{ photo }} itemClass={`slide${index === active ? " center" : ""}`} /></span>))}
+                        <span className="close-icon"><IonIcon icon={closeCircleOutline} size="large" onClick={() => setMax(false)} /></span>
+                    </div>
+                </div>}
+                {canSlide && <div className="prev">
+                    <IonIcon icon={caretBack} onClick={() => setActive(Helpers.setIndex.prev(active, items.length - 1))} />
+                </div>}
+                <div className={`item animated`} onClick={() => setMax(true)}>
+                    {items.map((photo, index) => (<CarouselItem key={photo.id} item={{ photo }} itemClass={`slide${index === active ? " center" : ""}`} />))}
                 </div>
-            </div>}
-        </div>
+                {canSlide && <div className="next">
+                    <IonIcon icon={caretForward} onClick={() => setActive(Helpers.setIndex.next(active, items.length - 1))} />
+                </div>}
+                {canSlide && !max && <div className="bullets">
+                    <div className="bullet-wrap">
+                        {items.map((photo, index) => (<span key={photo.id} onClick={() => setActive(index)} className={`bullet${index === active ? " active" : ""}`}></span>))}
+                    </div>
+                </div>}
+            </div>
+        </>
     )
 }
 
@@ -59,6 +68,18 @@ const SwipeCarousel = ({ items }: APP.CarouselCtrl) => {
 export const Carousel = (carousel: APP.Carousel) => {
     const [active, setActive] = useState(carousel.defaultIndex || 0);
     const [max, setMax] = useState(carousel.type === ENUMS.VinfoCarousel.max);
+
+    useEffect(() => {
+        document.onkeydown = (e: any) => {
+            e = e || window.event;
+            if (max) {
+                if (e.keyCode == "40") setMax(false);
+                else if (e.keyCode == "37") setActive(Helpers.setIndex.prev(active, carousel.items.length - 1));
+                else if (e.keyCode == "39") setActive(Helpers.setIndex.next(active, carousel.items.length - 1));
+            }
+        };
+    }, [max, active, setActive])
+
     const props: APP.CarouselCtrl = { ...carousel, active, setActive, max, setMax };
     const type = carousel.type ?? ENUMS.VinfoCarousel.standard;
     if (type === ENUMS.VinfoCarousel.swipe) return <SwipeCarousel {...props} />;

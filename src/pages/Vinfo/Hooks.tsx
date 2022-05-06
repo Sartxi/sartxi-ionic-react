@@ -1,16 +1,32 @@
 import { useEffect, useState } from "react";
 import { ENUMS, Helpers, Layout } from "../../utils";
-import { TestData, theme } from "./TestData";
+import { TestData } from "./TestData";
 import { Desktop, Mobile } from "./Layouts";
+
 const WebFont = require('webfontloader');
 
+// Main Vinfo Hooks
+export const useVinfo = ({ type, token, params }: APP.Location): VINFO.Data => {
+	const isLead = type === ENUMS.VinfoType.lead;
+
+	if (isLead) console.log("use lead GQL", `uuid: ${token}`);
+	else console.log("use vin GQL", `vin: ${token}, store_code: ${params.store_code}`);
+
+	// wire our GQL here
+	const data = useVinfoData(TestData);
+	useTheme(data.theme);
+
+	return { loading: false, error: null, data };
+};
+
 const useVinfoData = (data: any): VINFO.Detail => {
+	// shaping our data more elegantly, maybe our new GQL service for this will send it this way???
 	return {
 		share: data?.vehicle_share,
 		inventory: data?.vehicle_share?.inventory_item,
 		documents: data?.vehicle_documents,
 		settings: data?.store_settings,
-		theme
+		theme: useThemeData(data?.vehicle_share?.inventory_item)
 	};
 };
 
@@ -25,56 +41,73 @@ export const useDarkModeSetting = () => {
 	return prefersDark;
 }
 
-export const useVinfo = ({ type, token, params }: APP.Location): VINFO.Data => {
-	const isLead = type === ENUMS.VinfoType.lead;
-
-	if (isLead) console.log("use lead GQL", `uuid: ${token}`);
-	else console.log("use vin GQL", `vin: ${token}, store_code: ${params.store_code}`);
-
-	// wire our GQL here
-	const data = useVinfoData(TestData);
-	useTheme(data);
-
-	return { loading: false, error: null, data };
-};
-
 export const useLayout = (layout: VINFO.Layout) => {
 	const isDesktop = layout.page.viewType === ENUMS.AppViewType.desktop;
 	return <>{isDesktop ? <Desktop {...layout} /> : <Mobile {...layout} />}</>
 }
 
-const useTheme = (vinfo: VINFO.Detail) => {
+// Vinfo Theme
+const useThemeData = (share: VINFO.Inventory): VINFO.Theme => {
+	// share.store.theme - maybe??
+
+	const defaultTheme: VINFO.Theme = {
+		font_type: "google",
+		font: "Open Sans",
+		font_family: "sans-serif",
+		bold_font: "Akshar",
+		bold_font_family: "sans-serif",
+		primary_color: "#ae72af",
+		secondary_color: "#1dafec",
+		tertiary_color: "#5260ff",
+		dark_mode: null,
+		display_docs: 3
+	}
+
+	return defaultTheme;
+}
+
+const useTheme = (theme: VINFO.Theme) => {
 	const prefersDark = useDarkModeSetting();
 	useEffect(() => {
 
 		// dark/light
-		const theme = vinfo.theme.dark_mode !== null ? (vinfo.theme.dark_mode ? "dark" : "light") : (prefersDark ? "dark" : "light");
-		document.documentElement.setAttribute("vinfo-theme", theme);
+		const darkmode = theme.dark_mode !== null ? (theme.dark_mode ? "dark" : "light") : (prefersDark ? "dark" : "light");
+		document.documentElement.setAttribute("vinfo-theme", darkmode);
 
 		// fonts
-		if (vinfo.theme.font) {
-			WebFont.load({ [vinfo.theme.font_type]: { families: [vinfo.theme.font, vinfo.theme.bold_font] } });
-			document.documentElement.style.setProperty("--theme-font", `${vinfo.theme.font}, ${vinfo.theme.font_family}`);
-			document.documentElement.style.setProperty("--theme-bold-font", `${vinfo.theme.bold_font}, ${vinfo.theme.bold_font_family}`);
+		if (theme.font) {
+			// configure different font types here
+			const fontObject = { families: [theme.font, theme.bold_font] };
+			WebFont.load({ [theme.font_type]: fontObject });
+			// set font
+			document.documentElement.style.setProperty("--theme-font", `${theme.font}, ${theme.font_family}`);
+			document.documentElement.style.setProperty("--theme-bold-font", `${theme.bold_font}, ${theme.bold_font_family}`);
 		}
 
 		// colors
-		if (vinfo.theme.primary_color) {
-			document.documentElement.style.setProperty("--ion-color-primary", vinfo.theme.primary_color);
-			document.documentElement.style.setProperty("--ion-color-primary-rgb", `${Helpers.hexToRgb(vinfo.theme.primary_color)}`);
-			document.documentElement.style.setProperty("--ion-color-primary-tint", `${Helpers.shadeColor(vinfo.theme.primary_color, 5)}`);
-			document.documentElement.style.setProperty("--ion-color-primary-shade", `${Helpers.shadeColor(vinfo.theme.primary_color, 10)}`);
+		if (theme.primary_color) {
+			document.documentElement.style.setProperty("--ion-color-primary", theme.primary_color);
+			document.documentElement.style.setProperty("--ion-color-primary-rgb", `${Helpers.hexToRgb(theme.primary_color)}`);
+			document.documentElement.style.setProperty("--ion-color-primary-tint", `${Helpers.shadeColor(theme.primary_color, 5)}`);
+			document.documentElement.style.setProperty("--ion-color-primary-shade", `${Helpers.shadeColor(theme.primary_color, 10)}`);
 		}
-		if (vinfo.theme.secondary_color) {
-			document.documentElement.style.setProperty("--ion-color-secondary", vinfo.theme.secondary_color);
-			document.documentElement.style.setProperty("--ion-color-secondary-rgb", `${Helpers.hexToRgb(vinfo.theme.secondary_color)}`);
-			document.documentElement.style.setProperty("--ion-color-secondary-tint", `${Helpers.shadeColor(vinfo.theme.secondary_color, 5)}`);
-			document.documentElement.style.setProperty("--ion-color-secondary-shade", `${Helpers.shadeColor(vinfo.theme.secondary_color, 10)}`);
+		if (theme.secondary_color) {
+			document.documentElement.style.setProperty("--ion-color-secondary", theme.secondary_color);
+			document.documentElement.style.setProperty("--ion-color-secondary-rgb", `${Helpers.hexToRgb(theme.secondary_color)}`);
+			document.documentElement.style.setProperty("--ion-color-secondary-tint", `${Helpers.shadeColor(theme.secondary_color, 5)}`);
+			document.documentElement.style.setProperty("--ion-color-secondary-shade", `${Helpers.shadeColor(theme.secondary_color, 10)}`);
+		}
+		if (theme.tertiary_color) {
+			document.documentElement.style.setProperty("--ion-color-tertiary", theme.tertiary_color);
+			document.documentElement.style.setProperty("--ion-color-tertiary-rgb", `${Helpers.hexToRgb(theme.tertiary_color)}`);
+			document.documentElement.style.setProperty("--ion-color-tertiary-tint", `${Helpers.shadeColor(theme.tertiary_color, 5)}`);
+			document.documentElement.style.setProperty("--ion-color-tertiary-shade", `${Helpers.shadeColor(theme.tertiary_color, 10)}`);
 		}
 
-	}, [vinfo.theme, prefersDark])
+	}, [theme, prefersDark])
 }
 
+// Section hooks for the menu
 export const useSectionPositions = (section: ENUMS.VinfoSection): ENUMS.VinfoMenuPosition[] => {
 	const pos = Helpers.arrayFromEnum(ENUMS.VinfoMenuPosition);
 	let positions: any[] = pos;
