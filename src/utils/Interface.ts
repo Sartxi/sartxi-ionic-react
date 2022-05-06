@@ -45,19 +45,16 @@ declare global {
 		}
 		interface Carousel {
 			defaultIndex?: number;
-			defaultMax?: boolean;
 			items: VINFO.Photo[] | VINFO.Document[],
-			type?: ENUMS.VinfoCarousel
+			type?: ENUMS.VinfoCarousel;
+			onClose?: () => void;
 		}
 		interface CarouselCtrl extends Carousel {
 			active: number;
 			setActive: (index: number) => void;
 			max: boolean;
 			setMax: (active: boolean) => void;
-		}
-		interface CarouselItem {
-			photo?: VINFO.Photo,
-			document?: VINFO.Document
+			onClose?: () => void;
 		}
 		interface Divider {
 			text?: string;
@@ -155,6 +152,16 @@ declare global {
 			store_can_modify: boolean;
 			vehicle_document_type_id: number;
 			view_count: number;
+		}
+		interface DocList {
+			docs: VINFO.Document[],
+			listName: string,
+			viewType: any,
+			limit?: number | null
+		}
+		interface DocView {
+			external: Document[];
+			maxView: Document[];
 		}
 		interface Photo extends StorePhoto {
 			position?: number;

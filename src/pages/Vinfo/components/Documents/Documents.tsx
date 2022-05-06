@@ -1,5 +1,6 @@
 import { IonModal } from "@ionic/react";
 import { useState } from "react";
+import { Carousel } from "../../../../components";
 import { ENUMS, Layout } from "../../../../utils";
 import { useVinfoModal } from "../../../../utils/Hooks";
 
@@ -11,11 +12,10 @@ export const Documents = ({ viewType, vinfo }: VINFO.Page) => {
 	const modalType = viewType === ENUMS.AppViewType.desktop ? ENUMS.VinfoModal.default : ENUMS.VinfoModal.sheet;
 	const modalProps = useVinfoModal(modalType, viewType === ENUMS.AppViewType.desktop ? { cssClass: "large" } : undefined);
 
-	const listProps: (ln: string) => DocList = listName => ({
+	const listProps: (ln: string) => VINFO.DocList = listName => ({
 		listName,
 		docs: vinfo.documents,
-		viewType,
-		openDoc: doc => console.log(doc)
+		viewType
 	});
 
 	return (
@@ -31,11 +31,21 @@ export const Documents = ({ viewType, vinfo }: VINFO.Page) => {
 	);
 };
 
-interface DocList { docs: VINFO.Document[], listName: string, viewType: any, openDoc: (document: VINFO.Document) => void, limit?: number | null };
-const DocumentList = ({ docs, listName, openDoc, viewType, limit = null }: DocList) => {
+const DocumentList = ({ docs, listName, viewType, limit = null }: VINFO.DocList) => {
+	const [viewDoc, setViewDoc] = useState<VINFO.Document | null>(null);
+
 	const docList = limit ? docs.slice(0, limit) : docs;
+	const docViewMap = (is_external: boolean) => (docs.filter(i => i.is_external === is_external))
+	const docView: VINFO.DocView = { external: docViewMap(true), maxView: docViewMap(false) };
+
+	const openDoc = (doc: VINFO.Document) => {
+		if (doc.is_external) window.open(doc.full_url);
+		else setViewDoc(doc);
+	}
+
 	return (
 		<div id={listName}>
+			{viewDoc && <Carousel items={docView.maxView} onClose={() => setViewDoc(null)} type={ENUMS.VinfoCarousel.max} defaultIndex={docs.findIndex(i => i.id === viewDoc?.id)} />}
 			<div className={`flexblock wrap stretch three-col ${viewType === ENUMS.AppViewType.desktop ? "gap-thirty" : "gap-ten"}`}>
 				{docList.map(doc => {
 					return (

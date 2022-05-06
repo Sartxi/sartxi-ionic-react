@@ -15,30 +15,36 @@ import "swiper/css/zoom";
 
 import "./Components.scss";
 
-const CarouselItem = ({ item, itemClass }: { item: APP.CarouselItem, itemClass: string }) => {
-    const { photo, document } = item;
-    if (photo) return <IonImg key={photo.url} src={photo.url} className={itemClass} />;
-    else if (document) return <IonImg key={document.full_url} src={document.full_url} className={itemClass} />;
+const CarouselItem = ({ item, itemClass }: { item: any, itemClass: string }) => {
+    /// decide if document or photo
+    const src = item?.url ?? item?.full_url;
+    if (item) return <IonImg key={src} src={src} className={itemClass} />;
     else return <span />;
 }
 
-const StandardCarousel = ({ items, active, setActive, max, setMax }: APP.CarouselCtrl) => {
+const StandardCarousel = ({ items, active, setActive, max, setMax, onClose }: APP.CarouselCtrl) => {
     const canSlide = items?.length > 1 ?? false;
+    const closeMax = () => {
+        onClose?.();
+        setMax(false);
+    }
     return (
         <>
-            {max ? <div className="backdrop" onClick={() => setMax(false)} /> : ""}
+            {max ? <div className="backdrop" onClick={closeMax} /> : ""}
             <div className={`carousel${max ? " max" : ""}`}>
                 {canSlide && max && <div className="item-slides">
                     <div className="item-slide-wrap">
-                        {items.map((photo, index) => (<span key={photo.id} onClick={() => setActive(index)}><CarouselItem item={{ photo }} itemClass={`slide${index === active ? " center" : ""}`} /></span>))}
-                        <span className="close-icon"><IonIcon icon={closeCircleOutline} size="large" onClick={() => setMax(false)} /></span>
+                        {items.map((photo, index) => (<span key={photo.id} onClick={() => setActive(index)}><CarouselItem item={photo} itemClass={`slide${index === active ? " center" : ""}`} /></span>))}
+                        <span className="close-icon">
+                            <IonIcon icon={closeCircleOutline} size="large" onClick={closeMax} />
+                        </span>
                     </div>
                 </div>}
                 {canSlide && <div className="prev">
                     <IonIcon icon={caretBack} onClick={() => setActive(Helpers.setIndex.prev(active, items.length - 1))} />
                 </div>}
                 <div className={`item animated`} onClick={() => setMax(true)}>
-                    {items.map((photo, index) => (<CarouselItem key={photo.id} item={{ photo }} itemClass={`slide${index === active ? " center" : ""}`} />))}
+                    {items.map((item, index) => (<CarouselItem key={item.id} item={item} itemClass={`slide${index === active ? " center" : ""}`} />))}
                 </div>
                 {canSlide && <div className="next">
                     <IonIcon icon={caretForward} onClick={() => setActive(Helpers.setIndex.next(active, items.length - 1))} />
