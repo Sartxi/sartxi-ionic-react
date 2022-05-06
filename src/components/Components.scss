@@ -55,6 +55,18 @@
     opacity: 0.32;
 }
 
+.cta-block {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    margin: 0 auto;
+    padding: 15px;
+    background-color: rgba(var(--ion-color-light-rgb), 0.3);
+    .flexblock.contain {
+        width: 85%;
+    }
+}
+
 .carousel {
     position: relative;
     min-height: 470px;

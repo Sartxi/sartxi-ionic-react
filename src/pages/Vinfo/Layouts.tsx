@@ -8,7 +8,7 @@ import { IonIcon } from "@ionic/react";
 import { compassOutline, happyOutline, logoFacebook, logoInstagram, logoLinkedin, logoTwitter } from "ionicons/icons";
 import { useFancyGrad } from "../../utils/Hooks";
 import { SalespersonMessage } from "./components/Salesperson/Salesperson";
-import { Carousel } from "../../components";
+import { Carousel, CtaBanner } from "../../components";
 
 import "./Layout.scss";
 
@@ -56,23 +56,7 @@ export const Desktop = (layout: VINFO.Layout) => {
                     </div>
                 </div>
             </div>
-            <div className="cta-block block shaded">
-                <div className="content gutters">
-                    <div className="flexblock rows stretch gap-ten">
-                        <SalespersonMessage {...layout.page} />
-                        <div className="pad flexblock gap-ten aln-end">
-                            <div id="ContactUsBtn" className="block shaded rounded btn grad-btn">
-                                <IonIcon icon={compassOutline} />
-                                <span>Get Directions</span>
-                            </div>
-                            <div id="Directions" className="block shaded rounded btn grad-btn">
-                                <IonIcon icon={happyOutline} />
-                                <span>Check Availability</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <CtaBanner {...layout} />
         </div>
     );
 };
