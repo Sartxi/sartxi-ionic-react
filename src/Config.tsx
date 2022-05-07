@@ -21,7 +21,7 @@ export const usePage = (page: APP.Route): APP.Page => {
 };
 
 export const useLoc = (page: any): APP.Location => {
-	const location = useLocation();
+	const location = useLocation();	
 	return {
 		type: page.id,
 		token: page?.computedMatch?.params?.id ?? location.pathname,

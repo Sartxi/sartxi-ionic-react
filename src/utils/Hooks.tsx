@@ -38,14 +38,19 @@ export const useVinfoModal = (type: ENUMS.VinfoModal, props = {}) => {
     return { id: `${new Date()}-${type}`, ...typeProps, ...props };
 }
 
-export const useFancyGrad = (elem: string) => {
+export const useFancyGrad = (elems: string[]) => {
     return useEffect(() => {
-        const btn: HTMLElement | null = document.getElementById(elem);
         const onMouseMove = (ev: any) => {
             ev.target.style.setProperty("--x", `${ev.pageX - ev.target.offsetLeft}px`)
             ev.target.style.setProperty("--y", `${ev.pageY - ev.target.offsetTop}px`)
         };
-        btn?.addEventListener("mousemove", onMouseMove);
-        return () => btn?.removeEventListener("mousemove", onMouseMove);
-    }, [elem]);
+        elems.forEach(elem => {
+            const btn: HTMLElement | null = document.getElementById(elem);
+            btn?.addEventListener("mousemove", onMouseMove);
+        });
+        return () => elems.forEach(elem => {
+            const btn: HTMLElement | null = document.getElementById(elem);
+            btn?.removeEventListener("mousemove", onMouseMove);
+        });
+    }, [elems]);
 }

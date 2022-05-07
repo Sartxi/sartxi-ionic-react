@@ -14,19 +14,70 @@ export const useVinfo = ({ type, token, params }: APP.Location): VINFO.Data => {
 
 	// wire our GQL here
 	const data = useVinfoData(TestData);
-	useTheme(data.theme);
+	useTheme(data?.theme);
 
-	return { loading: false, error: null, data };
+	return { loading: false, error: null, data, refetch: () => console.log("refetch") };
 };
 
-const useVinfoData = (data: any): VINFO.Detail => {
-	// shaping our data more elegantly, maybe our new GQL service for this will send it this way???
+const useVinfoUrl = ({ token, params, type }: APP.Location) => {
+	const reservedRefs = process.env.REACT_APP_RESERVED_REFERRERS?.split(',');
+	const reservedReft = reservedRefs?.includes(window.location.host);
+
+	const baseUrl = process.env.REACT_APP_API_URL;
+	const typeQuery = `${type ? 'type=' + type : ''}`;
+	const reservedReferrerQuery = `${reservedReft ? 'is_counting=false' : 'is_counting=true'}`;
+	const store_code = params.lot_code ? params.lot_code : params.store_code;
+	const src = params.src;
+
+	let query = !type ? reservedReferrerQuery : `${typeQuery}&${reservedReferrerQuery}`;
+	if (store_code) query += `&store_code=${store_code}`;
+	if (src) query += `&src=${src}`;
+	const url = `${baseUrl}/reports/vehicle-shares/${token}?${query}`;
+	return url ?? null;
+}
+
+export const useVinfoRest = (location: APP.Location): VINFO.Data => {
+	const [loading, setLoading] = useState(true);
+	const [data, setData] = useState(null);
+	const [error, setError] = useState<any>(null);
+	const [refetch, setRefetch] = useState(false);
+	const url = useVinfoUrl(location);
+	useEffect(() => {
+		const fetchData = async () => {
+			if (!loading) setLoading(true);
+			try {
+				const res = await fetch(url);
+				const json: any = await res.json();
+				if (json["vehicle-share"]) {
+					console.log(json);
+
+					setData(json);
+					setLoading(false);
+				} else setError(json.message);
+			} catch (error: any) {
+				console.error(error)
+				setError("There was a problem");
+			}
+		}
+		fetchData();
+	}, [refetch]);
+
+	const vinfoData = useVinfoData(data);
+	useTheme(vinfoData?.theme);
+
+	return { loading, data: vinfoData, error, refetch: () => setRefetch(true) };
+}
+
+const useVinfoData = (data: any): VINFO.Detail | null => {
+	const theme = useThemeData();
+	// shaping our data more elegantly, maybe a new GQL service could send it this way???
+	if (!data) return null;
 	return {
-		share: data?.vehicle_share,
-		inventory: data?.vehicle_share?.inventory_item,
-		documents: data?.vehicle_documents,
+		theme,
+		share: data?.["vehicle-share"],
+		inventory: data?.["vehicle-share"]?.inventory_item,
+		documents: data?.["vehicle-documents"],
 		settings: data?.store_settings,
-		theme: useThemeData(data?.vehicle_share?.inventory_item)
 	};
 };
 
@@ -47,7 +98,7 @@ export const useLayout = (layout: VINFO.Layout) => {
 }
 
 // Vinfo Theme
-const useThemeData = (share: VINFO.Inventory): VINFO.Theme => {
+const useThemeData = (): VINFO.Theme => {
 	// share.store.theme - maybe??
 
 	const defaultTheme: VINFO.Theme = {
@@ -60,15 +111,20 @@ const useThemeData = (share: VINFO.Inventory): VINFO.Theme => {
 		secondary_color: "#1dafec",
 		tertiary_color: "#5260ff",
 		dark_mode: null,
-		display_docs: 3
+		display_docs: 3,
+		content_width: "1440px"
 	}
 
 	return defaultTheme;
 }
 
-const useTheme = (theme: VINFO.Theme) => {
+const useTheme = (theme: VINFO.Theme | undefined) => {
 	const prefersDark = useDarkModeSetting();
 	useEffect(() => {
+		if (!theme) return;
+
+		// desktop gutters width
+		if (theme.content_width) document.documentElement.style.setProperty("--theme-content-width", theme.content_width);
 
 		// dark/light
 		const darkmode = theme.dark_mode !== null ? (theme.dark_mode ? "dark" : "light") : (prefersDark ? "dark" : "light");
@@ -76,7 +132,7 @@ const useTheme = (theme: VINFO.Theme) => {
 
 		// fonts
 		if (theme.font) {
-			// configure different font types here
+			// TODO: configure different font types here
 			const fontObject = { families: [theme.font, theme.bold_font] };
 			WebFont.load({ [theme.font_type]: fontObject });
 			// set font
@@ -84,25 +140,18 @@ const useTheme = (theme: VINFO.Theme) => {
 			document.documentElement.style.setProperty("--theme-bold-font", `${theme.bold_font}, ${theme.bold_font_family}`);
 		}
 
+
 		// colors
-		if (theme.primary_color) {
-			document.documentElement.style.setProperty("--ion-color-primary", theme.primary_color);
-			document.documentElement.style.setProperty("--ion-color-primary-rgb", `${Helpers.hexToRgb(theme.primary_color)}`);
-			document.documentElement.style.setProperty("--ion-color-primary-tint", `${Helpers.shadeColor(theme.primary_color, 5)}`);
-			document.documentElement.style.setProperty("--ion-color-primary-shade", `${Helpers.shadeColor(theme.primary_color, 10)}`);
+		const setColor = (key: string, val: any) => {
+			document.documentElement.style.setProperty(key, val);
+			document.documentElement.style.setProperty(`${key}-rgb`, `${Helpers.hexToRgb(val)}`);
+			document.documentElement.style.setProperty(`${key}-tint`, `${Helpers.shadeColor(val, 5)}`);
+			document.documentElement.style.setProperty(`${key}-shade`, `${Helpers.shadeColor(val, 10)}`);
 		}
-		if (theme.secondary_color) {
-			document.documentElement.style.setProperty("--ion-color-secondary", theme.secondary_color);
-			document.documentElement.style.setProperty("--ion-color-secondary-rgb", `${Helpers.hexToRgb(theme.secondary_color)}`);
-			document.documentElement.style.setProperty("--ion-color-secondary-tint", `${Helpers.shadeColor(theme.secondary_color, 5)}`);
-			document.documentElement.style.setProperty("--ion-color-secondary-shade", `${Helpers.shadeColor(theme.secondary_color, 10)}`);
-		}
-		if (theme.tertiary_color) {
-			document.documentElement.style.setProperty("--ion-color-tertiary", theme.tertiary_color);
-			document.documentElement.style.setProperty("--ion-color-tertiary-rgb", `${Helpers.hexToRgb(theme.tertiary_color)}`);
-			document.documentElement.style.setProperty("--ion-color-tertiary-tint", `${Helpers.shadeColor(theme.tertiary_color, 5)}`);
-			document.documentElement.style.setProperty("--ion-color-tertiary-shade", `${Helpers.shadeColor(theme.tertiary_color, 10)}`);
-		}
+		// ----- check for colors or skip to use defaults
+		if (theme.primary_color) setColor("--ion-color-primary", theme.primary_color);
+		if (theme.secondary_color) setColor("--ion-color-secondary", theme.secondary_color);
+		if (theme.tertiary_color) setColor("--ion-color-tertiary", theme.tertiary_color);
 
 	}, [theme, prefersDark])
 }

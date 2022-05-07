@@ -65,12 +65,14 @@ declare global {
 		interface Data {
 			loading: boolean;
 			error: any;
-			data: VINFO.Detail;
+			data: VINFO.Detail | null;
+			refetch?: () => void;
 		}
 		interface Page {
 			vinfo: Detail;
 			viewType: ENUMS.AppViewType;
 			className?: string;
+			refetch?: () => void;
 		}
 		interface Theme {
 			font_type: string;
@@ -83,6 +85,7 @@ declare global {
 			tertiary_color: string;
 			dark_mode?: boolean | null;
 			display_docs?: number;
+			content_width?: string;
 		}
 		interface Layout {
 			page: Page;

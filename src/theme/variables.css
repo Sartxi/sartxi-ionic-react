@@ -4,7 +4,7 @@ http://ionicframework.com/docs/theming/ */
 :root {
   --theme-font: Arial, Helvetica, sans-serif;
   --theme-bold-font: Arial, Helvetica, sans-serif;
-
+  --theme-content-width: 1440px;
   --backdrop-color: #000;
 
   /** primary **/

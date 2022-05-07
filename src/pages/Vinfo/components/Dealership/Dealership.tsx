@@ -10,7 +10,7 @@ import "./Dealership.scss";
 export const DealershipTile = (layout: VINFO.Layout) => {
     const [isOpen, setIsOpen] = useState(false);
     const modalProps = useVinfoModal(ENUMS.VinfoModal.default, { cssClass: "large" });
-    useFancyGrad("DealerBtn");
+    useFancyGrad(["DealerBtn"]);
 
     return (
         <div id="DealerTile" className={Layout.VinfoBlock(layout.page.viewType)}>

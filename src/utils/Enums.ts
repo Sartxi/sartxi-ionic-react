@@ -5,8 +5,10 @@ export namespace ENUMS {
         desktop = "desktop"
     }
     export enum VinfoType {
+        inv = "inv",
         vin = "vin",
-        lead = "lead"
+        lead = "lead",
+        pwlead = "paywall-lead"
     }
     export enum VinfoSection {
         salesperson = "salesperson",

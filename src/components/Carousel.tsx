@@ -18,7 +18,7 @@ import "./Components.scss";
 const CarouselItem = ({ item, itemClass }: { item: any, itemClass: string }) => {
     /// decide if document or photo
     const src = item?.url ?? item?.full_url;
-    if (item) return <IonImg key={src} src={src} className={itemClass} />;
+    if (item) return <IonImg src={src} className={itemClass} />;
     else return <span />;
 }
 
@@ -34,7 +34,7 @@ const StandardCarousel = ({ items, active, setActive, max, setMax, onClose }: AP
             <div className={`carousel${max ? " max" : ""}`}>
                 {canSlide && max && <div className="item-slides">
                     <div className="item-slide-wrap">
-                        {items.map((photo, index) => (<span key={photo.id} onClick={() => setActive(index)}><CarouselItem item={photo} itemClass={`slide${index === active ? " center" : ""}`} /></span>))}
+                        {items.map((photo, index) => (<span key={Helpers.uuid()} onClick={() => setActive(index)}><CarouselItem item={photo} itemClass={`slide${index === active ? " center" : ""}`} /></span>))}
                         <span className="close-icon">
                             <IonIcon icon={closeCircleOutline} size="large" onClick={closeMax} />
                         </span>
@@ -44,14 +44,14 @@ const StandardCarousel = ({ items, active, setActive, max, setMax, onClose }: AP
                     <IonIcon icon={caretBack} onClick={() => setActive(Helpers.setIndex.prev(active, items.length - 1))} />
                 </div>}
                 <div className={`item animated`} onClick={() => setMax(true)}>
-                    {items.map((item, index) => (<CarouselItem key={item.id} item={item} itemClass={`slide${index === active ? " center" : ""}`} />))}
+                    {items.map((item, index) => (<CarouselItem key={Helpers.uuid()} item={item} itemClass={`slide${index === active ? " center" : ""}`} />))}
                 </div>
                 {canSlide && <div className="next">
                     <IonIcon icon={caretForward} onClick={() => setActive(Helpers.setIndex.next(active, items.length - 1))} />
                 </div>}
                 {canSlide && !max && <div className="bullets">
                     <div className="bullet-wrap">
-                        {items.map((photo, index) => (<span key={photo.id} onClick={() => setActive(index)} className={`bullet${index === active ? " active" : ""}`}></span>))}
+                        {items.map((photo, index) => (<span key={Helpers.uuid()} onClick={() => setActive(index)} className={`bullet${index === active ? " active" : ""}`}></span>))}
                     </div>
                 </div>}
             </div>
@@ -66,7 +66,7 @@ const SwipeCarousel = ({ items }: APP.CarouselCtrl) => {
             keyboard={true}
             pagination={true}
             zoom={true}>
-            {items.map((photo, key) => (<SwiperSlide key={`${key}-photo`}><CarouselItem item={{ photo }} itemClass="swipe-slide" /></SwiperSlide>))}
+            {items.map((photo, key) => (<SwiperSlide key={Helpers.uuid()}><CarouselItem item={{ photo }} itemClass="swipe-slide" /></SwiperSlide>))}
         </Swiper>
     )
 }

@@ -10,7 +10,7 @@ import "./Salesperson.scss";
 export const SalespersonTile = (layout: VINFO.Layout) => {
     const [isOpen, setIsOpen] = useState(false);
     const modalProps = useVinfoModal(ENUMS.VinfoModal.default, { cssClass: "large" });
-    useFancyGrad("SalesBtn");
+    useFancyGrad(["SalesBtn"]);
 
     return (
         <div id="SalespersonTile" className={Layout.VinfoBlock(layout.page.viewType)}>
@@ -27,6 +27,7 @@ export const SalespersonTile = (layout: VINFO.Layout) => {
 
 export const SalespersonMessage = (page: VINFO.Page) => {
     const share = page?.vinfo?.share ?? null;
+    if (!share) return <span />;
     return (
         <div id="SalespersonMessage" className="flexblock stretch">
             <div className="flexblock gap-thirty cols">

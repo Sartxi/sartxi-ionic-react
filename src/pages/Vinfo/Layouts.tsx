@@ -5,9 +5,7 @@ import { useLayout, useSections } from "./Hooks";
 import { ContactUs, VehDetail, VehPhotos, Dealership, DealershipTile, Documents, Salesperson, SalespersonTile } from "./components";
 import { Divider } from "../../components/Divider";
 import { IonIcon } from "@ionic/react";
-import { compassOutline, happyOutline, logoFacebook, logoInstagram, logoLinkedin, logoTwitter } from "ionicons/icons";
-import { useFancyGrad } from "../../utils/Hooks";
-import { SalespersonMessage } from "./components/Salesperson/Salesperson";
+import { logoFacebook, logoInstagram, logoLinkedin, logoTwitter } from "ionicons/icons";
 import { Carousel, CtaBanner } from "../../components";
 
 import "./Layout.scss";
@@ -20,8 +18,6 @@ export const Layouts = (page: VINFO.Page) => {
 }
 
 export const Desktop = (layout: VINFO.Layout) => {
-    useFancyGrad("ContactUsBtn");
-    useFancyGrad("Directions");
     const photos = layout?.page?.vinfo?.inventory?.inventory_item_photos ?? [];
 
     return (

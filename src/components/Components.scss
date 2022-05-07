@@ -52,11 +52,12 @@
     width: 100vw;
     height: 100vh;
     background-color: var(--backdrop-color);
-    opacity: 0.32;
+    opacity: 0.39;
+    z-index: 12;
 }
 
-.cta-block {
-    position: fixed;
+#CTA-Banner.cta-block {
+    position: absolute;
     bottom: 0;
     width: 100vw;
     margin: 0 auto;
@@ -64,6 +65,29 @@
     background-color: rgba(var(--ion-color-light-rgb), 0.3);
     .flexblock.contain {
         width: 85%;
+    }
+    .btn {
+        padding: 13px 34px 13px 56px;
+        font-size: 1.1em;
+        position: relative;
+        ion-icon {
+            font-size: 2.4em;
+            position: absolute;
+            left: 2px;
+            top: 4px;
+        }
+        &.primary {
+            background-color: var(--ion-color-primary);
+            &:hover {
+                background-color: rgba(var(--ion-color-primary-rgb), 0.5);
+            }
+        }
+        &.tertiary {
+            background-color: var(--ion-color-tertiary);
+            &:hover {
+                background-color: rgba(var(--ion-color-tertiary-rgb), 0.5);
+            }
+        }
     }
 }
 
@@ -79,7 +103,7 @@
         z-index: 12;
         height: 88vh;
         width: 100%;
-        max-width: 1330px;
+        max-width: var(--theme-content-width);
         padding: 20px;
         animation: fadeIn 1s;
         .item {
