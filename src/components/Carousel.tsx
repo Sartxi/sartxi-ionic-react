@@ -22,7 +22,8 @@ const CarouselItem = ({ item, itemClass }: { item: any, itemClass: string }) => 
     else return <span />;
 }
 
-const StandardCarousel = ({ items, active, setActive, max, setMax, onClose }: APP.CarouselCtrl) => {
+const StandardCarousel = (carousel: APP.CarouselCtrl) => {
+    const { items, active, setActive, max, setMax, onClose } = carousel;
     const canSlide = items?.length > 1 ?? false;
     const closeMax = () => {
         onClose?.();
@@ -32,14 +33,7 @@ const StandardCarousel = ({ items, active, setActive, max, setMax, onClose }: AP
         <>
             {max ? <div className="backdrop" onClick={closeMax} /> : ""}
             <div className={`carousel${max ? " max" : ""}`}>
-                {canSlide && max && <div className="item-slides">
-                    <div className="item-slide-wrap">
-                        {items.map((photo, index) => (<span key={Helpers.uuid()} onClick={() => setActive(index)}><CarouselItem item={photo} itemClass={`slide${index === active ? " center" : ""}`} /></span>))}
-                        <span className="close-icon">
-                            <IonIcon icon={closeCircleOutline} size="large" onClick={closeMax} />
-                        </span>
-                    </div>
-                </div>}
+                {canSlide && max && <Bullets {...carousel} />}
                 {canSlide && <div className="prev">
                     <IonIcon icon={caretBack} onClick={() => setActive(Helpers.setIndex.prev(active, items.length - 1))} />
                 </div>}
@@ -49,13 +43,60 @@ const StandardCarousel = ({ items, active, setActive, max, setMax, onClose }: AP
                 {canSlide && <div className="next">
                     <IonIcon icon={caretForward} onClick={() => setActive(Helpers.setIndex.next(active, items.length - 1))} />
                 </div>}
-                {canSlide && !max && <div className="bullets">
-                    <div className="bullet-wrap">
-                        {items.map((photo, index) => (<span key={Helpers.uuid()} onClick={() => setActive(index)} className={`bullet${index === active ? " active" : ""}`}></span>))}
-                    </div>
-                </div>}
+                {canSlide && !max && <Bullets {...carousel} />}
             </div>
         </>
+    )
+}
+
+const useChunks = (bullets: any[], active: number, chunksize = 6) => {
+    const chunks = [];
+    const bullet = bullets[active];
+    let bltIndx = active;
+    let chunkIndx = 0;
+    for (let i = 0; i < bullets.length; i += chunksize) {
+        const chunk = bullets.slice(i, i + chunksize);
+        chunks.push(chunk);
+        const index = chunk.indexOf(bullet);
+        if (index > -1) {
+            bltIndx = index;
+            chunkIndx = chunks.indexOf(chunk);
+        }
+    }
+    return { chunks, chunkIndx, bltIndx };
+}
+
+const Bullets = ({ items, active, max, setActive, onClose, setMax }: APP.CarouselCtrl) => {
+    const bullets = items.map(i => ({ ...i, key: Helpers.uuid() }));
+    const bulletIndxs = bullets.map(i => i.key);
+    const { chunks, chunkIndx, bltIndx } = useChunks(bullets, active);
+
+    const tapBullet = (i: any) => setActive(bulletIndxs.indexOf(i.key));
+    const getBullet = (item: any, index: number) => {
+        if (max) return <span key={Helpers.uuid()} onClick={() => tapBullet(item)}><CarouselItem item={item} itemClass={`slide${index === bltIndx ? " center" : ""}`} /></span>;
+        else return <span key={Helpers.uuid()} onClick={() => tapBullet(item)} className={`bullet${index === bltIndx ? " center" : ""}`}></span>;
+    }
+
+    const needsNav = chunks.length > 1;
+    const needsPrev = needsNav && chunkIndx > 0;
+    const needsNext = needsNav && chunkIndx !== chunks.length - 1;
+
+    return (
+        <div className={max ? "item-slides" : "bullets"}>
+            <div className="wrap">
+                {needsPrev && <IonIcon className="blt-nav" icon={caretBack} onClick={() => tapBullet(chunks[chunkIndx - 1][5])} />}
+                {chunks[chunkIndx].map(getBullet)}
+                {needsNext && <IonIcon className="blt-nav" icon={caretForward} onClick={() => tapBullet(chunks[chunkIndx + 1][0])} />}
+                {max && (
+                    <span className="close-icon">
+                        <IonIcon icon={closeCircleOutline} size="large" onClick={() => {
+                            onClose?.();
+                            setMax(false);
+                        }} />
+                    </span>
+                )}
+            </div>
+        </div >
     )
 }
 
