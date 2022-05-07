@@ -14,6 +14,7 @@ import "swiper/css/scrollbar";
 import "swiper/css/zoom";
 
 import "./Components.scss";
+import { useArrowCtrls } from "../utils/Hooks";
 
 const CarouselItem = ({ item, itemClass }: { item: any, itemClass: string }) => {
     /// decide if document or photo
@@ -116,16 +117,11 @@ export const Carousel = (carousel: APP.Carousel) => {
     const [active, setActive] = useState(carousel.defaultIndex || 0);
     const [max, setMax] = useState(carousel.type === ENUMS.VinfoCarousel.max);
 
-    useEffect(() => {
-        document.onkeydown = (e: any) => {
-            e = e || window.event;
-            if (max) {
-                if (e.keyCode == "40") setMax(false);
-                else if (e.keyCode == "37") setActive(Helpers.setIndex.prev(active, carousel.items.length - 1));
-                else if (e.keyCode == "39") setActive(Helpers.setIndex.next(active, carousel.items.length - 1));
-            }
-        };
-    }, [max, active, setActive])
+    useArrowCtrls({
+        bottom: () => setMax(false),
+        left: () => setActive(Helpers.setIndex.prev(active, carousel.items.length - 1)),
+        right: () => setActive(Helpers.setIndex.next(active, carousel.items.length - 1))
+    }, max);
 
     const props: APP.CarouselCtrl = { ...carousel, active, setActive, max, setMax };
     const type = carousel.type ?? ENUMS.VinfoCarousel.standard;

@@ -30,4 +30,10 @@ export namespace ENUMS {
         swipe = 2,
         max = 3
     }
+    export enum ArrowCtrlKeys {
+        top = 38,
+        bottom = 40,
+        left = 37,
+        right = 39
+    }
 }

@@ -54,3 +54,24 @@ export const useFancyGrad = (elems: string[]) => {
         });
     }, [elems]);
 }
+
+interface ArrowCtrls {
+    top?: () => void;
+    bottom?: () => void;
+    left?: () => void;
+    right?: () => void;
+}
+
+export const useArrowCtrls = (ctrls: ArrowCtrls, enabled = true) => {
+    return useEffect(() => {
+        if (enabled) document.onkeydown = (e: any) => {
+            e = e || window.event;
+            const key = ENUMS.ArrowCtrlKeys[e.keyCode];
+            if (key === "top") ctrls.top?.();
+            if (key === "bottom") ctrls.bottom?.();
+            if (key === "left") ctrls.left?.();
+            if (key === "right") ctrls.right?.();
+        }
+        else document.onkeydown = () => { };
+    }, [ctrls]);
+}
