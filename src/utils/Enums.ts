@@ -36,4 +36,22 @@ export namespace ENUMS {
         left = 37,
         right = 39
     }
+    export enum DocType {
+        VehicleHistoryReport = 2,
+        WindowSticker = 5,
+        BuildSheet = 7,
+        Other = 67,
+        CpoChecklist = 93,
+        WhyBuy = 13,
+        SupplementalManual = 74
+    }
+    export enum DocIcon {
+        inspection = "inspection",
+        vehicle = "vehicle",
+        brochure = "brochure",
+        carfax = "carfax",
+        clipboard = "clipboard",
+        video = "video",
+        other = "other"
+    }
 }

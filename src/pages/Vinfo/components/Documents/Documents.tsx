@@ -1,8 +1,9 @@
-import { IonModal } from "@ionic/react";
+import { IonImg, IonModal } from "@ionic/react";
 import { useState } from "react";
 import { Carousel } from "../../../../components";
-import { ENUMS, Layout } from "../../../../utils";
-import { useVinfoModal } from "../../../../utils/Hooks";
+import { ENUMS, Helpers, Layout } from "../../../../utils";
+import { useFancyGrad, useVinfoModal } from "../../../../utils/Hooks";
+import { useDarkModeSetting } from "../../Hooks";
 
 import "./Documents.scss";
 
@@ -13,9 +14,12 @@ export const Documents = ({ viewType, vinfo }: VINFO.Page) => {
 	const modalProps = useVinfoModal(modalType, viewType === ENUMS.AppViewType.desktop ? { cssClass: "large" } : undefined);
 
 	const listProps: (ln: string) => VINFO.DocList = listName => ({
+		vinfo,
 		listName,
 		docs: vinfo.documents,
-		viewType
+		viewType,
+		showIcon: viewType === ENUMS.AppViewType.desktop,
+		theme: vinfo.theme
 	});
 
 	return (
@@ -31,7 +35,7 @@ export const Documents = ({ viewType, vinfo }: VINFO.Page) => {
 	);
 };
 
-const DocumentList = ({ docs, listName, viewType, limit = null }: VINFO.DocList) => {
+const DocumentList = ({ docs, listName, viewType, limit = null, showIcon, theme }: VINFO.DocList) => {
 	const [viewDoc, setViewDoc] = useState<VINFO.Document | null>(null);
 
 	const docList = limit ? docs.slice(0, limit) : docs;
@@ -43,18 +47,54 @@ const DocumentList = ({ docs, listName, viewType, limit = null }: VINFO.DocList)
 		else setViewDoc(doc);
 	}
 
+	const userPref = useDarkModeSetting(theme.dark_mode !== null);
+	const useDark = theme.dark_mode !== null ? theme.dark_mode : userPref;
+
 	return (
 		<div id={listName}>
 			{viewDoc && <Carousel items={docView.maxView} onClose={() => setViewDoc(null)} type={ENUMS.VinfoCarousel.max} defaultIndex={docs.findIndex(i => i.id === viewDoc?.id)} />}
-			<div className={`flexblock wrap stretch three-col ${viewType === ENUMS.AppViewType.desktop ? "gap-thirty" : "gap-ten"}`}>
-				{docList.map(doc => {
-					return (
-						<div key={doc.id} className="block rounded shaded simple btn">
-							<span className="doc-name" onClick={() => openDoc(doc)}>{doc.document_type_name}</span>
-						</div>
-					)
-				})}
+			<div className={`flexblock wrap center three-col ${viewType === ENUMS.AppViewType.desktop ? "gap-thirty" : "gap-ten"}`}>
+				{docList.map(doc => <DocumentBtn key={doc.id} preference={useDark ? "dark" : "light"} showIcon={showIcon} doc={doc} callback={openDoc} />)}
 			</div>
+		</div>
+	)
+}
+
+const useDocumentIcon = (doc: VINFO.Document, preference: string) => {
+	let docIcon = ENUMS.DocIcon.other;
+	const search = doc.full_url?.indexOf("carfax") ?? -1;
+	const urlHasCarFox = search > -1;
+
+	switch (doc.vehicle_document_type_id) {
+		case ENUMS.DocType.VehicleHistoryReport:
+		case ENUMS.DocType.BuildSheet:
+		case ENUMS.DocType.CpoChecklist:
+			if (urlHasCarFox) docIcon = ENUMS.DocIcon.carfax;
+			else docIcon = ENUMS.DocIcon.inspection;
+			break;
+		case ENUMS.DocType.WindowSticker:
+		case ENUMS.DocType.SupplementalManual:
+			docIcon = ENUMS.DocIcon.brochure;
+			break;
+		case ENUMS.DocType.WhyBuy:
+			docIcon = ENUMS.DocIcon.clipboard;
+			break;
+		default:
+			break;
+	}
+
+	return <IonImg src={`/assets/images/icon_${docIcon}_${preference}.svg`} className={urlHasCarFox ? "carfax" : ""} />;
+}
+
+const DocumentBtn = ({ showIcon, doc, callback, preference }: { showIcon: boolean, preference: string, doc: VINFO.Document, callback: (doc: VINFO.Document) => void }) => {
+	const icon = useDocumentIcon(doc, preference);
+	const key = Helpers.uuid();
+	useFancyGrad([key]);
+
+	return (
+		<div key={key} id={key} className="block rounded shaded btn grad-btn" onClick={() => callback(doc)}>
+			{showIcon && <div className="doc-icon">{icon}</div>}
+			<span className="doc-name">{doc.document_type_name}</span>
 		</div>
 	)
 }

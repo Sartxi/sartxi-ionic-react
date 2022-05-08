@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IonIcon, IonImg } from "@ionic/react";
 import { ENUMS, Helpers } from "../utils";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Keyboard, Pagination, Zoom } from "swiper";
 import { caretBack, caretForward, closeCircleOutline } from "ionicons/icons";
+import { useArrowCtrls } from "../utils/Hooks";
 
 import "@ionic/react/css/ionic-swiper.css";
 import "swiper/css";
@@ -14,7 +15,16 @@ import "swiper/css/scrollbar";
 import "swiper/css/zoom";
 
 import "./Components.scss";
-import { useArrowCtrls } from "../utils/Hooks";
+
+const Arrow = ({ dir, wrap, callback, name }: { dir: string, wrap: boolean, name?: string, callback: () => void }) => {
+    const icon = dir === "prev" ? caretBack : caretForward;
+    if (wrap) return (
+        <div className={dir}>
+            <IonIcon icon={icon} onClick={callback} />
+        </div>
+    )
+    else return <IonIcon className={name} icon={icon} onClick={callback} />;
+}
 
 const CarouselItem = ({ item, itemClass }: { item: any, itemClass: string }) => {
     /// decide if document or photo
@@ -29,21 +39,18 @@ const StandardCarousel = (carousel: APP.CarouselCtrl) => {
     const closeMax = () => {
         onClose?.();
         setMax(false);
-    }
+    };
+
     return (
         <>
             {max ? <div className="backdrop" onClick={closeMax} /> : ""}
             <div className={`carousel${max ? " max" : ""}`}>
                 {canSlide && max && <Bullets {...carousel} />}
-                {canSlide && <div className="prev">
-                    <IonIcon icon={caretBack} onClick={() => setActive(Helpers.setIndex.prev(active, items.length - 1))} />
-                </div>}
+                {canSlide && <Arrow dir="prev" wrap={true} callback={() => setActive(Helpers.setIndex.prev(active, items.length - 1))} />}
                 <div className={`item animated`} onClick={() => setMax(true)}>
                     {items.map((item, index) => (<CarouselItem key={Helpers.uuid()} item={item} itemClass={`slide${index === active ? " center" : ""}`} />))}
                 </div>
-                {canSlide && <div className="next">
-                    <IonIcon icon={caretForward} onClick={() => setActive(Helpers.setIndex.next(active, items.length - 1))} />
-                </div>}
+                {canSlide && <Arrow dir="next" wrap={true} callback={() => setActive(Helpers.setIndex.next(active, items.length - 1))} />}
                 {canSlide && !max && <Bullets {...carousel} />}
             </div>
         </>
@@ -85,9 +92,9 @@ const Bullets = ({ items, active, max, setActive, onClose, setMax }: APP.Carouse
     return (
         <div className={max ? "item-slides" : "bullets"}>
             <div className="wrap">
-                {needsPrev && <IonIcon className="blt-nav" icon={caretBack} onClick={() => tapBullet(chunks[chunkIndx - 1][5])} />}
+                {needsPrev && <Arrow dir="prev" name="blt-nav" wrap={false} callback={() => tapBullet(chunks[chunkIndx - 1][5])} />}
                 {chunks[chunkIndx].map(getBullet)}
-                {needsNext && <IonIcon className="blt-nav" icon={caretForward} onClick={() => tapBullet(chunks[chunkIndx + 1][0])} />}
+                {needsNext && <Arrow dir="next" name="blt-nav" wrap={false} callback={() => tapBullet(chunks[chunkIndx + 1][0])} />}
                 {max && (
                     <span className="close-icon">
                         <IonIcon icon={closeCircleOutline} size="large" onClick={() => {
@@ -118,9 +125,9 @@ export const Carousel = (carousel: APP.Carousel) => {
     const [max, setMax] = useState(carousel.type === ENUMS.VinfoCarousel.max);
 
     useArrowCtrls({
-        bottom: () => setMax(false),
-        left: () => setActive(Helpers.setIndex.prev(active, carousel.items.length - 1)),
-        right: () => setActive(Helpers.setIndex.next(active, carousel.items.length - 1))
+        btm: () => setMax(false),
+        lft: () => setActive(Helpers.setIndex.prev(active, carousel.items.length - 1)),
+        rgt: () => setActive(Helpers.setIndex.next(active, carousel.items.length - 1))
     }, max);
 
     const props: APP.CarouselCtrl = { ...carousel, active, setActive, max, setMax };

@@ -157,10 +157,12 @@ declare global {
 			view_count: number;
 		}
 		interface DocList {
-			docs: VINFO.Document[],
-			listName: string,
-			viewType: any,
-			limit?: number | null
+			docs: VINFO.Document[];
+			listName: string;
+			viewType: any;
+			limit?: number | null;
+			showIcon: boolean;
+			theme: VINFO.Theme
 		}
 		interface DocView {
 			external: Document[];

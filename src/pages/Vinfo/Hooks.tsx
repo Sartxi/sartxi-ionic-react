@@ -81,15 +81,16 @@ const useVinfoData = (data: any): VINFO.Detail | null => {
 	};
 };
 
-export const useDarkModeSetting = () => {
+export const useDarkModeSetting = (override = false) => {
 	const watch = window.matchMedia('(prefers-color-scheme: dark)');
 	const [prefersDark, setPrefersDark] = useState(watch.matches);
 	useEffect(() => {
 		const callback = (dark: any) => setPrefersDark(dark.matches);
-		watch.addEventListener("change", callback);
+		if (!override) watch.addEventListener("change", callback);
 		return () => watch.removeEventListener("change", callback);
 	}, [watch]);
-	return prefersDark;
+
+	return override ? null : prefersDark;
 }
 
 export const useLayout = (layout: VINFO.Layout) => {
@@ -110,7 +111,7 @@ const useThemeData = (): VINFO.Theme => {
 		primary_color: "#ae72af",
 		secondary_color: "#1dafec",
 		tertiary_color: "#5260ff",
-		dark_mode: null,
+		dark_mode: true,
 		display_docs: 3,
 		content_width: "1440px"
 	}
@@ -129,6 +130,7 @@ const useTheme = (theme: VINFO.Theme | undefined) => {
 		// dark/light
 		const darkmode = theme.dark_mode !== null ? (theme.dark_mode ? "dark" : "light") : (prefersDark ? "dark" : "light");
 		document.documentElement.setAttribute("vinfo-theme", darkmode);
+		document.getElementById("Vinfo")?.setAttribute("vinfo-theme", darkmode);
 
 		// fonts
 		if (theme.font) {

@@ -10,7 +10,7 @@ const ViewType = () => {
 	return type;
 };
 const VinfoBlock = (viewType: ENUMS.AppViewType, decorators?: string) => `block ${ENUMS.AppViewType[viewType]} ${decorators ? decorators : "simple"}`
-const SectionIcon = (section: ENUMS.VinfoSection, prefersDark: boolean) => `/assets/images/icon_${section}_${prefersDark ? "dark" : "light"}.png`;
+const SectionIcon = (section: ENUMS.VinfoSection, prefersDark: boolean) => `/assets/images/icon_${section}_${prefersDark ? "dark" : "light"}.svg`;
 const HandleMenuSelection = (menu: HTMLElement, position: ENUMS.VinfoMenuPosition) => {
 	const animateLeft: string[] = ["fadeIn 4s", "centerLeft 1s", "rightCenter 1s"];
 	const animateRight: string[] = ["leftCenter 1s", "centerRight 1s", "fadeIn 4s"];
