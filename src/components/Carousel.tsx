@@ -32,7 +32,7 @@ const Standard = (carousel: APP.CarouselCtrl) => {
             {max ? <div className="backdrop" onClick={closeMax} /> : ""}
             <div className={`carousel${max ? " max" : ""}`}>
                 {canSlide && max && <Bullets {...carousel} />}
-                {canSlide && <Popup text="Prev" elemId={`prev-${cId}`} position={ENUMS.PopPos.left}><Arrow id={`prev-${cId}`} dir="prev" wrap={true} callback={() => setActive(Helpers.setIndex.prev(active, items.length - 1))} /></Popup>}
+                {canSlide && <Popup text="Previous" elemId={`prev-${cId}`} position={ENUMS.PopPos.left}><Arrow id={`prev-${cId}`} dir="prev" wrap={true} callback={() => setActive(Helpers.setIndex.prev(active, items.length - 1))} /></Popup>}
                 <div className={`item animated`} onClick={() => setMax(true)}>
                     {items.map((item, index) => (<Item key={Helpers.uuid()} altkey={altkey} item={item} itemClass={`slide${index === active ? " active" : ""}`} />))}
                 </div>
@@ -107,9 +107,10 @@ const Bullets = ({ items, active, max, setActive, onClose, setMax, preference, a
     const getBullet = (item: any, index: number) => {
         const hasDocId = item.vehicle_document_type_id;
         const activeClass = index === bltIndx ? " active" : "";
+        const key = Helpers.uuid();
         if (max) return (
-            <span key={Helpers.uuid()} onClick={() => tapBullet(item)}>
-                {hasDocId ? <DocumentBtn doc={item} btnstate={`slide-btn${activeClass}`} preference={preference} showIcon={true} callback={() => tapBullet(item)} /> : <Item item={item} altkey={altkey} itemClass={`slide${activeClass}`} />}
+            <span key={key} onClick={() => tapBullet(item)}>
+                {hasDocId ? <Popup elemId={key} text={item.name ?? "Document"} position={ENUMS.PopPos.bottom}><DocumentBtn btnkey={key} doc={item} btnstate={`slide-btn${activeClass}`} preference={preference} showIcon={true} callback={() => tapBullet(item)} /></Popup> : <Item item={item} altkey={altkey} itemClass={`slide${activeClass}`} />}
             </span>
         );
         else return <span key={Helpers.uuid()} onClick={() => tapBullet(item)} className={`bullet${activeClass}`}></span>;

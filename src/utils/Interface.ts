@@ -179,6 +179,7 @@ declare global {
 			maxView: Document[];
 		}
 		interface DocBtn {
+			btnkey?: string;
 			btnstate?: string;
 			showIcon: boolean;
 			preference: string;

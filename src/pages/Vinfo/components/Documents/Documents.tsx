@@ -58,7 +58,7 @@ const DocumentList = ({ docs, listName, viewType, limit = null, showIcon, theme,
 	return (
 		<div id={listName}>
 			<div className={`flexblock wrap center three-col ${viewType === ENUMS.AppViewType.desktop ? "gap-thirty" : "gap-ten"}`}>
-				{docList.map(doc => <DocumentBtn key={doc.id} preference={prefersDark ? "dark" : "light"} showIcon={showIcon} doc={doc} callback={openDoc} />)}
+				{docList.map(doc => <DocumentBtn key={Helpers.uuid()} preference={prefersDark ? "dark" : "light"} showIcon={showIcon} doc={doc} callback={openDoc} />)}
 			</div>
 		</div>
 	)
@@ -90,13 +90,12 @@ const useDocumentIcon = (doc: VINFO.Document, preference: string) => {
 	return <IonImg src={`/assets/images/icon_${docIcon}_${preference}.svg`} className={urlHasCarFox ? "carfax" : ""} />;
 }
 
-export const DocumentBtn = ({ showIcon, doc, callback, preference, btnstate = "" }: VINFO.DocBtn) => {
+export const DocumentBtn = ({ showIcon, doc, callback, preference, btnstate = "", btnkey = Helpers.uuid() }: VINFO.DocBtn) => {
 	const icon = useDocumentIcon(doc, preference);
-	const key = Helpers.uuid();
-	useFancyGrad([key]);
+	useFancyGrad([btnkey]);
 
 	return (
-		<div key={key} id={key} className={`block rounded shaded btn grad-btn ${btnstate}`} onClick={() => callback(doc)}>
+		<div key={btnkey} id={btnkey} className={`block rounded shaded btn grad-btn ${btnstate}`} onClick={() => callback(doc)}>
 			{showIcon && <div className="doc-icon">{icon}</div>}
 			<span className="doc-name">{doc.document_type_name}</span>
 		</div>
