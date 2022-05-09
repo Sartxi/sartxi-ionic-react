@@ -1,48 +1,65 @@
 import { useEffect, useState } from "react";
 import { ENUMS, Helpers } from "../utils";
+import { useWindowResize } from "../utils/Hooks";
 
-const usePopup = (elId: string, position: ENUMS.PopPos, show = false) => {
-    useEffect(() => {
-        if (show) {
-            const elem = document.getElementById(elId);
-            const rect = elem?.getBoundingClientRect();
-            if (rect) {
-                switch (position) {
-                    case ENUMS.PopPos.top:
-                        console.log("top", rect.top);
-                        break;
-                    case ENUMS.PopPos.right:
-                        console.log("right", rect.right);
-                        break;
-                    case ENUMS.PopPos.left:
-                        console.log("left", rect.left);
-                        break;
-                    case ENUMS.PopPos.bottom:
-                        console.log("bottom", rect.bottom);
-                        break;
-                    default:
-                        break;
-                }
+const usePopup = (elId: string, popId: string, position: ENUMS.PopPos, show = false) => {
+    const [rect, setRect] = useState<any>(null);
+    const setClientRect = () => {
+        const elem = document.getElementById(elId);
+        const cRect = elem?.getBoundingClientRect();
+        setRect(show ? cRect : null);
+    }
+
+    useWindowResize(setClientRect);
+    useEffect(setClientRect, [show]);
+    usePopupRect(rect, elId, popId, position);
+}
+
+const usePopupRect = (rect: any, elId: string, popId: string, position: ENUMS.PopPos) => {
+    if (rect) {
+        const trig = document.getElementById(elId);
+        const elem = document.getElementById(popId);
+        if (elem && trig) {
+            const halfVert = rect.top + (trig.clientHeight / 2) - (elem.clientHeight / 2);
+            const halfHorz = rect.left - (elem.clientWidth / 2) + (trig.clientHeight / 2);
+            switch (position) {
+                case ENUMS.PopPos.left:
+                    elem.style.top = `${halfVert}px`;
+                    elem.style.left = `${rect.left - (elem.clientWidth + 10)}px`;
+                    break;
+                case ENUMS.PopPos.right:
+                    elem.style.top = `${halfVert}px`;
+                    elem.style.left = `${rect.left + (trig.clientWidth + 10)}px`;
+                    break;
+                case ENUMS.PopPos.top:
+                    elem.style.top = `${rect.top - (trig.clientHeight + elem.clientHeight - 20)}px`;
+                    elem.style.left = `${halfHorz}px`;
+                    break;
+                case ENUMS.PopPos.bottom:
+                    elem.style.top = `${rect.top + (trig.clientHeight + 20)}px`;
+                    elem.style.left = `${halfHorz}px`;
+                    break;
+                default:
+                    break;
             }
         }
-    }, [show]);
+    }
 }
 
 export const Popup = (popup: APP.Popup) => {
-    const popupId = Helpers.uuid();
-    const { text, children, trigger = ENUMS.PopTrig.hover, position = ENUMS.PopPos.right } = popup;
+    const [popId] = useState(Helpers.uuid())
     const [show, setShow] = useState(false);
+    const { text, children, trigger = ENUMS.PopTrig.hover, position = ENUMS.PopPos.right } = popup;
 
-    usePopup(popupId, position, show);
+    usePopup(popup.elemId, popId, position, show);
 
     const triggerFnc = () => {
-        if (trigger === ENUMS.PopTrig.hover) return { onMouseOver: () => setShow(true) };
-        if (trigger === ENUMS.PopTrig.click) return { onClick: () => setShow(true) };
+        if (trigger === ENUMS.PopTrig.hover) return { onMouseOver: () => setShow(true), onMouseLeave: () => setShow(false) };
     }
 
     return (
-        <div id={popupId} className={`popup ${position}`} {...triggerFnc()}>
-            {show && <span className="pop-txt">{text}</span>}
+        <div {...triggerFnc()}>
+            {show && <span id={popId} className={`vinfo-popup ${position}`}>{text}</span>}
             {children}
         </div>
     );

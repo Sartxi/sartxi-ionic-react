@@ -33,7 +33,7 @@ export const Documents = ({ viewType, vinfo, refetch }: VINFO.Page) => {
 			<IonModal {...modalProps} isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
 				<DocumentList {...listProps("DocOptions")} />
 			</IonModal>
-			{viewDoc && <Carousel items={docView.maxView} onClose={() => setViewDoc(null)} type={ENUMS.VinfoCarousel.max} preference={prefersDark ? "dark" : "light"} defaultIndex={vinfo.documents.filter(i => !i.is_external).findIndex(i => i.id === viewDoc?.id)} />}
+			{viewDoc && <Carousel items={docView.maxView} altkey={["name", "document_type_description"]} onClose={() => setViewDoc(null)} type={ENUMS.VinfoCarousel.max} preference={prefersDark ? "dark" : "light"} defaultIndex={vinfo.documents.filter(i => !i.is_external).findIndex(i => i.id === viewDoc?.id)} />}
 			<DocumentList {...listProps("DocButtons")} limit={viewType === ENUMS.AppViewType.desktop ? 6 : vinfo.theme.display_docs} />
 			<div className="view-more">
 				<span onClick={() => {

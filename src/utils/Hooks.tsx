@@ -1,11 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { ENUMS } from "./Enums";
 
 export const useWindowResize = (callback: () => void) => {
-    return useEffect(() => {
-        window.addEventListener("resize", callback);
-        return () => window.removeEventListener("resize", callback);
-    }, [callback]);
+    const [size, setSize] = useState([window.innerWidth, window.innerHeight]);
+    useLayoutEffect(() => {
+        const update = () => setSize([window.innerWidth, window.innerHeight]);
+        window.addEventListener("resize", update);
+        return () => window.removeEventListener("resize", update);
+    }, []);
+    return useEffect(() => callback(), [size]);
 }
 
 export const useVinfoModal = (type: ENUMS.VinfoModal, props = {}) => {

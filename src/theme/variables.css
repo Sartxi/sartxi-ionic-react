@@ -6,6 +6,7 @@ http://ionicframework.com/docs/theming/ */
   --theme-bold-font: Arial, Helvetica, sans-serif;
   --theme-content-width: 1440px;
   --backdrop-color: #000;
+  --backdrop-color-rgb: 0, 0, 0;
 
   /** primary **/
   --ion-color-primary: #3880ff;

@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { ENUMS, Layout } from "../../utils";
-import { Logo, Menu } from "./components";
 import { useDarkMode, useLayout, useSections } from "./Hooks";
-import { ContactUs, VehDetail, VehPhotos, Dealership, DealershipTile, Documents, Salesperson, SalespersonTile } from "./components";
+
+import { logoFacebook, logoInstagram, logoLinkedin, logoTwitter } from "ionicons/icons";
+import { Logo, Menu } from "./components";
+import { Carousel, CtaBanner } from "../../components";
 import { Divider } from "../../components/Divider";
 import { IonIcon } from "@ionic/react";
-import { logoFacebook, logoInstagram, logoLinkedin, logoTwitter } from "ionicons/icons";
-import { Carousel, CtaBanner } from "../../components";
+import { ContactUs, VehDetail, VehPhotos, Dealership, DealerBtn, Documents, Salesperson, SalesPersonBtn } from "./components";
 
 import "./Layout.scss";
 
@@ -30,8 +31,8 @@ export const Desktop = (layout: VINFO.Layout) => {
                     <div className="flex-col sections">
                         <Logo {...layout.page} />
                         <div className="contact-btns flexblock rows center gap-thirty">
-                            <DealershipTile {...layout} />
-                            <SalespersonTile {...layout} />
+                            <DealerBtn {...layout} />
+                            <SalesPersonBtn {...layout} />
                         </div>
                         <Divider size="large" text="Documents" />
                         <Documents {...layout.page} />
@@ -44,7 +45,7 @@ export const Desktop = (layout: VINFO.Layout) => {
                             <IonIcon icon={logoInstagram} />
                         </div>
                         <div className={Layout.VinfoBlock(layout.page.viewType, "grow vehicle-photos")}>
-                            <Carousel type={ENUMS.VinfoCarousel.standard} items={photos} preference={prefersDark ? "dark" : "light"} />
+                            <Carousel type={ENUMS.VinfoCarousel.standard} items={photos} altkey={["url"]} preference={prefersDark ? "dark" : "light"} />
                         </div>
                         <br />
                         <div className={Layout.VinfoBlock(layout.page.viewType, "shaded rounded vehicle card")}>

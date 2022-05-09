@@ -19,7 +19,8 @@ import "swiper/css/zoom";
 import "./Components.scss";
 
 const Standard = (carousel: APP.CarouselCtrl) => {
-    const { items, active, setActive, max, setMax, onClose } = carousel;
+    const [cId] = useState(Helpers.uuid());
+    const { items, active, setActive, max, setMax, onClose, altkey } = carousel;
     const canSlide = items?.length > 1 ?? false;
     const closeMax = () => {
         onClose?.();
@@ -31,33 +32,42 @@ const Standard = (carousel: APP.CarouselCtrl) => {
             {max ? <div className="backdrop" onClick={closeMax} /> : ""}
             <div className={`carousel${max ? " max" : ""}`}>
                 {canSlide && max && <Bullets {...carousel} />}
-                {canSlide && <Popup text="Prev" position={ENUMS.PopPos.left}><Arrow dir="prev" wrap={true} callback={() => setActive(Helpers.setIndex.prev(active, items.length - 1))} /></Popup>}
+                {canSlide && <Popup text="Prev" elemId={`prev-${cId}`} position={ENUMS.PopPos.left}><Arrow id={`prev-${cId}`} dir="prev" wrap={true} callback={() => setActive(Helpers.setIndex.prev(active, items.length - 1))} /></Popup>}
                 <div className={`item animated`} onClick={() => setMax(true)}>
-                    {items.map((item, index) => (<Item key={Helpers.uuid()} item={item} itemClass={`slide${index === active ? " active" : ""}`} />))}
+                    {items.map((item, index) => (<Item key={Helpers.uuid()} altkey={altkey} item={item} itemClass={`slide${index === active ? " active" : ""}`} />))}
                 </div>
-                {canSlide && <Popup text="Next" position={ENUMS.PopPos.right}><Arrow dir="next" wrap={true} callback={() => setActive(Helpers.setIndex.next(active, items.length - 1))} /></Popup>}
+                {canSlide && <Popup text="Next" elemId={`next-${cId}`} position={ENUMS.PopPos.right}><Arrow id={`next-${cId}`} dir="next" wrap={true} callback={() => setActive(Helpers.setIndex.next(active, items.length - 1))} /></Popup>}
                 {canSlide && !max && <Bullets {...carousel} />}
             </div>
         </>
     )
 }
 
-const Swipe = ({ items }: APP.CarouselCtrl) => {
+const Swipe = ({ items, altkey }: APP.CarouselCtrl) => {
     return (
         <Swiper
             modules={[Keyboard, Pagination, Zoom]}
             keyboard={true}
             pagination={true}
             zoom={true}>
-            {items.map((photo, key) => (<SwiperSlide key={Helpers.uuid()}><Item item={{ photo }} itemClass="swipe-slide" /></SwiperSlide>))}
+            {items.map(item => (
+                <SwiperSlide key={Helpers.uuid()}>
+                    <Item item={item} itemClass="swipe-slide" altkey={altkey} />
+                </SwiperSlide>)
+            )}
         </Swiper>
     )
 }
 
-const Item = ({ item, itemClass }: { item: any, itemClass: string }) => {
-    /// decide if document or photo
+const useAltKey = (item: any, altkey: string[]): string => {
+    const alts = altkey.map(key => (item[key]));
+    return alts.find(i => i !== null) ?? "Carousel Item";
+}
+
+const Item = ({ item, itemClass, altkey }: { item: any, itemClass: string, altkey: string[] }) => {
+    const alt = useAltKey(item, altkey);
     const src = item?.url ?? item?.full_url;
-    if (item) return <IonImg src={src} className={itemClass} />;
+    if (item) return <IonImg src={src} className={itemClass} alt={alt} />;
     else return <span />;
 }
 
@@ -78,17 +88,17 @@ const useChunks = (bullets: any[], active: number, chunksize = 6) => {
     return { chunks, chunkIndx, bltIndx };
 }
 
-const Arrow = ({ dir, wrap, callback, name }: { dir: string, wrap: boolean, name?: string, callback: () => void }) => {
+const Arrow = ({ dir, wrap, callback, name, id }: { dir: string, wrap: boolean, name?: string, callback: () => void, id: string }) => {
     const icon = dir === "prev" ? caretBack : caretForward;
     if (wrap) return (
         <div className={dir}>
-            <IonIcon icon={icon} onClick={callback} />
+            <IonIcon id={id} icon={icon} onClick={callback} />
         </div>
     )
-    else return <IonIcon className={name} icon={icon} onClick={callback} />;
+    else return <IonIcon id={id} className={name} icon={icon} onClick={callback} />;
 }
 
-const Bullets = ({ items, active, max, setActive, onClose, setMax, preference }: APP.CarouselCtrl) => {
+const Bullets = ({ items, active, max, setActive, onClose, setMax, preference, altkey }: APP.CarouselCtrl) => {
     const bullets = items.map(i => ({ ...i, key: Helpers.uuid() }));
     const bulletIndxs = bullets.map(i => i.key);
     const { chunks, chunkIndx, bltIndx } = useChunks(bullets, active);
@@ -99,7 +109,7 @@ const Bullets = ({ items, active, max, setActive, onClose, setMax, preference }:
         const activeClass = index === bltIndx ? " active" : "";
         if (max) return (
             <span key={Helpers.uuid()} onClick={() => tapBullet(item)}>
-                {hasDocId ? <DocumentBtn doc={item} btnstate={`slide-btn${activeClass}`} preference={preference} showIcon={true} callback={() => tapBullet(item)} /> : <Item item={item} itemClass={`slide${activeClass}`} />}
+                {hasDocId ? <DocumentBtn doc={item} btnstate={`slide-btn${activeClass}`} preference={preference} showIcon={true} callback={() => tapBullet(item)} /> : <Item item={item} altkey={altkey} itemClass={`slide${activeClass}`} />}
             </span>
         );
         else return <span key={Helpers.uuid()} onClick={() => tapBullet(item)} className={`bullet${activeClass}`}></span>;
@@ -112,9 +122,9 @@ const Bullets = ({ items, active, max, setActive, onClose, setMax, preference }:
     return (
         <div className={max ? "item-slides" : "bullets"}>
             <div className="wrap">
-                {needsPrev && <Arrow dir="prev" name="blt-nav" wrap={false} callback={() => tapBullet(chunks[chunkIndx - 1][5])} />}
+                {needsPrev && <Arrow dir="prev" id="PrevBltArrow" name="blt-nav" wrap={false} callback={() => tapBullet(chunks[chunkIndx - 1][5])} />}
                 {chunks[chunkIndx].map(getBullet)}
-                {needsNext && <Arrow dir="next" name="blt-nav" wrap={false} callback={() => tapBullet(chunks[chunkIndx + 1][0])} />}
+                {needsNext && <Arrow dir="next" id="NxtBltArrow" name="blt-nav" wrap={false} callback={() => tapBullet(chunks[chunkIndx + 1][0])} />}
                 {max && (
                     <span className="close-icon">
                         <IonIcon icon={closeCircleOutline} size="large" onClick={() => {

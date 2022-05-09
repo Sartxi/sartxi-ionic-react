@@ -8,7 +8,7 @@ import { locationOutline, mailOutline, phonePortraitOutline, logoFacebook, logoI
 
 import "./Dealership.scss";
 
-export const DealershipTile = (layout: VINFO.Layout) => {
+export const DealerBtn = (layout: VINFO.Layout) => {
     const [isOpen, setIsOpen] = useState(false);
     const modalProps = useVinfoModal(ENUMS.VinfoModal.default, { cssClass: "large" });
     useFancyGrad(["DealerBtn"]);
@@ -45,7 +45,7 @@ export const Dealership = (page: VINFO.Page) => {
         <div id="Dealership" className={Layout.VinfoBlock(page.viewType, "grow")}>
             <Modal id="DealerPhotos" isOpen={openPhotos} modalProps={photosProps} onClose={() => setIsOpenPhotos(false)}>
                 <div className="flexblock fill center">
-                    <Carousel items={photos} preference={prefersDark ? "dark" : "light"} />
+                    <Carousel items={photos} preference={prefersDark ? "dark" : "light"} altkey={["full_url"]} />
                 </div>
             </Modal>
             <Modal id="MapModal" isOpen={openMaps} modalProps={mapsProps} onClose={() => setIsOpenMaps(false)}>

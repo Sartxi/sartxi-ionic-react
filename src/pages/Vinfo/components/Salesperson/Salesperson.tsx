@@ -7,7 +7,7 @@ import { Modal } from "../../../../components";
 
 import "./Salesperson.scss";
 
-export const SalespersonTile = (layout: VINFO.Layout) => {
+export const SalesPersonBtn = (layout: VINFO.Layout) => {
     const [isOpen, setIsOpen] = useState(false);
     const modalProps = useVinfoModal(ENUMS.VinfoModal.default, { cssClass: "large" });
     useFancyGrad(["SalesBtn"]);

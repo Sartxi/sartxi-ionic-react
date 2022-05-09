@@ -333,8 +333,43 @@
     }
 }
 
-.popup {
-    .pop-txt {
+.vinfo-popup {
+    position: fixed;
+    text-align: center;
+    background-color: rgba(var(--backdrop-color-rgb), 0.8);
+    padding: 10px 20px;
+    z-index: 13;
+    border-radius: 5px;
+    animation: fadeIn 1s;
+    max-height: 100px;
+    &:after {
+        content: "";
         position: absolute;
+        height: 0;
+        width: 0;
+    }
+    &.lft:after {
+        left: 100%;
+        top: calc(50% - 10px);
+        border: 10px solid transparent;
+        border-left: 10px solid rgba(var(--backdrop-color-rgb), 0.8);
+    }
+    &.rgt:after {
+        right: 100%;
+        top: calc(50% - 10px);
+        border: 10px solid transparent;
+        border-right: 10px solid rgba(var(--backdrop-color-rgb), 0.8);
+    }
+    &.btm:after {
+        left: calc(50% - 10px);
+        top: -20px;
+        border: 10px solid transparent;
+        border-bottom: 10px solid rgba(var(--backdrop-color-rgb), 0.8);
+    }
+    &.top:after {
+        left: calc(50% - 10px);
+        top: 100%;
+        border: 10px solid transparent;
+        border-top: 10px solid rgba(var(--backdrop-color-rgb), 0.8);
     }
 }

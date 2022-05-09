@@ -35,7 +35,7 @@ const InvPhotos = ({ photos, settitle, preference }: InvPhotoProps) => {
 
     return (
         <div className="flexblock fill center">
-            <Carousel type={ENUMS.VinfoCarousel.swipe} items={photos} preference={preference} />
+            <Carousel type={ENUMS.VinfoCarousel.swipe} altkey={["url"]} items={photos} preference={preference} />
         </div>
     )
 }

@@ -45,24 +45,25 @@ declare global {
 		}
 		interface Carousel {
 			preference: string;
+			altkey: string[];
 			defaultIndex?: number;
 			items: VINFO.Photo[] | VINFO.Document[],
 			type?: ENUMS.VinfoCarousel;
 			onClose?: () => void;
 		}
 		interface CarouselCtrl extends Carousel {
-			preference: string;
+			onClose?: () => void;
 			active: number;
 			setActive: (index: number) => void;
 			max: boolean;
 			setMax: (active: boolean) => void;
-			onClose?: () => void;
 		}
 		interface Divider {
 			text?: string;
 			size?: string;
 		}
 		interface Popup {
+			elemId: string;
 			children?: React.ReactNode
 			text: string;
 			trigger?: ENUMS.PopTrig;
