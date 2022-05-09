@@ -46,22 +46,16 @@ const usePopupRect = (rect: any, elId: string, popId: string, position: ENUMS.Po
     }
 }
 
-export const Popup = (popup: APP.Popup) => {
-    const [popId] = useState(Helpers.uuid())
-    const [show, setShow] = useState(false);
-    const [forced, setForced] = useState<ENUMS.PopPos | null>(null);
-
-    const { text, children, trigger = ENUMS.PopTrig.hover, position = ENUMS.PopPos.right } = popup;
-    const pos = forced ? forced : position;
-
-    useWindowResize(() => setForced(null));
-    usePopup(popup.elemId, popId, pos, show);
-    useEffect(() => {
+const useFriskPopupLocation = (show: boolean, popId: string, position: ENUMS.PopPos, setForced: (force: ENUMS.PopPos) => void) => {
+    return useEffect(() => {
         setTimeout(() => {
             const pop = document.getElementById(popId);
             const rec = pop?.getBoundingClientRect();
             if (pop && rec) {
                 switch (position) {
+                    case ENUMS.PopPos.left:
+                        if (rec.left < 0) setForced(ENUMS.PopPos.right);
+                        break;
                     case ENUMS.PopPos.right:
                         if ((rec.left + pop.clientWidth) > window.innerWidth) setForced(ENUMS.PopPos.left);
                         break;
@@ -72,13 +66,24 @@ export const Popup = (popup: APP.Popup) => {
                         if ((rec.top + pop.clientHeight) > window.innerHeight) setForced(ENUMS.PopPos.top);
                         break;
                     default:
-                        // assuming its left position
-                        if (rec.left < 0) setForced(ENUMS.PopPos.right);
                         break;
                 }
             }
         }, 100);
     }, [show]);
+}
+
+export const Popup = (popup: APP.Popup) => {
+    const { text, children, trigger = ENUMS.PopTrig.hover, position = ENUMS.PopPos.right } = popup;
+
+    const [popId] = useState(Helpers.uuid())
+    const [show, setShow] = useState(false);
+    const [forced, setForced] = useState<ENUMS.PopPos | null>(null);
+    const pos = forced ? forced : position;
+
+    useWindowResize(() => setForced(null));
+    usePopup(popup.elemId, popId, pos, show);
+    useFriskPopupLocation(show, popId, position, setForced);
 
     const triggerFnc = () => {
         if (trigger === ENUMS.PopTrig.hover) return { onMouseOver: () => setShow(true), onMouseLeave: () => setShow(false) };

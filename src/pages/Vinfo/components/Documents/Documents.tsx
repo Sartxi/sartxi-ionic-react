@@ -1,6 +1,6 @@
 import { IonImg, IonModal } from "@ionic/react";
 import { useState } from "react";
-import { Carousel } from "../../../../components";
+import { Carousel, Modal } from "../../../../components";
 import { ENUMS, Helpers, Layout } from "../../../../utils";
 import { useFancyGrad, useVinfoModal } from "../../../../utils/Hooks";
 import { useDarkMode } from "../../Hooks";
@@ -24,16 +24,12 @@ export const Documents = ({ viewType, vinfo, refetch }: VINFO.Page) => {
 		setViewDoc: doc => setViewDoc(doc)
 	});
 
-	const docViewMap = (is_external: boolean) => (vinfo.documents.filter(i => i.is_external === is_external))
-	const docView: VINFO.DocView = { external: docViewMap(true), maxView: docViewMap(false) };
-	const prefersDark = useDarkMode(vinfo.theme);
-
 	return (
 		<div id="Documents" className={Layout.VinfoBlock(viewType, "space")}>
-			<IonModal {...modalProps} isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
+			<Modal id="DocumentListModal" isOpen={isOpen} modalProps={modalProps} onClose={() => setIsOpen(false)} useCloseBtn={viewType === ENUMS.AppViewType.desktop}>
 				<DocumentList {...listProps("DocOptions")} />
-			</IonModal>
-			{viewDoc && <Carousel items={docView.maxView} altkey={["name", "document_type_description"]} onClose={() => setViewDoc(null)} type={ENUMS.VinfoCarousel.max} preference={prefersDark ? "dark" : "light"} defaultIndex={vinfo.documents.filter(i => !i.is_external).findIndex(i => i.id === viewDoc?.id)} />}
+			</Modal>
+			<DocumentCarousel viewDoc={viewDoc} setViewDoc={setViewDoc} viewType={viewType} vinfo={vinfo} />
 			<DocumentList {...listProps("DocButtons")} limit={viewType === ENUMS.AppViewType.desktop ? 6 : vinfo.theme.display_docs} />
 			<div className="view-more">
 				<span onClick={() => {
@@ -62,6 +58,37 @@ const DocumentList = ({ docs, listName, viewType, limit = null, showIcon, theme,
 			</div>
 		</div>
 	)
+}
+
+const DocumentCarousel = ({ viewDoc, setViewDoc, vinfo, viewType }: { viewDoc: any, setViewDoc: any, vinfo: VINFO.Detail, viewType: ENUMS.AppViewType }) => {
+	const modalProps = useVinfoModal(ENUMS.VinfoModal.default);
+
+	const docViewMap = (is_external: boolean) => (vinfo.documents.filter(i => i.is_external === is_external))
+	const docView: VINFO.DocView = { external: docViewMap(true), maxView: docViewMap(false) };
+	const prefersDark = useDarkMode(vinfo.theme);
+	const isDesktop = viewType === ENUMS.AppViewType.desktop;
+	const type = isDesktop ? ENUMS.VinfoCarousel.max : ENUMS.VinfoCarousel.swipe;
+	const isOpen = viewDoc ? true : false;
+
+	const carousel = () => {
+		if (isOpen) return (
+			<Carousel
+				type={type}
+				items={docView.maxView}
+				altkey={["name", "document_type_description"]}
+				onClose={() => setViewDoc(null)}
+				preference={prefersDark ? "dark" : "light"}
+				defaultIndex={docView.maxView.findIndex(i => i.id === viewDoc?.id)} />
+		)
+		else return <span />;
+	}
+
+	if (isDesktop) return carousel();
+	else return (
+		<Modal id="MobileDocList" isOpen={isOpen} modalProps={modalProps} onClose={() => setViewDoc(null)}>
+			<div className="flexblock fill center">{carousel()}</div>
+		</Modal>
+	);
 }
 
 const useDocumentIcon = (doc: VINFO.Document, preference: string) => {
