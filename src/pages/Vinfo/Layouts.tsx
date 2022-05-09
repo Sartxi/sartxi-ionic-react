@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ENUMS, Layout } from "../../utils";
 import { Logo, Menu } from "./components";
-import { useLayout, useSections } from "./Hooks";
+import { useDarkMode, useLayout, useSections } from "./Hooks";
 import { ContactUs, VehDetail, VehPhotos, Dealership, DealershipTile, Documents, Salesperson, SalespersonTile } from "./components";
 import { Divider } from "../../components/Divider";
 import { IonIcon } from "@ionic/react";
@@ -12,13 +12,14 @@ import "./Layout.scss";
 
 export const Layouts = (page: VINFO.Page) => {
     const [section, setSection] = useState(ENUMS.VinfoSection.vehicle);
-    const prefersDark = document.querySelector("html")?.getAttribute("vinfo-theme") === "dark";
+    const prefersDark = useDarkMode(page.vinfo.theme);
     const layoutProps: VINFO.Layout = { page, section, setSection, prefersDark };
     return useLayout(layoutProps);
 }
 
 export const Desktop = (layout: VINFO.Layout) => {
     const photos = layout?.page?.vinfo?.inventory?.inventory_item_photos ?? [];
+    const prefersDark = useDarkMode(layout.page.vinfo.theme);
 
     return (
         <div className="vinfo-desktop">
@@ -43,7 +44,7 @@ export const Desktop = (layout: VINFO.Layout) => {
                             <IonIcon icon={logoInstagram} />
                         </div>
                         <div className={Layout.VinfoBlock(layout.page.viewType, "grow vehicle-photos")}>
-                            <Carousel type={ENUMS.VinfoCarousel.standard} items={photos} />
+                            <Carousel type={ENUMS.VinfoCarousel.standard} items={photos} preference={prefersDark ? "dark" : "light"} />
                         </div>
                         <br />
                         <div className={Layout.VinfoBlock(layout.page.viewType, "shaded rounded vehicle card")}>

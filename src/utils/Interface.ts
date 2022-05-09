@@ -44,12 +44,14 @@ declare global {
 			settitle?: (title: string) => void;
 		}
 		interface Carousel {
+			preference: string;
 			defaultIndex?: number;
 			items: VINFO.Photo[] | VINFO.Document[],
 			type?: ENUMS.VinfoCarousel;
 			onClose?: () => void;
 		}
 		interface CarouselCtrl extends Carousel {
+			preference: string;
 			active: number;
 			setActive: (index: number) => void;
 			max: boolean;
@@ -59,6 +61,12 @@ declare global {
 		interface Divider {
 			text?: string;
 			size?: string;
+		}
+		interface Popup {
+			children?: React.ReactNode
+			text: string;
+			trigger?: ENUMS.PopTrig;
+			position?: ENUMS.PopPos;
 		}
 	}
 	namespace VINFO {
@@ -162,11 +170,19 @@ declare global {
 			viewType: any;
 			limit?: number | null;
 			showIcon: boolean;
-			theme: VINFO.Theme
+			theme: VINFO.Theme;
+			setViewDoc: (doc: Document) => void | null;
 		}
 		interface DocView {
 			external: Document[];
 			maxView: Document[];
+		}
+		interface DocBtn {
+			btnstate?: string;
+			showIcon: boolean;
+			preference: string;
+			doc: VINFO.Document;
+			callback: (doc: VINFO.Document) => void;
 		}
 		interface Photo extends StorePhoto {
 			position?: number;

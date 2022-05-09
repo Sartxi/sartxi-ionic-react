@@ -5,3 +5,4 @@ export { Carousel } from "./Carousel";
 export { CtaBanner } from "./CtaBanner";
 export { Map } from "./Map";
 export { Modal } from "./Modal";
+export { Popup } from "./Popup";

@@ -42,15 +42,14 @@ export const useVinfoRest = (location: APP.Location): VINFO.Data => {
 	const [error, setError] = useState<any>(null);
 	const [refetch, setRefetch] = useState(false);
 	const url = useVinfoUrl(location);
+
 	useEffect(() => {
 		const fetchData = async () => {
-			if (!loading) setLoading(true);
 			try {
+				setLoading(true);
 				const res = await fetch(url);
 				const json: any = await res.json();
 				if (json["vehicle-share"]) {
-					console.log(json);
-
 					setData(json);
 					setLoading(false);
 				} else setError(json.message);
@@ -60,7 +59,7 @@ export const useVinfoRest = (location: APP.Location): VINFO.Data => {
 			}
 		}
 		fetchData();
-	}, [refetch]);
+	}, [url, refetch]);
 
 	const vinfoData = useVinfoData(data);
 	useTheme(vinfoData?.theme);
@@ -81,16 +80,29 @@ const useVinfoData = (data: any): VINFO.Detail | null => {
 	};
 };
 
-export const useDarkModeSetting = (override = false) => {
+export const useDarkMode = (theme?: VINFO.Theme): boolean => {
 	const watch = window.matchMedia('(prefers-color-scheme: dark)');
-	const [prefersDark, setPrefersDark] = useState(watch.matches);
-	useEffect(() => {
-		const callback = (dark: any) => setPrefersDark(dark.matches);
-		if (!override) watch.addEventListener("change", callback);
-		return () => watch.removeEventListener("change", callback);
-	}, [watch]);
+	const usingTheme = theme?.dark_mode !== null ?? false;
+	const themeSetting = theme?.dark_mode ?? false;
 
-	return override ? null : prefersDark;
+	const [prefersDark, setPrefersDark] = useState(usingTheme ? themeSetting : watch.matches);
+
+	const setThemeDom = (pref: boolean) => {
+		document.documentElement.setAttribute("vinfo-theme", pref ? "dark" : "light");
+		document.getElementById("Vinfo")?.setAttribute("vinfo-theme", pref ? "dark" : "light");
+	}
+
+	useEffect(() => {
+		const callback = (dark: any) => {
+			setPrefersDark(dark.matches);
+			setThemeDom(dark.matches);
+		}
+		if (!usingTheme) watch.addEventListener("change", callback);
+		return () => watch.removeEventListener("change", callback);
+	}, [watch, usingTheme]);
+
+	setThemeDom(prefersDark);
+	return prefersDark;
 }
 
 export const useLayout = (layout: VINFO.Layout) => {
@@ -111,7 +123,7 @@ const useThemeData = (): VINFO.Theme => {
 		primary_color: "#ae72af",
 		secondary_color: "#1dafec",
 		tertiary_color: "#5260ff",
-		dark_mode: true,
+		dark_mode: null,
 		display_docs: 3,
 		content_width: "1440px"
 	}
@@ -119,18 +131,13 @@ const useThemeData = (): VINFO.Theme => {
 	return defaultTheme;
 }
 
-const useTheme = (theme: VINFO.Theme | undefined) => {
-	const prefersDark = useDarkModeSetting();
+const useTheme = (theme?: VINFO.Theme) => {
+	const prefersDark = useDarkMode(theme);
 	useEffect(() => {
 		if (!theme) return;
 
 		// desktop gutters width
 		if (theme.content_width) document.documentElement.style.setProperty("--theme-content-width", theme.content_width);
-
-		// dark/light
-		const darkmode = theme.dark_mode !== null ? (theme.dark_mode ? "dark" : "light") : (prefersDark ? "dark" : "light");
-		document.documentElement.setAttribute("vinfo-theme", darkmode);
-		document.getElementById("Vinfo")?.setAttribute("vinfo-theme", darkmode);
 
 		// fonts
 		if (theme.font) {

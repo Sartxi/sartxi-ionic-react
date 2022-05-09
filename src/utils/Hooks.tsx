@@ -66,5 +66,5 @@ export const useArrowCtrls = (ctrls: { top?: () => void, btm?: () => void, lft?:
             if (key === "right") ctrls.rgt?.();
         }
         else document.onkeydown = () => { };
-    }, [ctrls]);
+    }, [ctrls, enabled]);
 }

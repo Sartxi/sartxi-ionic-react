@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDarkMode } from "../../Hooks";
 import { IonIcon, IonImg } from "@ionic/react";
 import { ENUMS, Helpers, Layout } from "../../../../utils";
 import { useFancyGrad, useVinfoModal } from "../../../../utils/Hooks";
@@ -37,12 +38,14 @@ export const Dealership = (page: VINFO.Page) => {
     const photosProps = useVinfoModal(ENUMS.VinfoModal.default);
     const mapsProps = useVinfoModal(ENUMS.VinfoModal.sheet);
 
+    const prefersDark = useDarkMode(page.vinfo.theme);
+
     if (!store) return <span />;
     else return (
         <div id="Dealership" className={Layout.VinfoBlock(page.viewType, "grow")}>
             <Modal id="DealerPhotos" isOpen={openPhotos} modalProps={photosProps} onClose={() => setIsOpenPhotos(false)}>
                 <div className="flexblock fill center">
-                    <Carousel items={photos} />
+                    <Carousel items={photos} preference={prefersDark ? "dark" : "light"} />
                 </div>
             </Modal>
             <Modal id="MapModal" isOpen={openMaps} modalProps={mapsProps} onClose={() => setIsOpenMaps(false)}>

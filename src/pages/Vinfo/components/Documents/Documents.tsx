@@ -3,12 +3,13 @@ import { useState } from "react";
 import { Carousel } from "../../../../components";
 import { ENUMS, Helpers, Layout } from "../../../../utils";
 import { useFancyGrad, useVinfoModal } from "../../../../utils/Hooks";
-import { useDarkModeSetting } from "../../Hooks";
+import { useDarkMode } from "../../Hooks";
 
 import "./Documents.scss";
 
-export const Documents = ({ viewType, vinfo }: VINFO.Page) => {
+export const Documents = ({ viewType, vinfo, refetch }: VINFO.Page) => {
 	const [isOpen, setIsOpen] = useState(false);
+	const [viewDoc, setViewDoc] = useState<VINFO.Document | null>(null);
 
 	const modalType = viewType === ENUMS.AppViewType.desktop ? ENUMS.VinfoModal.default : ENUMS.VinfoModal.sheet;
 	const modalProps = useVinfoModal(modalType, viewType === ENUMS.AppViewType.desktop ? { cssClass: "large" } : undefined);
@@ -19,42 +20,45 @@ export const Documents = ({ viewType, vinfo }: VINFO.Page) => {
 		docs: vinfo.documents,
 		viewType,
 		showIcon: viewType === ENUMS.AppViewType.desktop,
-		theme: vinfo.theme
+		theme: vinfo.theme,
+		setViewDoc: doc => setViewDoc(doc)
 	});
+
+	const docViewMap = (is_external: boolean) => (vinfo.documents.filter(i => i.is_external === is_external))
+	const docView: VINFO.DocView = { external: docViewMap(true), maxView: docViewMap(false) };
+	const prefersDark = useDarkMode(vinfo.theme);
 
 	return (
 		<div id="Documents" className={Layout.VinfoBlock(viewType, "space")}>
 			<IonModal {...modalProps} isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
 				<DocumentList {...listProps("DocOptions")} />
 			</IonModal>
+			{viewDoc && <Carousel items={docView.maxView} onClose={() => setViewDoc(null)} type={ENUMS.VinfoCarousel.max} preference={prefersDark ? "dark" : "light"} defaultIndex={vinfo.documents.filter(i => !i.is_external).findIndex(i => i.id === viewDoc?.id)} />}
 			<DocumentList {...listProps("DocButtons")} limit={viewType === ENUMS.AppViewType.desktop ? 6 : vinfo.theme.display_docs} />
 			<div className="view-more">
-				<span onClick={() => setIsOpen(true)}>View All Documents &amp; Research</span>
+				<span onClick={() => {
+					setIsOpen(true);
+					refetch?.();
+				}}>View All Documents &amp; Research</span>
 			</div>
 		</div>
 	);
 };
 
-const DocumentList = ({ docs, listName, viewType, limit = null, showIcon, theme }: VINFO.DocList) => {
-	const [viewDoc, setViewDoc] = useState<VINFO.Document | null>(null);
-
+const DocumentList = ({ docs, listName, viewType, limit = null, showIcon, theme, setViewDoc }: VINFO.DocList) => {
 	const docList = limit ? docs.slice(0, limit) : docs;
-	const docViewMap = (is_external: boolean) => (docs.filter(i => i.is_external === is_external))
-	const docView: VINFO.DocView = { external: docViewMap(true), maxView: docViewMap(false) };
 
 	const openDoc = (doc: VINFO.Document) => {
 		if (doc.is_external) window.open(doc.full_url);
 		else setViewDoc(doc);
 	}
 
-	const userPref = useDarkModeSetting(theme.dark_mode !== null);
-	const useDark = theme.dark_mode !== null ? theme.dark_mode : userPref;
+	const prefersDark = useDarkMode(theme);
 
 	return (
 		<div id={listName}>
-			{viewDoc && <Carousel items={docView.maxView} onClose={() => setViewDoc(null)} type={ENUMS.VinfoCarousel.max} defaultIndex={docs.findIndex(i => i.id === viewDoc?.id)} />}
 			<div className={`flexblock wrap center three-col ${viewType === ENUMS.AppViewType.desktop ? "gap-thirty" : "gap-ten"}`}>
-				{docList.map(doc => <DocumentBtn key={doc.id} preference={useDark ? "dark" : "light"} showIcon={showIcon} doc={doc} callback={openDoc} />)}
+				{docList.map(doc => <DocumentBtn key={doc.id} preference={prefersDark ? "dark" : "light"} showIcon={showIcon} doc={doc} callback={openDoc} />)}
 			</div>
 		</div>
 	)
@@ -86,13 +90,16 @@ const useDocumentIcon = (doc: VINFO.Document, preference: string) => {
 	return <IonImg src={`/assets/images/icon_${docIcon}_${preference}.svg`} className={urlHasCarFox ? "carfax" : ""} />;
 }
 
-const DocumentBtn = ({ showIcon, doc, callback, preference }: { showIcon: boolean, preference: string, doc: VINFO.Document, callback: (doc: VINFO.Document) => void }) => {
+export const DocumentBtn = ({ showIcon, doc, callback, preference, btnstate = "" }: VINFO.DocBtn) => {
 	const icon = useDocumentIcon(doc, preference);
 	const key = Helpers.uuid();
 	useFancyGrad([key]);
 
+	console.log(doc);
+	
+
 	return (
-		<div key={key} id={key} className="block rounded shaded btn grad-btn" onClick={() => callback(doc)}>
+		<div key={key} id={key} className={`block rounded shaded btn grad-btn ${btnstate}`} onClick={() => callback(doc)}>
 			{showIcon && <div className="doc-icon">{icon}</div>}
 			<span className="doc-name">{doc.document_type_name}</span>
 		</div>

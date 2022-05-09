@@ -1,5 +1,5 @@
 export { VehDetail, VehPhotos } from "./Vehicle/index";
-export { Documents } from "./Documents/Documents";
+export { Documents, DocumentBtn } from "./Documents/Documents";
 export { Logo } from "./Logo/Logo";
 export { Menu } from "./Menu/Menu";
 export { Dealership, DealershipTile } from "./Dealership/Dealership";

@@ -54,4 +54,15 @@ export namespace ENUMS {
         video = "video",
         other = "other"
     }
+    export enum PopPos {
+        top = "top",
+        bottom = "btm",
+        left = "lft",
+        right = "rgt"
+    }
+
+    export enum PopTrig {
+        hover = "hover",
+        click = "click"
+    }
 }

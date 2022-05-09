@@ -5,6 +5,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Keyboard, Pagination, Zoom } from "swiper";
 import { caretBack, caretForward, closeCircleOutline } from "ionicons/icons";
 import { useArrowCtrls } from "../utils/Hooks";
+import { DocumentBtn } from "../pages/Vinfo/components";
+import { Popup } from "./";
 
 import "@ionic/react/css/ionic-swiper.css";
 import "swiper/css";
@@ -16,24 +18,7 @@ import "swiper/css/zoom";
 
 import "./Components.scss";
 
-const Arrow = ({ dir, wrap, callback, name }: { dir: string, wrap: boolean, name?: string, callback: () => void }) => {
-    const icon = dir === "prev" ? caretBack : caretForward;
-    if (wrap) return (
-        <div className={dir}>
-            <IonIcon icon={icon} onClick={callback} />
-        </div>
-    )
-    else return <IonIcon className={name} icon={icon} onClick={callback} />;
-}
-
-const CarouselItem = ({ item, itemClass }: { item: any, itemClass: string }) => {
-    /// decide if document or photo
-    const src = item?.url ?? item?.full_url;
-    if (item) return <IonImg src={src} className={itemClass} />;
-    else return <span />;
-}
-
-const StandardCarousel = (carousel: APP.CarouselCtrl) => {
+const Standard = (carousel: APP.CarouselCtrl) => {
     const { items, active, setActive, max, setMax, onClose } = carousel;
     const canSlide = items?.length > 1 ?? false;
     const closeMax = () => {
@@ -46,15 +31,34 @@ const StandardCarousel = (carousel: APP.CarouselCtrl) => {
             {max ? <div className="backdrop" onClick={closeMax} /> : ""}
             <div className={`carousel${max ? " max" : ""}`}>
                 {canSlide && max && <Bullets {...carousel} />}
-                {canSlide && <Arrow dir="prev" wrap={true} callback={() => setActive(Helpers.setIndex.prev(active, items.length - 1))} />}
+                {canSlide && <Popup text="Prev" position={ENUMS.PopPos.left}><Arrow dir="prev" wrap={true} callback={() => setActive(Helpers.setIndex.prev(active, items.length - 1))} /></Popup>}
                 <div className={`item animated`} onClick={() => setMax(true)}>
-                    {items.map((item, index) => (<CarouselItem key={Helpers.uuid()} item={item} itemClass={`slide${index === active ? " center" : ""}`} />))}
+                    {items.map((item, index) => (<Item key={Helpers.uuid()} item={item} itemClass={`slide${index === active ? " active" : ""}`} />))}
                 </div>
-                {canSlide && <Arrow dir="next" wrap={true} callback={() => setActive(Helpers.setIndex.next(active, items.length - 1))} />}
+                {canSlide && <Popup text="Next" position={ENUMS.PopPos.right}><Arrow dir="next" wrap={true} callback={() => setActive(Helpers.setIndex.next(active, items.length - 1))} /></Popup>}
                 {canSlide && !max && <Bullets {...carousel} />}
             </div>
         </>
     )
+}
+
+const Swipe = ({ items }: APP.CarouselCtrl) => {
+    return (
+        <Swiper
+            modules={[Keyboard, Pagination, Zoom]}
+            keyboard={true}
+            pagination={true}
+            zoom={true}>
+            {items.map((photo, key) => (<SwiperSlide key={Helpers.uuid()}><Item item={{ photo }} itemClass="swipe-slide" /></SwiperSlide>))}
+        </Swiper>
+    )
+}
+
+const Item = ({ item, itemClass }: { item: any, itemClass: string }) => {
+    /// decide if document or photo
+    const src = item?.url ?? item?.full_url;
+    if (item) return <IonImg src={src} className={itemClass} />;
+    else return <span />;
 }
 
 const useChunks = (bullets: any[], active: number, chunksize = 6) => {
@@ -74,15 +78,31 @@ const useChunks = (bullets: any[], active: number, chunksize = 6) => {
     return { chunks, chunkIndx, bltIndx };
 }
 
-const Bullets = ({ items, active, max, setActive, onClose, setMax }: APP.CarouselCtrl) => {
+const Arrow = ({ dir, wrap, callback, name }: { dir: string, wrap: boolean, name?: string, callback: () => void }) => {
+    const icon = dir === "prev" ? caretBack : caretForward;
+    if (wrap) return (
+        <div className={dir}>
+            <IonIcon icon={icon} onClick={callback} />
+        </div>
+    )
+    else return <IonIcon className={name} icon={icon} onClick={callback} />;
+}
+
+const Bullets = ({ items, active, max, setActive, onClose, setMax, preference }: APP.CarouselCtrl) => {
     const bullets = items.map(i => ({ ...i, key: Helpers.uuid() }));
     const bulletIndxs = bullets.map(i => i.key);
     const { chunks, chunkIndx, bltIndx } = useChunks(bullets, active);
 
     const tapBullet = (i: any) => setActive(bulletIndxs.indexOf(i.key));
     const getBullet = (item: any, index: number) => {
-        if (max) return <span key={Helpers.uuid()} onClick={() => tapBullet(item)}><CarouselItem item={item} itemClass={`slide${index === bltIndx ? " center" : ""}`} /></span>;
-        else return <span key={Helpers.uuid()} onClick={() => tapBullet(item)} className={`bullet${index === bltIndx ? " center" : ""}`}></span>;
+        const hasDocId = item.vehicle_document_type_id;
+        const activeClass = index === bltIndx ? " active" : "";
+        if (max) return (
+            <span key={Helpers.uuid()} onClick={() => tapBullet(item)}>
+                {hasDocId ? <DocumentBtn doc={item} btnstate={`slide-btn${activeClass}`} preference={preference} showIcon={true} callback={() => tapBullet(item)} /> : <Item item={item} itemClass={`slide${activeClass}`} />}
+            </span>
+        );
+        else return <span key={Helpers.uuid()} onClick={() => tapBullet(item)} className={`bullet${activeClass}`}></span>;
     }
 
     const needsNav = chunks.length > 1;
@@ -108,18 +128,6 @@ const Bullets = ({ items, active, max, setActive, onClose, setMax }: APP.Carouse
     )
 }
 
-const SwipeCarousel = ({ items }: APP.CarouselCtrl) => {
-    return (
-        <Swiper
-            modules={[Keyboard, Pagination, Zoom]}
-            keyboard={true}
-            pagination={true}
-            zoom={true}>
-            {items.map((photo, key) => (<SwiperSlide key={Helpers.uuid()}><CarouselItem item={{ photo }} itemClass="swipe-slide" /></SwiperSlide>))}
-        </Swiper>
-    )
-}
-
 export const Carousel = (carousel: APP.Carousel) => {
     const [active, setActive] = useState(carousel.defaultIndex || 0);
     const [max, setMax] = useState(carousel.type === ENUMS.VinfoCarousel.max);
@@ -132,6 +140,6 @@ export const Carousel = (carousel: APP.Carousel) => {
 
     const props: APP.CarouselCtrl = { ...carousel, active, setActive, max, setMax };
     const type = carousel.type ?? ENUMS.VinfoCarousel.standard;
-    if (type === ENUMS.VinfoCarousel.swipe) return <SwipeCarousel {...props} />;
-    return <StandardCarousel {...props} />;
+    if (type === ENUMS.VinfoCarousel.swipe) return <Swipe {...props} />;
+    return <Standard {...props} />;
 }
