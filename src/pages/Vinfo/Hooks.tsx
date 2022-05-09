@@ -82,26 +82,23 @@ const useVinfoData = (data: any): VINFO.Detail | null => {
 
 export const useDarkMode = (theme?: VINFO.Theme): boolean => {
 	const watch = window.matchMedia('(prefers-color-scheme: dark)');
+
 	const usingTheme = theme?.dark_mode !== null ?? false;
 	const themeSetting = theme?.dark_mode ?? false;
 
 	const [prefersDark, setPrefersDark] = useState(usingTheme ? themeSetting : watch.matches);
 
-	const setThemeDom = (pref: boolean) => {
-		document.documentElement.setAttribute("vinfo-theme", pref ? "dark" : "light");
-		document.getElementById("Vinfo")?.setAttribute("vinfo-theme", pref ? "dark" : "light");
-	}
-
 	useEffect(() => {
-		const callback = (dark: any) => {
-			setPrefersDark(dark.matches);
-			setThemeDom(dark.matches);
-		}
+		const callback = (dark: any) => setPrefersDark(dark.matches);
 		if (!usingTheme) watch.addEventListener("change", callback);
 		return () => watch.removeEventListener("change", callback);
 	}, [watch, usingTheme]);
 
-	setThemeDom(prefersDark);
+	useEffect(() => {
+		document.documentElement.setAttribute("vinfo-theme", prefersDark ? "dark" : "light");
+		document.getElementById("Vinfo")?.setAttribute("vinfo-theme", prefersDark ? "dark" : "light");
+	}, [prefersDark])
+
 	return prefersDark;
 }
 
@@ -112,6 +109,7 @@ export const useLayout = (layout: VINFO.Layout) => {
 
 // Vinfo Theme
 const useThemeData = (): VINFO.Theme => {
+	// currently just using this theme object - need services for this or have it included in the current service
 	// share.store.theme - maybe??
 
 	const defaultTheme: VINFO.Theme = {
@@ -148,7 +146,6 @@ const useTheme = (theme?: VINFO.Theme) => {
 			document.documentElement.style.setProperty("--theme-font", `${theme.font}, ${theme.font_family}`);
 			document.documentElement.style.setProperty("--theme-bold-font", `${theme.bold_font}, ${theme.bold_font_family}`);
 		}
-
 
 		// colors
 		const setColor = (key: string, val: any) => {

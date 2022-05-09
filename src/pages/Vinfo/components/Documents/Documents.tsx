@@ -95,9 +95,6 @@ export const DocumentBtn = ({ showIcon, doc, callback, preference, btnstate = ""
 	const key = Helpers.uuid();
 	useFancyGrad([key]);
 
-	console.log(doc);
-	
-
 	return (
 		<div key={key} id={key} className={`block rounded shaded btn grad-btn ${btnstate}`} onClick={() => callback(doc)}>
 			{showIcon && <div className="doc-icon">{icon}</div>}
