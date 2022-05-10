@@ -56,9 +56,9 @@ const DocumentView = ({ docs, viewMode, viewType, limit = null, theme, setViewDo
 	}
 
 	const viewClass = `documents-view ${viewMode === ENUMS.DocViewMode.list ? "list" : ""} ${ENUMS.AppViewType[viewType]}`
-	const gridDeco = `wrap center three-col ${viewType === ENUMS.AppViewType.desktop ? "gap-thirty" : "gap-ten"}`;
-	const listDeco = `cols stretch center gap-ten doc-list`;
-	const decorations = viewMode === ENUMS.DocViewMode.grid ? gridDeco : listDeco;
+	const decorations = viewMode === ENUMS.DocViewMode.grid ? `wrap center three-col ${viewType === ENUMS.AppViewType.desktop ? "gap-thirty" : "gap-ten"}` : `cols stretch center gap-ten doc-list`;
+
+	// overide mode for mobile view btns
 	const mode = viewType === ENUMS.AppViewType.mobile ? ENUMS.DocViewMode.grid : viewMode;
 	const showIcon = viewType === ENUMS.AppViewType.desktop || viewMode === ENUMS.DocViewMode.list;
 
@@ -75,10 +75,10 @@ const DocumentView = ({ docs, viewMode, viewType, limit = null, theme, setViewDo
 
 const DocumentCarousel = ({ viewDoc, setViewDoc, vinfo, viewType }: { viewDoc: any, setViewDoc: any, vinfo: VINFO.Detail, viewType: ENUMS.AppViewType }) => {
 	const modalProps = useVinfoModal(ENUMS.VinfoModal.default);
+	const prefersDark = useDarkMode(vinfo.theme);
 
 	const docViewMap = (is_external: boolean) => (vinfo.documents.filter(i => i.is_external === is_external))
 	const docView: VINFO.DocView = { external: docViewMap(true), maxView: docViewMap(false) };
-	const prefersDark = useDarkMode(vinfo.theme);
 	const isDesktop = viewType === ENUMS.AppViewType.desktop;
 	const type = isDesktop ? ENUMS.VinfoCarousel.max : ENUMS.VinfoCarousel.swipe;
 	const isOpen = viewDoc ? true : false;
@@ -133,7 +133,6 @@ const useDocumentIcon = (doc: VINFO.Document, preference: string) => {
 export const DocumentBtn = ({ showIcon, doc, callback, preference, btnstate = "", btnkey = Helpers.uuid() }: VINFO.DocBtn) => {
 	const icon = useDocumentIcon(doc, preference);
 	useFancyGrad([btnkey]);
-
 	return (
 		<div key={btnkey} id={btnkey} className={`block rounded shaded btn grad-btn ${btnstate}`} onClick={() => callback(doc)}>
 			{showIcon && <div className="doc-icon">{icon}</div>}
