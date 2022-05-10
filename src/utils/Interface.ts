@@ -164,13 +164,13 @@ declare global {
 			store_can_modify: boolean;
 			vehicle_document_type_id: number;
 			view_count: number;
+			name: string;
 		}
 		interface DocList {
 			docs: VINFO.Document[];
-			listName: string;
-			viewType: any;
+			viewMode: ENUMS.DocViewMode;
+			viewType: ENUMS.AppViewType;
 			limit?: number | null;
-			showIcon: boolean;
 			theme: VINFO.Theme;
 			setViewDoc: (doc: Document) => void | null;
 		}
@@ -179,11 +179,11 @@ declare global {
 			maxView: Document[];
 		}
 		interface DocBtn {
-			btnkey?: string;
-			btnstate?: string;
+			doc: VINFO.Document;
 			showIcon: boolean;
 			preference: string;
-			doc: VINFO.Document;
+			btnkey?: string;
+			btnstate?: string;
 			callback: (doc: VINFO.Document) => void;
 		}
 		interface Photo extends StorePhoto {

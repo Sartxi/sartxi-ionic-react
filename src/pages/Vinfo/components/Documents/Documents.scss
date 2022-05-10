@@ -7,11 +7,106 @@
         }
     }
 
-    &.desktop #DocButtons .block {
+    &.desktop #DocView .block {
         height: 95px;
     }
 
-    #DocButtons .block {
+    .view-more {
+        text-align: center;
+        margin-top: 15px;
+        cursor: pointer;
+        span {
+            font-size: 0.8em;
+            &:hover {
+                color: var(--ion-color-primary);
+            }
+        }
+    }
+}
+
+#DocModal {
+    .doc-title {
+        padding-left: 25px;
+        font-family: var(--theme-bold-font);
+    }
+    &.mobile {
+        .doc-title {
+            text-align: center;
+            padding-left: 0;
+        }
+        #DocView.list {
+            .doc-list {
+                .doc-icon {
+                    bottom: 15px;
+                    .carfax {
+                        top: 17px;
+                        width: 155%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+#DocView {
+    &.list {
+        overflow-y: auto;
+        height: calc(100% - 60px);
+        .doc-list {
+            display: block;
+            height: auto;
+            padding: 0 20px 20px;
+            .block {
+                height: 120px;
+                max-width: 100%;
+                margin-bottom: 19px;
+                flex-direction: row;
+                align-items: center;
+                text-align: left;
+                &:last-child {
+                    margin-bottom: 0;
+                }
+                .doc-icon {
+                    position: relative;
+                    max-width: 119px;
+                    bottom: 34px;
+                    padding: 18px;
+                    .carfax {
+                        width: 112%;
+                        left: -2px;
+                        top: 32px;
+                    }
+                }
+                .doc-name {
+                    font-size: 1.2em;
+                    width: 100%;
+                    text-align: left;
+                    margin-left: 15px;
+                    .sub {
+                        display: block;
+                        font-size: 0.8em;
+                        font-weight: 100;
+                    }
+                }
+                .doc-cta {
+                    width: 264px;
+                    padding: 15px 15px 5px 0;
+                    .block {
+                        margin-bottom: 10px;
+                        height: 40px;
+                        justify-content: center;
+                    }
+                    .single {
+                        margin-top: 27px;
+                    }
+                }
+                .doc-data {
+                    width: 90%;
+                }
+            }
+        }
+    }
+    .block {
         text-align: center;
         display: flex;
         flex-direction: column;
@@ -42,18 +137,6 @@
             width: 100%;
             text-align: center;
             align-self: center;
-        }
-    }
-
-    .view-more {
-        text-align: center;
-        margin-top: 15px;
-        cursor: pointer;
-        span {
-            font-size: 0.8em;
-            &:hover {
-                color: var(--ion-color-primary);
-            }
         }
     }
 }

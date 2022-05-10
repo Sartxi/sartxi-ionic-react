@@ -32,11 +32,21 @@ const Standard = (carousel: APP.CarouselCtrl) => {
             {max ? <div className="backdrop" onClick={closeMax} /> : ""}
             <div className={`carousel${max ? " max" : ""}`}>
                 {canSlide && max && <Bullets {...carousel} />}
-                {canSlide && <Popup text="Previous" elemId={`prev-${cId}`} position={ENUMS.PopPos.left}><Arrow id={`prev-${cId}`} dir="prev" wrap={true} callback={() => setActive(Helpers.setIndex.prev(active, items.length - 1))} /></Popup>}
-                <div className={`item animated`} onClick={() => setMax(true)}>
+                {canSlide && (
+                    <Popup text="Previous" elemId={`prev-${cId}`} position={ENUMS.PopPos.left}>
+                        <Arrow id={`prev-${cId}`} dir="prev" wrap={true} callback={() => setActive(Helpers.setIndex.prev(active, items.length - 1))} />
+                    </Popup>
+                )}
+
+                <div id="CarouselItems" className={`item animated`} onClick={() => setMax(true)}>
                     {items.map((item, index) => (<Item key={Helpers.uuid()} altkey={altkey} item={item} itemClass={`slide${index === active ? " active" : ""}`} />))}
                 </div>
-                {canSlide && <Popup text="Next" elemId={`next-${cId}`} position={ENUMS.PopPos.right}><Arrow id={`next-${cId}`} dir="next" wrap={true} callback={() => setActive(Helpers.setIndex.next(active, items.length - 1))} /></Popup>}
+
+                {canSlide && (
+                    <Popup text="Next" elemId={`next-${cId}`} position={ENUMS.PopPos.right}>
+                        <Arrow id={`next-${cId}`} dir="next" wrap={true} callback={() => setActive(Helpers.setIndex.next(active, items.length - 1))} />
+                    </Popup>
+                )}
                 {canSlide && !max && <Bullets {...carousel} />}
             </div>
         </>
@@ -110,7 +120,13 @@ const Bullets = ({ items, active, max, setActive, onClose, setMax, preference, a
         const key = Helpers.uuid();
         if (max) return (
             <span key={key} onClick={() => tapBullet(item)}>
-                {hasDocId ? <Popup elemId={key} text={item.name ?? "Document"} position={ENUMS.PopPos.bottom}><DocumentBtn btnkey={key} doc={item} btnstate={`slide-btn${activeClass}`} preference={preference} showIcon={true} callback={() => tapBullet(item)} /></Popup> : <Item item={item} altkey={altkey} itemClass={`slide${activeClass}`} />}
+                {hasDocId ? (
+                    <Popup elemId={key} text={item.name ?? "Document"} position={ENUMS.PopPos.bottom}>
+                        <DocumentBtn btnkey={key} doc={item} btnstate={`slide-btn${activeClass}`} preference={preference} showIcon={true} callback={() => tapBullet(item)} />
+                    </Popup>
+                ) : (
+                    <Item item={item} altkey={altkey} itemClass={`slide${activeClass}`} />
+                )}
             </span>
         );
         else return <span key={Helpers.uuid()} onClick={() => tapBullet(item)} className={`bullet${activeClass}`}></span>;

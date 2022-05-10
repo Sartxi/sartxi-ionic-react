@@ -1,4 +1,4 @@
-import { IonImg, IonModal } from "@ionic/react";
+import { IonImg } from "@ionic/react";
 import { useState } from "react";
 import { Carousel, Modal } from "../../../../components";
 import { ENUMS, Helpers, Layout } from "../../../../utils";
@@ -14,23 +14,28 @@ export const Documents = ({ viewType, vinfo, refetch }: VINFO.Page) => {
 	const modalType = viewType === ENUMS.AppViewType.desktop ? ENUMS.VinfoModal.default : ENUMS.VinfoModal.sheet;
 	const modalProps = useVinfoModal(modalType, viewType === ENUMS.AppViewType.desktop ? { cssClass: "large" } : undefined);
 
-	const listProps: (ln: string) => VINFO.DocList = listName => ({
+	const listProps: (mode: ENUMS.DocViewMode) => VINFO.DocList = viewMode => ({
 		vinfo,
-		listName,
-		docs: vinfo.documents,
+		viewMode,
 		viewType,
-		showIcon: viewType === ENUMS.AppViewType.desktop,
 		theme: vinfo.theme,
-		setViewDoc: doc => setViewDoc(doc)
+		docs: vinfo.documents,
+		setViewDoc: doc => {
+			if (isOpen) setIsOpen(false);
+			setViewDoc(doc);
+		}
 	});
 
 	return (
 		<div id="Documents" className={Layout.VinfoBlock(viewType, "space")}>
-			<Modal id="DocumentListModal" isOpen={isOpen} modalProps={modalProps} onClose={() => setIsOpen(false)} useCloseBtn={viewType === ENUMS.AppViewType.desktop}>
-				<DocumentList {...listProps("DocOptions")} />
+			<Modal id="DocumentViewModal" isOpen={isOpen} modalProps={modalProps} onClose={() => setIsOpen(false)} useCloseBtn={viewType === ENUMS.AppViewType.desktop}>
+				<div id="DocModal" className={ENUMS.AppViewType[viewType]}>
+					<h2 className="doc-title">All Vehicle Documents</h2>
+					<DocumentView {...listProps(ENUMS.DocViewMode.list)} />
+				</div>
 			</Modal>
 			<DocumentCarousel viewDoc={viewDoc} setViewDoc={setViewDoc} viewType={viewType} vinfo={vinfo} />
-			<DocumentList {...listProps("DocButtons")} limit={viewType === ENUMS.AppViewType.desktop ? 6 : vinfo.theme.display_docs} />
+			<DocumentView {...listProps(ENUMS.DocViewMode.grid)} limit={viewType === ENUMS.AppViewType.desktop ? 6 : vinfo.theme.display_docs} />
 			<div className="view-more">
 				<span onClick={() => {
 					setIsOpen(true);
@@ -41,7 +46,8 @@ export const Documents = ({ viewType, vinfo, refetch }: VINFO.Page) => {
 	);
 };
 
-const DocumentList = ({ docs, listName, viewType, limit = null, showIcon, theme, setViewDoc }: VINFO.DocList) => {
+const DocumentView = ({ docs, viewMode, viewType, limit = null, theme, setViewDoc }: VINFO.DocList) => {
+	const prefersDark = useDarkMode(theme);
 	const docList = limit ? docs.slice(0, limit) : docs;
 
 	const openDoc = (doc: VINFO.Document) => {
@@ -49,15 +55,22 @@ const DocumentList = ({ docs, listName, viewType, limit = null, showIcon, theme,
 		else setViewDoc(doc);
 	}
 
-	const prefersDark = useDarkMode(theme);
+	const viewClass = `documents-view ${viewMode === ENUMS.DocViewMode.list ? "list" : ""} ${ENUMS.AppViewType[viewType]}`
+	const gridDeco = `wrap center three-col ${viewType === ENUMS.AppViewType.desktop ? "gap-thirty" : "gap-ten"}`;
+	const listDeco = `cols stretch center gap-ten doc-list`;
+	const decorations = viewMode === ENUMS.DocViewMode.grid ? gridDeco : listDeco;
+	const mode = viewType === ENUMS.AppViewType.mobile ? ENUMS.DocViewMode.grid : viewMode;
+	const showIcon = viewType === ENUMS.AppViewType.desktop || viewMode === ENUMS.DocViewMode.list;
 
 	return (
-		<div id={listName}>
-			<div className={`flexblock wrap center three-col ${viewType === ENUMS.AppViewType.desktop ? "gap-thirty" : "gap-ten"}`}>
-				{docList.map(doc => <DocumentBtn key={Helpers.uuid()} preference={prefersDark ? "dark" : "light"} showIcon={showIcon} doc={doc} callback={openDoc} />)}
+		<div id="DocView" className={viewClass}>
+			<div className={`flexblock ${decorations}`}>
+				{docList.map(doc => (
+					<DocumentItem key={Helpers.uuid()} mode={mode} preference={prefersDark ? "dark" : "light"} showIcon={showIcon} doc={doc} callback={openDoc} />
+				))}
 			</div>
 		</div>
-	)
+	);
 }
 
 const DocumentCarousel = ({ viewDoc, setViewDoc, vinfo, viewType }: { viewDoc: any, setViewDoc: any, vinfo: VINFO.Detail, viewType: ENUMS.AppViewType }) => {
@@ -125,6 +138,35 @@ export const DocumentBtn = ({ showIcon, doc, callback, preference, btnstate = ""
 		<div key={btnkey} id={btnkey} className={`block rounded shaded btn grad-btn ${btnstate}`} onClick={() => callback(doc)}>
 			{showIcon && <div className="doc-icon">{icon}</div>}
 			<span className="doc-name">{doc.document_type_name}</span>
+		</div>
+	)
+}
+
+interface DocItem extends VINFO.DocBtn { mode: ENUMS.DocViewMode };
+export const DocumentItem = (props: DocItem) => {
+	const { mode, doc, preference, btnkey, callback } = props;
+	const icon = useDocumentIcon(doc, preference);
+	const is_external = doc.is_external;
+	if (mode === ENUMS.DocViewMode.grid) return <DocumentBtn {...props} />;
+	else return (
+		<div key={btnkey} id={btnkey} className={`block rounded shaded`}>
+			<div className="doc-data flexblock">
+				<div className="doc-icon">{icon}</div>
+				<span className="doc-name">
+					{doc.name ? doc.name : doc.document_type_name}
+					{doc.name && <span className="sub">{doc.document_type_name}</span>}
+				</span>
+			</div>
+			<div className="doc-cta flexblock cols">
+				<div className={`block rounded shaded btn ${is_external ? "single" : ""}`} onClick={() => callback(doc)}>
+					{is_external ? "Open" : "Preview"}
+				</div>
+				{!is_external && (
+					<div className="block rounded shaded btn" onClick={() => callback(doc)}>
+						Download
+					</div>
+				)}
+			</div>
 		</div>
 	)
 }

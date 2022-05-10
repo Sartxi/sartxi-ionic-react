@@ -60,9 +60,12 @@ export namespace ENUMS {
         left = "lft",
         right = "rgt"
     }
-
     export enum PopTrig {
         hover = "hover",
         click = "click"
+    }
+    export enum DocViewMode {
+        list = "list",
+        grid = "grid"
     }
 }

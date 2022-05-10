@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import { ENUMS } from "./Enums";
+import { Helpers } from "./Helpers";
 
 export const useWindowResize = (callback: () => void) => {
     const [size, setSize] = useState([window.innerWidth, window.innerHeight]);
@@ -38,7 +39,7 @@ export const useVinfoModal = (type: ENUMS.VinfoModal, props = {}) => {
             };
             break;
     }
-    return { id: `${new Date()}-${type}`, ...typeProps, ...props };
+    return { id: `${Helpers.uuid()}-${type}`, ...typeProps, ...props };
 }
 
 export const useFancyGrad = (elems: string[]) => {
