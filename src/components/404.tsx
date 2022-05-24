@@ -10,17 +10,17 @@ export const App404 = () => {
 	return (
 		<IonPage>
 			<IonContent>
-				<IonCard>
-					<IonCardHeader>
-						<IonCardTitle>
-							<IonIcon icon={warningOutline} color="white" size="large" /> 404
-						</IonCardTitle>
-						<IonCardSubtitle>The page you were looking for does not exist</IonCardSubtitle>
-					</IonCardHeader>
-					<IonCardContent>
-						(Unless you were looking for a page that does not exist. If that's the case, it definetely existes and you definetely found it.)
-					</IonCardContent>
-				</IonCard>
+				<div id="fourofour">
+					<IonCard>
+						<IonCardHeader>
+							<IonIcon icon={warningOutline} color="white" />
+							<IonCardTitle>Oops, the page you were looking for does not exist.</IonCardTitle>
+						</IonCardHeader>
+						<IonCardContent>
+							Were you expecting to find a vehicle report? Please email us at vinfo@vinfo.info
+						</IonCardContent>
+					</IonCard>
+				</div>
 			</IonContent>
 		</IonPage>
 	);

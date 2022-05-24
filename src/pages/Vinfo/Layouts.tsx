@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ENUMS, Layout } from "../../utils";
-import { useDarkMode, useLayout, useSections } from "./Hooks";
+import { useDarkMode, useLayout, useSections, useVehiclePhotos } from "./Hooks";
 
 import { logoFacebook, logoInstagram, logoLinkedin, logoTwitter } from "ionicons/icons";
 import { Logo, Menu } from "./components";
@@ -19,9 +19,9 @@ export const Layouts = (page: VINFO.Page) => {
 }
 
 export const Desktop = (layout: VINFO.Layout) => {
-    const photos = layout?.page?.vinfo?.inventory?.inventory_item_photos ?? [];
+    const photos = useVehiclePhotos(layout.page.vinfo.inventory);
     const prefersDark = useDarkMode(layout.page.vinfo.theme);
-
+    
     return (
         <div className="vinfo-desktop">
             <div className="overlay-img" />
@@ -45,7 +45,7 @@ export const Desktop = (layout: VINFO.Layout) => {
                             <IonIcon icon={logoInstagram} />
                         </div>
                         <div className={Layout.VinfoBlock(layout.page.viewType, "grow vehicle-photos")}>
-                            <Carousel type={ENUMS.VinfoCarousel.standard} items={photos} altkey={["url"]} preference={prefersDark ? "dark" : "light"} />
+                            <Carousel type={ENUMS.VinfoCarousel.standard} items={photos} altkeys={["stored_image_filename"]} itemkey="url" preference={prefersDark ? "dark" : "light"} />
                         </div>
                         <br />
                         <div className={Layout.VinfoBlock(layout.page.viewType, "shaded rounded vehicle card")}>

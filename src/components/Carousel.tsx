@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IonIcon, IonImg } from "@ionic/react";
 import { ENUMS, Helpers } from "../utils";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -19,9 +19,16 @@ import "swiper/css/zoom";
 import "./Components.scss";
 
 const Standard = (carousel: APP.CarouselCtrl) => {
+    const { items, active, setActive, max, setMax, onClose, itemkey, altkeys } = carousel;
     const [cId] = useState(Helpers.uuid());
-    const { items, active, setActive, max, setMax, onClose, altkey } = carousel;
+    const altKeys = useAltKeys(items, altkeys);
+
     const canSlide = items?.length > 1 ?? false;
+    const canMax = () => {
+        const firstItem: any = items[0];
+        return !firstItem[itemkey]?.includes("default_vehicle_image");
+    };
+
     const closeMax = () => {
         onClose?.();
         setMax(false);
@@ -38,8 +45,8 @@ const Standard = (carousel: APP.CarouselCtrl) => {
                     </Popup>
                 )}
 
-                <div id="CarouselItems" className={`item animated`} onClick={() => setMax(true)}>
-                    {items.map((item, index) => (<Item key={Helpers.uuid()} altkey={altkey} item={item} itemClass={`slide${index === active ? " active" : ""}`} />))}
+                <div id="CarouselItems" className={`item animated`} onClick={() => canMax() && setMax(true)}>
+                    {items.map((item, index) => (<Item key={Helpers.uuid()} alt={altKeys[index]} item={item} itemClass={`slide${index === active ? " active" : ""}`} />))}
                 </div>
 
                 {canSlide && (
@@ -53,29 +60,46 @@ const Standard = (carousel: APP.CarouselCtrl) => {
     )
 }
 
-const Swipe = ({ items, altkey }: APP.CarouselCtrl) => {
+const Swipe = ({ items, altkeys }: APP.CarouselCtrl) => {
+    const altKeys = useAltKeys(items, altkeys);
     return (
         <Swiper
             modules={[Keyboard, Pagination, Zoom]}
             keyboard={true}
             pagination={true}
             zoom={true}>
-            {items.map(item => (
+            {items.map((item, index) => (
                 <SwiperSlide key={Helpers.uuid()}>
-                    <Item item={item} itemClass="swipe-slide" altkey={altkey} />
+                    <Item item={item} itemClass="swipe-slide" alt={altKeys[index]} />
                 </SwiperSlide>)
             )}
         </Swiper>
     )
 }
 
-const useAltKey = (item: any, altkey: string[]): string => {
-    const alts = altkey.map(key => (item[key]));
-    return alts.find(i => i !== null) ?? "Carousel Item";
+const useAltKeys = (items: any, altkeys: string[]): string[] => {
+    const [keys, setKeys] = useState<string[]>([]);
+
+    useEffect(() => {
+        const altKeys: string[] = [];
+        items.forEach((item: any, key: number) => {
+            let hasAlt = false;
+            [...altkeys.map(i => item[i]).filter(i => i && i !== null), `item-${key}`].forEach(alt => {
+                if (!altKeys.includes(alt) && !hasAlt) {
+                    altKeys.push(alt);
+                    console.log(alt);
+                    
+                    hasAlt = true;
+                }
+            });
+        });
+        if (altKeys.length) setKeys(altKeys);
+    }, [items, altkeys]);
+
+    return keys;
 }
 
-const Item = ({ item, itemClass, altkey }: { item: any, itemClass: string, altkey: string[] }) => {
-    const alt = useAltKey(item, altkey);
+const Item = ({ item, itemClass, alt }: { item: any, itemClass: string, alt: string }) => {
     const src = item?.url ?? item?.full_url;
     if (item) return <IonImg src={src} className={itemClass} alt={alt} />;
     else return <span />;
@@ -108,7 +132,7 @@ const Arrow = ({ dir, wrap, callback, name, id }: { dir: string, wrap: boolean, 
     else return <IonIcon id={id} className={name} icon={icon} onClick={callback} />;
 }
 
-const Bullets = ({ items, active, max, setActive, onClose, setMax, preference, altkey }: APP.CarouselCtrl) => {
+const Bullets = ({ items, active, max, setActive, onClose, setMax, preference }: APP.CarouselCtrl) => {
     const bullets = items.map(i => ({ ...i, key: Helpers.uuid() }));
     const bulletIndxs = bullets.map(i => i.key);
     const { chunks, chunkIndx, bltIndx } = useChunks(bullets, active);
@@ -125,7 +149,7 @@ const Bullets = ({ items, active, max, setActive, onClose, setMax, preference, a
                         <DocumentBtn btnkey={key} doc={item} btnstate={`slide-btn${activeClass}`} preference={preference} showIcon={true} callback={() => tapBullet(item)} />
                     </Popup>
                 ) : (
-                    <Item item={item} altkey={altkey} itemClass={`slide${activeClass}`} />
+                    <Item item={item} itemClass={`slide${activeClass}`} alt="diofna" />
                 )}
             </span>
         );

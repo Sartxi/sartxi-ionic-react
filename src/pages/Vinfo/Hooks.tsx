@@ -154,7 +154,7 @@ const useTheme = (theme?: VINFO.Theme) => {
 			document.documentElement.style.setProperty(`${key}-tint`, `${Helpers.shadeColor(val, 5)}`);
 			document.documentElement.style.setProperty(`${key}-shade`, `${Helpers.shadeColor(val, 10)}`);
 		}
-		// ----- check for colors or skip to use defaults
+		// ----- check for colors or use defaults
 		if (theme.primary_color) setColor("--ion-color-primary", theme.primary_color);
 		if (theme.secondary_color) setColor("--ion-color-secondary", theme.secondary_color);
 		if (theme.tertiary_color) setColor("--ion-color-tertiary", theme.tertiary_color);
@@ -185,4 +185,10 @@ export const useSections = (layout: VINFO.Layout) => {
 	const animation = layout.page.viewType !== ENUMS.AppViewType.desktop ? "slide" : "fade";
 	const slideAttr = (section: ENUMS.VinfoSection) => ({ className: Layout.VinfoBlock(layout.page.viewType, `grow ${animation} ${positions[sections.indexOf(section)]}`) });
 	return sections.map((section: any) => (slideAttr(section)));
+}
+
+export const useVehiclePhotos = (vehicle: VINFO.Inventory | undefined) => {
+	let photos = vehicle?.inventory_item_photos ?? [];
+	if (!photos.length) photos = Layout.NoPhotoAvailable("url");
+	return photos;
 }

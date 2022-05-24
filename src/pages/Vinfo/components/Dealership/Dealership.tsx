@@ -45,7 +45,7 @@ export const Dealership = (page: VINFO.Page) => {
         <div id="Dealership" className={Layout.VinfoBlock(page.viewType, "grow")}>
             <Modal id="DealerPhotos" isOpen={openPhotos} modalProps={photosProps} onClose={() => setIsOpenPhotos(false)}>
                 <div className="flexblock fill center">
-                    <Carousel items={photos} preference={prefersDark ? "dark" : "light"} altkey={["full_url"]} />
+                    <Carousel items={photos} preference={prefersDark ? "dark" : "light"} altkeys={["full_url"]} itemkey="full_url" />
                 </div>
             </Modal>
             <Modal id="MapModal" isOpen={openMaps} modalProps={mapsProps} onClose={() => setIsOpenMaps(false)}>

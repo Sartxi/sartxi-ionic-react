@@ -45,7 +45,8 @@ declare global {
 		}
 		interface Carousel {
 			preference: string;
-			altkey: string[];
+			altkeys: string[];
+			itemkey: string;
 			defaultIndex?: number;
 			items: VINFO.Photo[] | VINFO.Document[],
 			type?: ENUMS.VinfoCarousel;

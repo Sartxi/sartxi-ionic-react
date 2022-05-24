@@ -18,11 +18,13 @@ const HandleMenuSelection = (menu: HTMLElement, position: ENUMS.VinfoMenuPositio
 	const positions: any[] = Helpers.arrayFromEnum(ENUMS.VinfoMenuPosition);
 	if (menuEventActions.includes(position)) Array.from(menu.children).forEach(element => positions.forEach((position, index) => Helpers.animateElemByClass(element, position, animation[index])));
 }
+const NoPhotoAvailable = (key: string) => (["https://loopmein.imgix.net/default_vehicle_image.png"].map((photo, id) => ({ [key]: photo, id })));
 
 export const Layout = {
 	ViewType,
 	VinfoBlock,
 	SectionIcon,
-	HandleMenuSelection
+	HandleMenuSelection,
+	NoPhotoAvailable
 }
 

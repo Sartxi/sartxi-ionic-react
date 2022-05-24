@@ -3,6 +3,7 @@ import { ENUMS, Helpers } from "../../../../utils";
 import { useVinfoModal } from "../../../../utils/Hooks";
 import { Carousel, Modal } from "../../../../components";
 import { useDarkMode } from "../../Hooks";
+import { useVehiclePhotos } from "../../Hooks";
 
 interface InvPhotoProps extends APP.ModalContentProps {
     photos: VINFO.Photo[];
@@ -11,7 +12,7 @@ interface InvPhotoProps extends APP.ModalContentProps {
 
 export const VehPhotos = (page: VINFO.Page) => {
     const [isOpen, setIsOpen] = useState(false);
-    const photos = page?.vinfo?.inventory?.inventory_item_photos ?? [];
+    const photos = useVehiclePhotos(page?.vinfo?.inventory)
     const photo = photos?.[0]?.url ?? undefined;
     const modalProps = useVinfoModal(ENUMS.VinfoModal.default, page.viewType === ENUMS.AppViewType.desktop ? { cssClass: "large" } : undefined);
     const prefersDark = useDarkMode(page.vinfo?.theme);
@@ -35,7 +36,7 @@ const InvPhotos = ({ photos, settitle, preference }: InvPhotoProps) => {
 
     return (
         <div className="flexblock fill center">
-            <Carousel type={ENUMS.VinfoCarousel.swipe} altkey={["url"]} items={photos} preference={preference} />
+            <Carousel type={ENUMS.VinfoCarousel.swipe} altkeys={["url"]} itemkey="url" items={photos} preference={preference} />
         </div>
     )
 }

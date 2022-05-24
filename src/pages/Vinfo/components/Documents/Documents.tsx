@@ -88,7 +88,8 @@ const DocumentCarousel = ({ viewDoc, setViewDoc, vinfo, viewType }: { viewDoc: a
 			<Carousel
 				type={type}
 				items={docView.maxView}
-				altkey={["name", "document_type_description"]}
+				altkeys={["name", "document_type_description"]}
+				itemkey="full_url"
 				onClose={() => setViewDoc(null)}
 				preference={prefersDark ? "dark" : "light"}
 				defaultIndex={docView.maxView.findIndex(i => i.id === viewDoc?.id)} />
