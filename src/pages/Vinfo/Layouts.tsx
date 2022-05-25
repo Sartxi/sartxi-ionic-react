@@ -2,12 +2,10 @@ import { useState } from "react";
 import { ENUMS, Layout } from "../../utils";
 import { useDarkMode, useLayout, useSections, useVehiclePhotos } from "./Hooks";
 
-import { logoFacebook, logoInstagram, logoLinkedin, logoTwitter } from "ionicons/icons";
 import { Logo, Menu } from "./components";
 import { Carousel, CtaBanner } from "../../components";
 import { Divider } from "../../components/Divider";
-import { IonIcon } from "@ionic/react";
-import { ContactUs, VehDetail, VehPhotos, Dealership, DealerBtn, Documents, Salesperson, SalesPersonBtn } from "./components";
+import { ContactUs, VehDetail, VehPhotos, DealerSection, DealerBtn, DealerSocials, Documents, Salesperson, SalesPersonBtn } from "./components";
 
 import "./Layout.scss";
 
@@ -21,7 +19,7 @@ export const Layouts = (page: VINFO.Page) => {
 export const Desktop = (layout: VINFO.Layout) => {
     const photos = useVehiclePhotos(layout.page.vinfo.inventory);
     const prefersDark = useDarkMode(layout.page.vinfo.theme);
-    
+
     return (
         <div className="vinfo-desktop">
             <div className="overlay-img" />
@@ -39,13 +37,15 @@ export const Desktop = (layout: VINFO.Layout) => {
                     </div>
                     <div className="flex-col">
                         <div className="pad flexblock gap-ten aln-end socials">
-                            <IonIcon icon={logoLinkedin} />
-                            <IonIcon icon={logoFacebook} />
-                            <IonIcon icon={logoTwitter} />
-                            <IonIcon icon={logoInstagram} />
+                            <DealerSocials size="medium" />
                         </div>
                         <div className={Layout.VinfoBlock(layout.page.viewType, "grow vehicle-photos")}>
-                            <Carousel type={ENUMS.VinfoCarousel.standard} items={photos} altkeys={["stored_image_filename"]} itemkey="url" preference={prefersDark ? "dark" : "light"} />
+                            <Carousel
+                                type={ENUMS.VinfoCarousel.standard}
+                                items={photos}
+                                itemkey="url"
+                                altkeys={["stored_image_filename", "url"]}
+                                preference={prefersDark ? "dark" : "light"} />
                         </div>
                         <br />
                         <div className={Layout.VinfoBlock(layout.page.viewType, "shaded rounded vehicle card")}>
@@ -78,7 +78,7 @@ export const Mobile = (layout: VINFO.Layout) => {
                         <ContactUs {...layout.page} />
                     </div>
                     <div {...dealerAttr}>
-                        <Dealership {...layout.page} />
+                        <DealerSection {...layout} />
                     </div>
                 </div>
                 <Menu {...layout} />

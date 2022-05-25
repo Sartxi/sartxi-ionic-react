@@ -18,6 +18,44 @@ import "swiper/css/zoom";
 
 import "./Components.scss";
 
+const useChunks = (bullets: any[], active: number, chunksize = 6) => {
+    const chunks = [];
+    const bullet = bullets[active];
+    let bltIndx = active;
+    let chunkIndx = 0;
+    for (let i = 0; i < bullets.length; i += chunksize) {
+        const chunk = bullets.slice(i, i + chunksize);
+        chunks.push(chunk);
+        const index = chunk.indexOf(bullet);
+        if (index > -1) {
+            bltIndx = index;
+            chunkIndx = chunks.indexOf(chunk);
+        }
+    }
+    return { chunks, chunkIndx, bltIndx };
+}
+
+const useAltKeys = (items: any, altkeys: string[]): string[] => {
+    const [keys, setKeys] = useState<string[]>([]);
+
+    useEffect(() => {
+        const altKeys: string[] = [];
+        // map all possible alts and frisk for uniqueness
+        items.forEach((item: any, key: number) => {
+            let hasAlt = false;
+            [...altkeys.map(i => item[i]).filter(i => i && i !== null), `item ${key}`].forEach(alt => {
+                if (!altKeys.includes(alt) && !hasAlt) {
+                    altKeys.push(alt);
+                    hasAlt = true;
+                }
+            });
+        });
+        if (altKeys.length) setKeys(altKeys);
+    }, [items, altkeys]);
+
+    return keys;
+}
+
 const Standard = (carousel: APP.CarouselCtrl) => {
     const { items, active, setActive, max, setMax, onClose, itemkey, altkeys } = carousel;
     const [cId] = useState(Helpers.uuid());
@@ -46,7 +84,7 @@ const Standard = (carousel: APP.CarouselCtrl) => {
                 )}
 
                 <div id="CarouselItems" className={`item animated`} onClick={() => canMax() && setMax(true)}>
-                    {items.map((item, index) => (<Item key={Helpers.uuid()} alt={altKeys[index]} item={item} itemClass={`slide${index === active ? " active" : ""}`} />))}
+                    {items.map((item, index) => (<Item key={Helpers.uuid()} itemkey={itemkey} alt={altKeys[index]} item={item} itemClass={`slide${index === active ? " active" : ""}`} />))}
                 </div>
 
                 {canSlide && (
@@ -60,7 +98,7 @@ const Standard = (carousel: APP.CarouselCtrl) => {
     )
 }
 
-const Swipe = ({ items, altkeys }: APP.CarouselCtrl) => {
+const Swipe = ({ items, altkeys, itemkey }: APP.CarouselCtrl) => {
     const altKeys = useAltKeys(items, altkeys);
     return (
         <Swiper
@@ -70,56 +108,17 @@ const Swipe = ({ items, altkeys }: APP.CarouselCtrl) => {
             zoom={true}>
             {items.map((item, index) => (
                 <SwiperSlide key={Helpers.uuid()}>
-                    <Item item={item} itemClass="swipe-slide" alt={altKeys[index]} />
+                    <Item item={item} itemkey={itemkey} itemClass="swipe-slide" alt={altKeys[index]} />
                 </SwiperSlide>)
             )}
         </Swiper>
     )
 }
 
-const useAltKeys = (items: any, altkeys: string[]): string[] => {
-    const [keys, setKeys] = useState<string[]>([]);
-
-    useEffect(() => {
-        const altKeys: string[] = [];
-        items.forEach((item: any, key: number) => {
-            let hasAlt = false;
-            [...altkeys.map(i => item[i]).filter(i => i && i !== null), `item-${key}`].forEach(alt => {
-                if (!altKeys.includes(alt) && !hasAlt) {
-                    altKeys.push(alt);
-                    console.log(alt);
-                    
-                    hasAlt = true;
-                }
-            });
-        });
-        if (altKeys.length) setKeys(altKeys);
-    }, [items, altkeys]);
-
-    return keys;
-}
-
-const Item = ({ item, itemClass, alt }: { item: any, itemClass: string, alt: string }) => {
-    const src = item?.url ?? item?.full_url;
+const Item = ({ item, itemClass, itemkey, alt }: { item: any, itemClass: string, itemkey: string, alt: string }) => {
+    const src = item[itemkey];
     if (item) return <IonImg src={src} className={itemClass} alt={alt} />;
     else return <span />;
-}
-
-const useChunks = (bullets: any[], active: number, chunksize = 6) => {
-    const chunks = [];
-    const bullet = bullets[active];
-    let bltIndx = active;
-    let chunkIndx = 0;
-    for (let i = 0; i < bullets.length; i += chunksize) {
-        const chunk = bullets.slice(i, i + chunksize);
-        chunks.push(chunk);
-        const index = chunk.indexOf(bullet);
-        if (index > -1) {
-            bltIndx = index;
-            chunkIndx = chunks.indexOf(chunk);
-        }
-    }
-    return { chunks, chunkIndx, bltIndx };
 }
 
 const Arrow = ({ dir, wrap, callback, name, id }: { dir: string, wrap: boolean, name?: string, callback: () => void, id: string }) => {
@@ -132,7 +131,7 @@ const Arrow = ({ dir, wrap, callback, name, id }: { dir: string, wrap: boolean, 
     else return <IonIcon id={id} className={name} icon={icon} onClick={callback} />;
 }
 
-const Bullets = ({ items, active, max, setActive, onClose, setMax, preference }: APP.CarouselCtrl) => {
+const Bullets = ({ items, active, max, setActive, onClose, setMax, preference, itemkey }: APP.CarouselCtrl) => {
     const bullets = items.map(i => ({ ...i, key: Helpers.uuid() }));
     const bulletIndxs = bullets.map(i => i.key);
     const { chunks, chunkIndx, bltIndx } = useChunks(bullets, active);
@@ -149,7 +148,7 @@ const Bullets = ({ items, active, max, setActive, onClose, setMax, preference }:
                         <DocumentBtn btnkey={key} doc={item} btnstate={`slide-btn${activeClass}`} preference={preference} showIcon={true} callback={() => tapBullet(item)} />
                     </Popup>
                 ) : (
-                    <Item item={item} itemClass={`slide${activeClass}`} alt="diofna" />
+                    <Item item={item} itemkey={itemkey} itemClass={`slide${activeClass}`} alt="diofna" />
                 )}
             </span>
         );
