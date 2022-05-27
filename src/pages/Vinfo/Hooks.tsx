@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ENUMS, Helpers, Layout } from "../../utils";
 import { TestData } from "./TestData";
+import { defaultTheme } from "../../theme/defaultTheme";
 import { Desktop, Mobile } from "./Layouts";
 
 const WebFont = require('webfontloader');
@@ -68,7 +69,7 @@ export const useVinfoRest = (location: APP.Location): VINFO.Data => {
 }
 
 const useVinfoData = (data: any): VINFO.Detail | null => {
-	const theme = useThemeData();
+	const theme = useThemeData(data?.["vehicle-share"]?.inventory_item?.make);
 	// shaping our data more elegantly, maybe a new GQL service could send it this way???
 	if (!data) return null;
 	return {
@@ -108,29 +109,40 @@ export const useLayout = (layout: VINFO.Layout) => {
 }
 
 // Vinfo Theme
-const useThemeData = (): VINFO.Theme => {
-	// currently just using this theme object - need services for this or have it included in the current service
+const useThemeData = (make: string): VINFO.Theme => {
+	// need services for this or have it included in the current service
 	// share.store.theme - maybe??
+	return defaultTheme(make === "Audi", make === "Mercedes-Benz");
+}
 
-	const defaultTheme: VINFO.Theme = {
-		font_type: "google",
-		font: "Open Sans",
-		font_family: "sans-serif",
-		bold_font: "Akshar",
-		bold_font_family: "sans-serif",
-		primary_color: "#ae72af",
-		secondary_color: "#1dafec",
-		tertiary_color: "#5260ff",
-		dark_mode: null,
-		display_docs: 3,
-		content_width: "1440px"
+interface ThemeFont { type: string, config: { families: string[], urls?: string[] }, fonts: string[] };
+const useFont = (theme: VINFO.Theme | undefined): ThemeFont | undefined => {
+	if (!theme) return;
+	const isCustom = theme.is_audi || theme.is_mercedes;
+	// defaulting to google fonts
+	let type = isCustom ? "custom" : "google";
+	let config: any = { families: [theme.font, theme.bold_font] }
+	let fonts: any = [theme.font, theme.font_family, theme.bold_font, theme.bold_font_family];
+
+	if (isCustom) {
+		if (theme.is_audi) {
+			const audi = Helpers.getAudiFont();
+			config = { families: audi.families, urls: audi.urls };
+			fonts = audi.fonts;
+		} else {
+			const mercedes = Helpers.getMercFont();
+			config = { families: mercedes.families, urls: mercedes.urls };
+			fonts = mercedes.fonts;
+		}
 	}
 
-	return defaultTheme;
+	return { type, config, fonts };
 }
 
 const useTheme = (theme?: VINFO.Theme) => {
 	const prefersDark = useDarkMode(theme);
+	const font = useFont(theme);
+
 	useEffect(() => {
 		if (!theme) return;
 
@@ -138,13 +150,12 @@ const useTheme = (theme?: VINFO.Theme) => {
 		if (theme.content_width) document.documentElement.style.setProperty("--theme-content-width", theme.content_width);
 
 		// fonts
-		if (theme.font) {
-			// TODO: configure different font types here
-			const fontObject = { families: [theme.font, theme.bold_font] };
-			WebFont.load({ [theme.font_type]: fontObject });
+		if (font) {
+			const { type, config, fonts } = font;
+			WebFont.load({ [type]: config });
 			// set font
-			document.documentElement.style.setProperty("--theme-font", `${theme.font}, ${theme.font_family}`);
-			document.documentElement.style.setProperty("--theme-bold-font", `${theme.bold_font}, ${theme.bold_font_family}`);
+			document.documentElement.style.setProperty("--theme-font", `${fonts[0]}, ${fonts[1]}`);
+			document.documentElement.style.setProperty("--theme-bold-font", `${fonts[2]}, ${fonts[3]}`);
 		}
 
 		// colors

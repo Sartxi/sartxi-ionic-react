@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'AudiType-Bold';
+    src: url('AudiType-Bold.woff2') format('woff2'),
+        url('AudiType-Bold.woff') format('woff'),
+        url('AudiType-Bold.ttf') format('truetype'),
+        url('AudiType-Bold.svg#AudiType-Bold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+

@@ -85,7 +85,6 @@ declare global {
 			refetch?: () => void;
 		}
 		interface Theme {
-			font_type: string;
 			font: string;
 			font_family: string;
 			bold_font: string;
@@ -96,6 +95,8 @@ declare global {
 			dark_mode?: boolean | null;
 			display_docs?: number;
 			content_width?: string;
+			is_mercedes?: boolean;
+			is_audi?: boolean;
 		}
 		interface Layout {
 			page: Page;

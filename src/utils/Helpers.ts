@@ -71,6 +71,22 @@ const setIndex = {
     next: (a: number, b: number) => (a === b ? 0 : a + 1)
 };
 
+const getAudiFont = () => {
+    return {
+        families: ["AudiType-WideNormal", "AudiType-Bold"],
+        urls: ["/assets/fonts/audi/normal/font.css", "/assets/fonts/audi/bold/font.css"],
+        fonts: ["AudiType-WideNormal", "sans-serif", "AudiType-Bold", "sans-serif"]
+    };
+}
+
+const getMercFont = () => {
+    return {
+        families: ["Daimler CS Light Regular"],
+        urls: ["/assets/fonts/mercedes/font.css"],
+        fonts: ["Daimler CS Light Regular", "sans-serif", "Daimler CS Light Regular", "sans-serif"]
+    };
+}
+
 export const Helpers = {
     vinfo,
     days,
@@ -84,5 +100,7 @@ export const Helpers = {
     getReadableHour,
     hexToRgb,
     shadeColor,
-    uuid
+    uuid,
+    getAudiFont,
+    getMercFont
 }
